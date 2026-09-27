@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador y Evaluador de Convenios Públicos | Camargo Group - BCP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SheetJS para procesar y exportar archivos Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bcp-blue: #002A8F;
+      --bcp-blue-dark: #001B5E;
+      --bcp-orange: #FF7800;
+      --bcp-orange-hover: #E66A00;
+      --bcp-bg: #F4F7FC;
+    }
+
+    body {
+      background-color: var(--bcp-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      user-select: none; /* Protección visual de selección */
+      -webkit-user-select: none;
+    }
+
+    /* Logo 3D Camargo Group */
+    .logo-badge-3d {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #f4f6fa 100%);
+      box-shadow: 0 4px 14px rgba(0, 42, 143, 0.12), inset 0 1px 1px #fff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: all 0.3s ease;
+    }
+    .logo-badge-3d:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 42, 143, 0.2);
+    }
+    .cube-3d-cluster {
+      position: relative;
+      width: 36px;
+      height: 32px;
+      margin-right: 8px;
+    }
+    .c-box { position: absolute; border-radius: 2.5px; }
+    .c-box-brown { top: 0px; left: 11px; width: 14px; height: 14px; background: linear-gradient(135deg, #743431, #4a211f); box-shadow: 1.5px 1.5px 4px rgba(0,0,0,0.25); }
+    .c-box-red { top: 10px; left: 0px; width: 15px; height: 15px; background: linear-gradient(135deg, #c72527, #8b1214); box-shadow: 1.5px 2px 5px rgba(0,0,0,0.3); }
+    .c-box-blue { top: 10px; left: 15px; width: 11px; height: 10px; background: linear-gradient(135deg, #2b6cb0, #1a4473); box-shadow: 1px 1.5px 3px rgba(0,0,0,0.2); }
+    .c-box-white { top: 18px; left: 14px; width: 12px; height: 12px; background: linear-gradient(135deg, #ffffff, #cbd5e1); box-shadow: 1px 1.5px 3px rgba(0,0,0,0.15); }
+    
+    .brand-title-3d {
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      font-size: 13px;
+      line-height: 1.1;
+      color: #002A8F;
+      border-bottom: 2px solid #001B5E;
+      padding-bottom: 1px;
+    }
+    .brand-sub-3d {
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      font-size: 7.5px;
+      color: #c72527;
+      text-transform: uppercase;
+    }
+
+    /* Insignia 3D BCP 4K */
+    .bcp-badge-3d {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ffffff 0%, #f6f9fe 60%, #eaf1fa 100%);
+      box-shadow: 0 6px 14px -3px rgba(0, 42, 143, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(219, 234, 254, 0.9);
+      transition: all 0.3s ease;
+    }
+    .bcp-badge-3d:hover {
+      transform: translateY(-1.5px) scale(1.02);
+      box-shadow: 0 10px 20px -3px rgba(0, 42, 143, 0.28);
+    }
+    .bcp-logo-img {
+      height: 24px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 3px rgba(0, 42, 143, 0.25));
+    }
+
+    .btn-bcp-orange {
+      background: linear-gradient(180deg, #FF8412 0%, #FF6800 100%);
+      box-shadow: 0 4px 12px rgba(255, 120, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+    .btn-bcp-orange:hover {
+      background: linear-gradient(180deg, #FF9026 0%, #E65E00 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 120, 0, 0.4);
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-mascot { animation: floatMascot 3.5s ease-in-out infinite; }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15); }
+      50% { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35); }
+    }
+    .glow-califica { animation: pulseGlow 2.5s infinite; }
+
+    .badge-califica { background: #ECFDF5; color: #047857; border: 1.5px solid #10B981; }
+    .badge-liquidez { background: #FEF2F2; color: #B91C1C; border: 1.5px solid #F87171; }
+    .badge-sobreendeudado { background: #FFFBEB; color: #B45309; border: 1.5px solid #F59E0B; }
+
+    /* Mascot Camarguito Avatar */
+    .camarguito-avatar {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle at 35% 30%, #FFE0B2 0%, #FFB74D 45%, #E65100 100%);
+      border-radius: 50%;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .camarguito-ear-l, .camarguito-ear-r {
+      position: absolute;
+      top: -2px;
+      width: 17px;
+      height: 17px;
+      background: #D84315;
+      border-radius: 50%;
+      border: 1.5px solid #FFFFFF;
+    }
+    .camarguito-ear-l { left: 3px; }
+    .camarguito-ear-r { right: 3px; }
+    .camarguito-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .camarguito-eyes { display: flex; gap: 11px; margin-top: 6px; }
+    .camarguito-eye {
+      width: 7px;
+      height: 9px;
+      background: #212121;
+      border-radius: 50%;
+      position: relative;
+    }
+    .camarguito-eye::after {
+      content: '';
+      position: absolute;
+      top: 1.5px;
+      left: 1.5px;
+      width: 2.5px;
+      height: 2.5px;
+      background: #FFF;
+      border-radius: 50%;
+    }
+    .camarguito-nose { width: 8px; height: 4px; background: #8D6E63; border-radius: 50%; margin-top: 2px; }
+    .camarguito-cheeks { display: flex; gap: 26px; margin-top: -5px; }
+    .camarguito-cheek { width: 8px; height: 5px; background: #FF8A80; border-radius: 50%; opacity: 0.8; }
+    .camarguito-teeth { width: 6px; height: 4px; background: #FFFFFF; border-radius: 0 0 2px 2px; margin-top: 1px; border: 0.5px solid #D7CCC8; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-card { animation: fadeInUp 0.35s ease-out forwards; }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between" oncontextmenu="return false;">
+
+  <!-- Contenedor Principal -->
+  <div>
+    <!-- Cintillo Superior Oficial BCP -->
+    <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-pink-700 text-white text-[11px] font-semibold py-1.5 px-4 text-center tracking-wide flex justify-center items-center gap-2 shadow-inner">
+      <span>✨ Alianza Oficial Convenios Públicos | BCP & Camargo Group</span>
+      <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">Campaña Activa 2026</span>
+    </div>
+
+    <!-- Header Principal con Logo Camargo y Logo 3D BCP -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-4">
+        
+        <!-- Logos Co-Branding (Camargo Group + BCP 3D 4K) -->
+        <div class="flex items-center gap-3">
+          <div class="logo-badge-3d cursor-pointer select-none">
+            <div class="cube-3d-cluster">
+              <div class="c-box c-box-brown"></div>
+              <div class="c-box c-box-red"></div>
+              <div class="c-box c-box-blue"></div>
+              <div class="c-box c-box-white"></div>
+            </div>
+            <div>
+              <div class="brand-title-3d">CAMARGO GROUP</div>
+              <div class="brand-sub-3d">OUTSOURCING</div>
+            </div>
+          </div>
+
+          <span class="text-slate-300 font-light text-xl">×</span>
+
+          <div class="bcp-badge-3d select-none cursor-pointer" title="Canal Oficial BCP Convenios">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIEAAAAtCAYAAACJfgjFAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAZVSURBVHhe7Zo9bNtGFMf/KRoUKAqlBlwUsCKEzlRARYcEKqApEhrEYzwkWS0B7lB7y5DFg+nBS4ZuzmIDotc6g4xONmJYAQq4jepMVTo1YurIUwAlQpaigzqQjyYf3/HD+kjc3A8QLN6d6Lt7/3vv3ZHn+v1+H5oPmo94gebDQ4tAo0Wg0SLQaBFooEWggRaBBloEGmgRaKBFoIEWgQZaBBoAOPd/eIBkd3oAACOb4VWnwu70YB+/gd3p4cVxD5emnPsa2QxKhRxvfuY5UyJoNI+wsvYrAHhG4pAQKrN5XCtcTGW0lQcHaDx5iUbziFd5GNkMKrN5zN3MB0TXaB5hs/4Mdqcn/t7IZmBMXXD+ZjNYXijyJu+MsYrA7vSwud0CgNAkJqG6tAOr7vw+KZXZPGqrM7w4QKN5hOrSjigqFUY2g/buvHedtm8kpigx0HxdmnLajoqxiaDRPEK5suVdG9kMmvf+xeT1HwLtopi+sZHKUAQ3mB+r3kJ1aYcXJ2Lfuu15mtP2zVwsikLgorLmP8HcN6+A75YD7YbBWBJDLgC4Kv/j90Pg/jTQtQN1KqRJrszmYS4WUZnNK1eLykUnEQC5b8lrGVMXvO9S3yiHoI+EuXYQ6lu5shXyKht7b4FHJrC3EigfBmMRAcVxzvbzi44A1suxg+OTAneSa6szWF4oorY6g9rqDNq786LBHjdfBq4pBEgY2QzMxSL6rbto784HPrXVGc+g9H+kvgHA8kIR+9Zt79PenRfF4O9bo3kUEgUA/NI+j9dfFB0h3J/m1QMxchFIKyRE1wYOrUghcCMCECeUYi2H90MlzFIhh/buvOii6d5k1Dh4/0i0nMaTk7HZnZ4oYgB4hS+dL117qEIYuQiMbAb71m3UVmeUgwN8Qnje4DWAu0I41woXeRHAJpXwt7XqLfF+1Nck+A0sCRQ+T8HLpHKiMpvHfu0OzMWwCD/79PzJxRCFMHIRENLgvp58G2iDrg08rIo5Al/JEFYaFAbm3mGz/ixQT0irNAn8/8Edrwo+Fi4Kw91C8tA22f0t0M6brwEZmwjgGxwJ4drkX7yJMzAWFlQxd3PbMbhVb2HlwQGmb2yE4ryRzWC/didQpjKaJKokcKMiwktJY1G1pb6TED7u/c2bRHrPpIxVBAQlcsY/T3mVAxvUi+PwJMPNrMuVLVSXdmCuHQSMYbjJHV9NkhEQYYg4VPeTBGV3eiGRQtGWICH8qU6XgPZjXpKKdyICAKjkmrKy4XoDH9JKi4I8jpTcqeJ3lPuOQnU/+/jNyfdOz/NUHHOxGAoHHCObwVfdn3nxCUL4TMPYDotCRJ0PTBjAvbZ3eS7/Y6A6KdydQjiEoXaqw6Q4VIdE9D+lOqJUyCVLRA+t6Nh/qwZcrfDSxLwbT7BeVgsACJyKSfEbgLdvp52HtJJpBfqR7uc/9EmLysh2p6esQxoBJEn+Lpd4SSrGL4KH1VDMDzBhBFQtTWSpkIPhbrVKhZz3fEDaVln1VjBXEAzud91p4B4lCZSrJBZA3DbwVs2ZswEYrwjWy45rUzFhAN/vB4qkmKuKoXM3w94ACYwsCe208L6RWMnwqoOoEM8b8QK4WhkoDBDjEQEpOs4DCKqW3Lcqk+cGIPxGLn0r/5aHjSRIAi0Vcui37nofClvLC8XIXUCAvRVnwURxueTM1xAYrQhozx+VBMLnAYTYJq1S1WSq3LO/vUpAPGxI8Po0Ak0Erf5HJq8Jct0MecxBGJ0IDq1kA7pccnYCQlxTGZWveEoApT04uWPv2n2xg2N3eihXfxI9gmqLx0WBCIHGsl6OT5jh5gBDfpw8ui1ikqTmuhk5IOkRNNw9vZHNeBm4tCIJ/zN/wkr6CHnqQuDelIAi4h791l1elIy9legFQ95SWCyDMjpPENVpWv0RAoAik4drAHPtQHxO4Mf/2NcPvYMQRZy4pHxA2qYm5sqcsyg4E4ZTrvCWw2B0noDo2k6se/3Cub4yl2ow0uFOHIb7yFYSAGG7r26Za2H3ryLuTSLJ66SmawNPN53vn18aSvYfx+hFMCBkrKQvgKZ9uZTifZTQDPcY2r/S+Slm4sOf95D3XgR++MqDkCSeFro3FxodTPmx3VfS/W3OMmdKBJrRMLrEUHNm0CLQaBFotAg0WgQaaBFooEWgAYD/AKmdMqYuS/ZvAAAAAElFTkSuQmCC" alt="BCP" class="bcp-logo-img">
+          </div>
+
+          <div class="ml-3 pl-3 border-l border-slate-200 hidden md:block">
+            <span class="text-xs font-bold text-[#002A8F] block">Evaluador Oficial de Convenios</span>
+            <span class="text-[10px] text-slate-400">Canal Certificado BCP 2026</span>
+          </div>
+        </div>
+
+        <!-- Selector de Pestañas y Badge de Autoría -->
+        <div class="flex items-center gap-3">
+          <div class="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-[10px] text-slate-500 shadow-sm">
+            <i class="fa-solid fa-code text-[#002A8F]"></i>
+            <span>Por: <strong class="text-slate-700">Luis Angel Garcia Cano (Lattis)</strong></span>
+          </div>
+
+          <div class="flex bg-slate-100 p-1 rounded-full border border-slate-200">
+            <button id="btnTabSimulador" onclick="switchTab('simulador')" class="px-4 py-1.5 rounded-full text-xs font-bold bg-[#002A8F] text-white shadow-sm transition-all duration-200 flex items-center">
+              <i class="fa-solid fa-calculator mr-1.5 text-orange-400"></i> Individual
+            </button>
+            <button id="btnTabMasivo" onclick="switchTab('masivo')" class="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-[#002A8F] transition-all duration-200 flex items-center">
+              <i class="fa-solid fa-file-excel mr-1.5 text-emerald-600"></i> Masivo (Excel)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Banner Superior estilo BCP -->
+    <div class="bg-gradient-to-r from-[#EBF3FC] via-[#F4F8FE] to-[#FFF3E8] border-b border-blue-100/60 py-3.5 px-4 shadow-sm">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <h2 class="text-lg md:text-xl font-black text-[#002A8F] tracking-tight">Evaluación y Simulación Oficial de Convenios</h2>
+          <p class="text-xs text-slate-600 mt-0.5">Calcula con precisión cronograma financiero BCP, cuotas con periodo de gracia y capacidad de pago.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="abrirCamarguitoManual()" class="btn-bcp-orange text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-comments"></i> Consejos de Camarguito
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+
+      <!-- ================= TAB 1: EVALUADOR INDIVIDUAL ================= -->
+      <div id="tabSimulador" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Panel Izquierdo: Parámetros del Cliente y Boleta -->
+        <div class="lg:col-span-4 space-y-5">
+          
+          <!-- Tarjeta Convenio -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow duration-300 animate-card">
+            <h2 class="text-sm font-bold text-[#002A8F] mb-3 flex items-center">
+              <i class="fa-solid fa-building-columns text-[#FF7800] mr-2 text-base"></i> Convenio y Cargo Laboral
+            </h2>
+            
+            <div class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Convenio Público</label>
+                <select id="selConvenio" class="w-full text-xs font-medium border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-[#002A8F] focus:outline-none bg-slate-50 transition"></select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Cargo Laboral Oficial</label>
+                <select id="selCargo" class="w-full text-xs font-medium border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-[#002A8F] focus:outline-none bg-slate-50 transition"></select>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
+                <div class="bg-blue-50/60 p-2.5 rounded-xl border border-blue-100">
+                  <span class="text-slate-500 block text-[10px] font-bold uppercase">RCI</span>
+                  <span id="lblRCI" class="font-extrabold text-[#002A8F] text-sm">45%</span>
+                </div>
+                <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                  <span class="text-slate-500 block text-[10px] font-bold uppercase">Reserva</span>
+                  <span id="lblReserva" class="font-extrabold text-slate-700 text-sm">S/ 0.00</span>
+                </div>
+                <div class="bg-orange-50/60 p-2.5 rounded-xl border border-orange-100">
+                  <span class="text-slate-500 block text-[10px] font-bold uppercase">TEA Base</span>
+                  <span id="lblTEA" class="font-extrabold text-[#FF7800] text-sm">10.85%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta Ingresos de Boleta -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow duration-300 animate-card">
+            <h2 class="text-sm font-bold text-[#002A8F] mb-3 flex items-center">
+              <i class="fa-solid fa-money-check-dollar text-emerald-600 mr-2 text-base"></i> Ingresos de Boleta
+            </h2>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-600">Total Ingresos Fijos (Bruto)</label>
+                <div class="relative mt-1">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
+                  <input type="number" id="inpIngresos" value="4498.07" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-600">Ingreso Var. Mensual</label>
+                  <input type="number" id="inpVarMes" value="0" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs">
+                </div>
+                <div>
+                  <label class="block text-slate-600">Prom. Variables (3m)</label>
+                  <input type="number" id="inpVar3m" value="0" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-600">Otros Fijos (CAFAE)</label>
+                  <input type="number" id="inpCafae" value="0" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs">
+                </div>
+                <div>
+                  <label class="block text-slate-600">No Constantes</label>
+                  <input type="number" id="inpNoConstantes" value="0" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta Descuentos de Boleta -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow duration-300 animate-card">
+            <h2 class="text-sm font-bold text-[#002A8F] mb-3 flex items-center">
+              <i class="fa-solid fa-receipt text-red-500 mr-2 text-base"></i> Descuentos de Boleta
+            </h2>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-600">Descuentos de Ley (ONP / AFP / IR)</label>
+                <div class="relative mt-1">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
+                  <input type="number" id="inpLey" value="322.07" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-600">Descuentos Facultativos</label>
+                <div class="relative mt-1">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
+                  <input type="number" id="inpFacultativos" value="210.31" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Panel Central: Dictamen, Condiciones de Préstamo y Carga SBS -->
+        <div class="lg:col-span-8 space-y-5">
+          
+          <!-- Tarjeta de Dictamen de Calificación Interactiva -->
+          <div id="cardResultado" class="p-5 rounded-2xl shadow-md border flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300 glow-califica animate-card">
+            <div>
+              <div class="text-[11px] uppercase tracking-wider font-extrabold opacity-80" id="subResultado">Dictamen de Evaluación</div>
+              <div class="text-3xl font-black mt-0.5 tracking-tight" id="txtResultado">CALIFICA</div>
+              <p class="text-xs mt-1 max-w-md font-medium" id="detResultado">El cliente cuenta con liquidez suficiente en boleta y holgura en el sistema financiero.</p>
+            </div>
+            <div class="flex gap-2.5 text-right w-full sm:w-auto justify-end">
+              <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[10px] text-slate-500 uppercase font-bold block">Neto Disponible</span>
+                <span id="resNetoDisp" class="text-base font-black text-slate-800">S/ 1,668.89</span>
+              </div>
+              <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-blue-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[10px] text-[#002A8F] uppercase font-bold block">Cuota Mensual</span>
+                <span id="resCuota" class="text-base font-black text-[#002A8F]">S/ 1,667.39</span>
+              </div>
+              <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
+                <span class="text-[10px] text-slate-500 uppercase font-bold block">% Endeudamiento</span>
+                <span id="resEndeudamiento" class="text-base font-black text-amber-700">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Condiciones del Préstamo -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow duration-300 animate-card">
+            <h2 class="text-sm font-bold text-[#002A8F] mb-3 flex items-center">
+              <i class="fa-solid fa-hand-holding-dollar text-[#FF7800] mr-2 text-base"></i> Condiciones del Préstamo Solicitado
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-600">Monto Solicitado</label>
+                <input type="number" id="inpMonto" value="85000" step="100" class="w-full mt-1 p-2 border border-blue-200 rounded-xl font-bold text-[#002A8F] bg-blue-50/40 focus:ring-2 focus:ring-[#002A8F]">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-600">Plazo</label>
+                <select id="selPlazo" class="w-full mt-1 p-2 border border-slate-300 rounded-xl font-semibold bg-white focus:ring-2 focus:ring-[#002A8F]">
+                  <option value="12">12 meses</option>
+                  <option value="24">24 meses</option>
+                  <option value="36">36 meses</option>
+                  <option value="48">48 meses</option>
+                  <option value="60">60 meses</option>
+                  <option value="72" selected>72 meses</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-600">TEA (%)</label>
+                <input type="number" id="inpTEA" value="10.85" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl font-semibold bg-white focus:ring-2 focus:ring-[#002A8F]">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-600">Desembolso</label>
+                <input type="date" id="inpFechaDesembolso" value="2026-09-26" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs bg-white focus:ring-2 focus:ring-[#002A8F]">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-600">Desgravamen</label>
+                <select id="selDesgravamen" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs bg-white focus:ring-2 focus:ring-[#002A8F]">
+                  <option value="0.000767">Sin Retorno (0.0767%)</option>
+                  <option value="0.000997">Con Retorno (0.0997%)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen de Carga Crediticia -->
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow duration-300 animate-card">
+            <div class="flex justify-between items-center mb-3">
+              <h2 class="text-sm font-bold text-[#002A8F] flex items-center">
+                <i class="fa-solid fa-chart-pie text-indigo-600 mr-2 text-base"></i> Resumen de Carga Crediticia (SBS / BCP)
+              </h2>
+              <span class="text-xs text-slate-500">Tope de endeudamiento: <strong id="lblTopeEndeudamiento" class="text-slate-800">65%</strong></span>
+            </div>
+
+            <div class="overflow-x-auto text-xs">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-[#002A8F] text-center font-bold border-y border-slate-200">
+                    <th class="p-2.5 text-left font-bold text-slate-800">Tipo de Crédito</th>
+                    <th class="p-2.5 w-28">Deuda cuota BCP</th>
+                    <th class="p-2.5 w-28">Deuda cuota no BCP</th>
+                    <th class="p-2.5 w-28">Saldo</th>
+                    <th class="p-2.5 w-28">Saldo Actualizado</th>
+                    <th class="p-2.5 w-28 text-right">Cuota Actualizada</th>
+                  </tr>
+                </thead>
+                <tbody id="tblDeudasBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Cierre de Indicadores SBS -->
+            <div class="mt-4 pt-3.5 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
+              <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-600">% Endeudamiento:</span>
+                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 text-sm">-</span>
+              </div>
+              <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-600">CEM:</span>
+                <span id="lblCEM" class="font-black text-emerald-700 text-sm">S/ 2,577.70</span>
+              </div>
+              <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-600">Dictamen SBS:</span>
+                <span id="lblDictamenSBS" class="font-extrabold text-emerald-600 text-sm">Continuar</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ================= TAB 2: EVALUACIÓN MASIVA ================= -->
+      <div id="tabMasivo" class="hidden space-y-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 animate-card">
+          <h2 class="text-base font-bold text-[#002A8F] mb-1 flex items-center">
+            <i class="fa-solid fa-cloud-arrow-up text-[#FF7800] mr-2"></i> Evaluación Masiva desde Archivo Excel / CSV
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">Carga el reporte de boletas para evaluar de golpe todas las solicitudes aplicando las reglas de RCI y cronograma financiero oficial.</p>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <input type="file" id="inpExcelMasivo" accept=".xlsx, .xls, .csv" class="text-xs file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-[#002A8F] hover:file:bg-blue-100 cursor-pointer transition">
+            <button onclick="exportarExcelResultados()" class="btn-bcp-orange text-white rounded-full px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center">
+              <i class="fa-solid fa-file-export mr-2"></i> Descargar Reporte Calificado (.xlsx)
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden animate-card">
+          <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+            <h3 class="font-bold text-[#002A8F] text-xs uppercase tracking-wider">Resultados de Evaluación en Lote</h3>
+            <span id="lblContadorMasivo" class="text-xs font-bold px-3 py-1 bg-blue-100 text-[#002A8F] rounded-full">0 Registros</span>
+          </div>
+          <div class="overflow-x-auto max-h-[500px]">
+            <table class="w-full text-xs text-left border-collapse" id="tblMasivo">
+              <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider sticky top-0 border-b">
+                <tr>
+                  <th class="p-3">DNI</th>
+                  <th class="p-3">Cliente</th>
+                  <th class="p-3">Convenio</th>
+                  <th class="p-3 text-right">Ingresos</th>
+                  <th class="p-3 text-right">Disponible</th>
+                  <th class="p-3 text-right">Monto</th>
+                  <th class="p-3 text-right">Cuota Exacta</th>
+                  <th class="p-3 text-center">Estado</th>
+                  <th class="p-3">Motivo / Detalle</th>
+                </tr>
+              </thead>
+              <tbody id="tblMasivoBody" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="9" class="p-8 text-center text-slate-400">Carga un archivo Excel para ver la evaluación en lote.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer Profesional con Autoría y Protección -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-5 px-4 text-center">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="font-semibold text-slate-700">Sistema Seguro de Simulación Financiera</span>
+        <span class="text-slate-400">• v2.5 Oficial</span>
+      </div>
+
+      <!-- Bloque de Créditos Oficiales -->
+      <div class="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200/80 text-center sm:text-right">
+        <span class="text-slate-400 text-[10px] uppercase font-bold block tracking-wider">Arquitectura y Desarrollo:</span>
+        <span class="font-extrabold text-[#002A8F] text-xs">Luis Angel Garcia Cano (Aka Lattis)</span>
+        <span class="text-slate-500 font-medium text-[11px] block">Analista Comercial - Back Office Senior</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= ASISTENTE VIRTUAL "CAMARGUITO" ================= -->
+  <div class="fixed bottom-4 right-4 z-40 flex items-end gap-2.5 select-none" id="camarguitoContainer">
+    
+    <!-- Globo de Mensajes Inteligente de Camarguito -->
+    <div id="camarguitoBubble" class="bg-white p-3 rounded-2xl shadow-xl border border-blue-200 max-w-xs text-xs text-slate-700 animate-card relative hidden">
+      <div class="font-bold text-[#002A8F] flex items-center justify-between pb-1 border-b border-slate-100 mb-1.5">
+        <span class="flex items-center gap-1"><i class="fa-solid fa-sparkles text-amber-500"></i> Camarguito</span>
+        <button type="button" onclick="cerrarCamarguitoGlobo(event)" class="text-slate-400 hover:text-red-500 p-0.5 rounded transition" title="Cerrar mensaje">
+          <i class="fa-solid fa-xmark text-sm font-bold"></i>
+        </button>
+      </div>
+      <p id="camarguitoText" class="leading-relaxed font-medium text-slate-600">¡Hola! Soy Camarguito. Te ayudo a validar que la cuota no supere el neto disponible y vigilar el ratio SBS.</p>
+      
+      <div class="mt-2 pt-1 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-400">
+        <span>Diseñado por Lattis</span>
+        <button type="button" onclick="cerrarCamarguitoGlobo(event)" class="text-blue-600 hover:underline font-semibold">Entendido</button>
+      </div>
+    </div>
+
+    <!-- Botón / Avatar 3D de Camarguito -->
+    <div onclick="clickAvatarCamarguito(event)" class="animate-mascot cursor-pointer group relative flex-shrink-0" title="Haz clic para ver la ayuda de Camarguito">
+      <div class="camarguito-ear-l"></div>
+      <div class="camarguito-ear-r"></div>
+      <div class="camarguito-avatar group-hover:scale-105 transition-transform duration-200">
+        <div class="camarguito-face">
+          <div class="camarguito-eyes">
+            <div class="camarguito-eye"></div>
+            <div class="camarguito-eye"></div>
+          </div>
+          <div class="camarguito-nose"></div>
+          <div class="camarguito-cheeks">
+            <div class="camarguito-cheek"></div>
+            <div class="camarguito-cheek"></div>
+          </div>
+          <div class="camarguito-teeth"></div>
+        </div>
+      </div>
+      <span class="absolute -top-1.5 -right-1 bg-[#FF7800] text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border border-white shadow">AYUDA</span>
+    </div>
+
+  </div>
+
+  <!-- Modal / Guía Rápida de Camarguito -->
+  <div id="modalCamarguito" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden" onclick="cerrarModalFondo(event)">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-blue-100 animate-card relative" onclick="event.stopPropagation()">
+      <button onclick="toggleCamarguitoHelp()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="camarguito-avatar" style="width: 48px; height: 48px;">
+          <div class="camarguito-face" style="transform: scale(0.65);">
+            <div class="camarguito-eyes">
+              <div class="camarguito-eye"></div>
+              <div class="camarguito-eye"></div>
+            </div>
+            <div class="camarguito-nose"></div>
+            <div class="camarguito-cheeks">
+              <div class="camarguito-cheek"></div>
+              <div class="camarguito-cheek"></div>
+            </div>
+            <div class="camarguito-teeth"></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-base font-extrabold text-[#002A8F]">Guía Rápida de Camarguito</h3>
+          <p class="text-xs text-slate-500">Reglas clave para que tu cliente califique al 100%</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600">
+        <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-100">
+          <strong class="text-[#002A8F] block mb-0.5"><i class="fa-solid fa-check-circle text-emerald-500 mr-1"></i> 1. Capacidad por Boleta (Neto Disponible)</strong>
+          La cuota del crédito solicitada debe ser menor o igual a tu <strong>Neto Disponible</strong>. Si no califica, prueba incrementando el plazo a 72 meses o reduciendo el monto.
+        </div>
+        <div class="p-3 bg-orange-50/70 rounded-xl border border-orange-100">
+          <strong class="text-[#FF7800] block mb-0.5"><i class="fa-solid fa-chart-pie mr-1"></i> 2. Control de Endeudamiento SBS</strong>
+          El ratio total no debe exceder el <strong>65%</strong> (o 50% en GORE Piura CAS). Si aparece <em>"Sobre endeudado"</em>, evalúa realizar compra de deuda para liberar margen.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <strong class="text-slate-700 block mb-0.5"><i class="fa-solid fa-calendar-days text-indigo-500 mr-1"></i> 3. Fechas y Periodo de Gracia</strong>
+          Los créditos por convenio se pagan según el día de corte y planilla. La calculadora contempla los días acumulados entre el desembolso y el primer vencimiento.
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 text-center">
+        <p class="text-[10px] text-slate-400 font-medium mb-3">
+          Sistema creado por <strong>Luis Angel Garcia Cano (Lattis)</strong> - Analista Comercial-Back Office Senior
+        </p>
+        <button onclick="toggleCamarguitoHelp()" class="btn-bcp-orange text-white text-xs font-bold px-6 py-2.5 rounded-full shadow">
+          ¡Entendido, Camarguito!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CAPA DE PROTECCIÓN Y MOTOR ENCAPSULADO ================= -->
+  <script>
+    /**
+     * MÓDULO DE SIMULACIÓN Y EVALUACIÓN DE CONVENIOS PÚBLICOS
+     * Autor: Luis Angel Garcia Cano (Aka Lattis)
+     * Rol: Analista Comercial - Back Office Senior
+     * Todos los derechos reservados © 2026
+     */
+    (function () {
+      "use strict";
+
+      // 1. CAPA DE PROTECCIÓN DE CÓDIGO FUENTE E INSPECCIÓN
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        // Bloqueo de F12 (DevTools)
+        if (e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+        // Bloqueo de Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (DevTools)
+        if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+          e.preventDefault();
+          return false;
+        }
+        // Bloqueo de Ctrl+U (Ver código fuente) y Ctrl+S (Guardar página)
+        if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // 2. MATRIZ OFICIAL DE CONVENIOS (PROTEGIDA CON Object.freeze)
+      const CONVENIOS_DATA = Object.freeze([
+        { name: "AGRORURAL", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.12, pg1: 1, pf1: 3 },
+        { name: "ANA", rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.109, pg1: 1, pf1: 2 },
+        { name: "CHAVIMOCHIC", rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "DIRIS_Lima_Centro", rci: 0.50, corte: 25, venc: 15, reserva: 50, tea: 0.1099, pg1: 2, pf1: 3 },
+        { name: "DIRIS_Lima_Este", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "DIRIS_Lima_Norte", rci: 0.50, corte: 25, venc: 15, reserva: 50, tea: 0.1089, pg1: 2, pf1: 3 },
+        { name: "DIRESA_Cajamarca", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.103, pg1: 2, pf1: 3 },
+        { name: "DIRESA_Loreto", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Ejército_del_Perú", rci: 0.47, corte: 30, venc: 15, reserva: 0, tea: 0.109, pg1: 2, pf1: 3 },
+        { name: "EPSEL", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.115, pg1: 2, pf1: 3 },
+        { name: "Fuerza_Aerea_del_Perú", rci: 0.50, corte: 30, venc: 17, reserva: 35, tea: 0.111, pg1: 2, pf1: 3 },
+        { name: "GERESA_La_Libertad", rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Gobierno_Regional_Loreto", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "Gobierno_Regional_Piura", rci: 0.50, corte: 23, venc: 15, reserva: 100, tea: 0.115, pg1: 2, pf1: 3 },
+        { name: "GSR_Luciano_Castillo", rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "Hospital_Cajamarca", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.105, pg1: 2, pf1: 3 },
+        { name: "Hospital_Chulucanas", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "Hospital_de_apoyo_Iquitos", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "Hospital_de_la_Amistad", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.118, pg1: 2, pf1: 3 },
+        { name: "Hospital_Goyeneche", rci: 0.50, corte: 25, venc: 18, reserva: 100, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Hospital_Regional_Lambayeque", rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Hospital_Regional_Loreto", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.1089, pg1: 2, pf1: 3 },
+        { name: "Hospital_San_Bartolome", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.12, pg1: 2, pf1: 3 },
+        { name: "Hospital_Sullana", rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Hospital_Trujillo", rci: 0.50, corte: 20, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "INSN", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.12, pg1: 2, pf1: 3 },
+        { name: "Marina_de_Guerra", rci: 0.50, corte: 4, venc: 15, reserva: 100, tea: 0.106, pg1: 2, pf1: 3 },
+        { name: "Ministerio_Defensa", rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.13, pg1: 1, pf1: 2 },
+        { name: "Ministerio_Justicia", rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.1089, pg1: 1, pf1: 2 },
+        { name: "Ministerio_Vivienda", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.115, pg1: 2, pf1: 3 },
+        { name: "Mun_Cerro_Colorado", rci: 0.50, corte: 30, venc: 17, reserva: 0, tea: 0.1149, pg1: 1, pf1: 2 },
+        { name: "Municipalidad_Piura", rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.117, pg1: 2, pf1: 3 },
+        { name: "ONPE", rci: 0.50, corte: 30, venc: 17, reserva: 0, tea: 0.13, pg1: 1, pf1: 2 },
+        { name: "Policia_Nacional_del_Perú", rci: 0.45, corte: 4, venc: 15, reserva: 0, tea: 0.1085, pg1: 2, pf1: 3 },
+        { name: "PRONABEC", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.15, pg1: 1, pf1: 3 },
+        { name: "PRONACEJ", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.115, pg1: 1, pf1: 3 },
+        { name: "Red_Salud_APLAO", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "RED_Salud_Arequipa_Caylloma", rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.108, pg1: 2, pf1: 3 },
+        { name: "Red_Salud_Pacífico_Norte", rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105, pg1: 2, pf1: 3 },
+        { name: "Red_Salud_Pacífico_Sur", rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105, pg1: 2, pf1: 3 },
+        { name: "RENIEC", rci: 0.50, corte: 25, venc: 10, reserva: 0, tea: 0.105, pg1: 1, pf1: 3 },
+        { name: "SENASA", rci: 0.47, corte: 25, venc: 17, reserva: 0, tea: 0.112, pg1: 1, pf1: 3 },
+        { name: "U_San_Juan_Bautista", rci: 0.30, corte: 25, venc: 17, reserva: 0, tea: 0.117, pg1: 1, pf1: 3 },
+        { name: "UE403_Morropon", rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.109, pg1: 2, pf1: 3 },
+        { name: "UNAP", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.11, pg1: 2, pf1: 3 },
+        { name: "UTES_N6", rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105, pg1: 2, pf1: 3 }
+      ]);
+
+      const CARGOS_POR_CONVENIO = Object.freeze({
+        "Ejército_del_Perú": [
+          "General de División", "General de Brigada", "Coronel", "Teniente Coronel", 
+          "Mayor", "Capitán", "Teniente", "Sub Teniente", "Técnico Jefe Superior", 
+          "Técnico Jefe", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", 
+          "Suboficial Primera", "Suboficial Segunda", "Suboficial Tercera", "Personal Administrativo"
+        ],
+        "Marina_de_Guerra": [
+          "Vicealmirante", "Contralmirante", "Capitán de Navío", "Capitán de Fragata", 
+          "Capitán de Corbeta", "Teniente Primero", "Teniente Segundo", "Alferez de Fragata", 
+          "Técnico Superior Primero", "Técnico Superior Segundo", "Técnico Primero", 
+          "Técnico Segundo", "Técnico Tercero", "Oficial de Mar Primero", "Oficial de Mar Segundo", 
+          "Oficial de Mar Tercero", "Administrativos"
+        ],
+        "Fuerza_Aerea_del_Perú": [
+          "Teniente General", "Mayor General", "Coronel", "Comandante", "Capitan", 
+          "Teniente", "Alferez", "Técnico Supervisor", "Técnico Inspector", "Técnico de Primera", 
+          "Técnico de Segunda", "Técnico de Tercera", "Suboficial de Primera", "Suboficial de Segunda", 
+          "Suboficial de Tercera", "Personal Administrativo"
+        ],
+        "Policia_Nacional_del_Perú": [
+          "Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", 
+          "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", 
+          "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", 
+          "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", 
+          "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"
+        ],
+        "RENIEC": ["CAS Indeterminado", "DS. Nro 001-98-TR"],
+        "DIRIS_Lima_Norte": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
+        "Hospital_de_apoyo_Iquitos": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "NPS CAS Asistencial", "PS CAS Asistencial", "NPS CAS Administrativo", "PS CAS Administrativo"],
+        "ESSALUD": ["Asistencial", "Administrativo"],
+        "SENASA": ["Nombrado", "CAS Indeterminado", "CAS Regular"],
+        "ONPE": ["CAP Nombrado", "CAP Indeterminado", "CAS Indeterminado"],
+        "U_San_Juan_Bautista": ["Indeterminado"],
+        "DIRIS_Lima_Centro": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
+        "Ministerio_Defensa": ["Nombrado", "CAS Indeterminado"],
+        "UE403_Morropon": ["Nombrado", "CAS Indeterminado"],
+        "EPSEL": ["Ind_Administrativo", "Ind_Obrero", "Ind_Funcionario"],
+        "UNAP": ["Nombrado", "Indeterminado", "CAS Indeterminado"],
+        "Hospital_Regional_Loreto": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Red_Salud_APLAO": ["Nombrado Asistencial Médico", "Nombrado Profesional de Salud", "Nombrado Técnico Asistencial", "Administrativos"],
+        "UTES_N6": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Gobierno_Regional_Loreto": ["Nombrados", "CAS Indeterminado"],
+        "DIRIS_Lima_Este": ["Asistencial", "Administrativo", "CAS Indeterminado"],
+        "PRONABEC": ["CAS Indeterminado"],
+        "AGRORURAL": ["Nombrado", "CAS Indeterminado"],
+        "CHAVIMOCHIC": ["Nombrado"],
+        "GERESA_La_Libertad": ["Nombrado", "CAS Indeterminado"],
+        "Hospital_San_Bartolome": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Hospital_Goyeneche": ["Asistencial", "Administrativo", "CAS Indeterminado"],
+        "Ministerio_Vivienda": ["Nombrado", "CAS Indeterminado"],
+        "GSR_Luciano_Castillo": ["Nombrado", "CAS Indeterminado"],
+        "Red_Salud_Pacífico_Norte": ["Nombrado", "CAS Indeterminado"],
+        "Red_Salud_Pacífico_Sur": ["Nombrado", "CAS Indeterminado"],
+        "Ministerio_Justicia": ["Nombrado", "CAS Indeterminado"],
+        "Mun_Cerro_Colorado": ["Nombrado", "CAS Indeterminado"],
+        "Hospital_de_la_Amistad": ["Nombrado", "CAS Indeterminado"],
+        "Hospital_Cajamarca": ["Nombrado", "CAS Indeterminado"],
+        "ANA": ["Nombrado", "CAS Indeterminado"],
+        "Hospital_Trujillo": ["Nombrado", "CAS Indeterminado"],
+        "Municipalidad_Piura": ["Nombrado", "CAS Indeterminado"],
+        "Gobierno_Regional_Piura": ["Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales", "CAS Indeterminado"],
+        "Hospital_Regional_Lambayeque": ["Nombrados", "Administrativos", "CAS Indeterminado"],
+        "DIRESA_Cajamarca": ["Nombrados", "Indeterminados", "CAS Indeterminado"],
+        "Hospital_Chulucanas": ["Nombrados", "CAS Indeterminado"],
+        "PRONACEJ": ["Nombrados", "CAS Indeterminado"],
+        "Hospital_Sullana": ["Nombrados", "Indeterminados", "CAS Indeterminados"],
+        "INSN": ["Nombrados", "CAS Indeterminado"],
+        "DIRESA_Loreto": ["Nombrado", "Indeterminado", "Tesoro Público", "CAS Indeterminado"],
+        "RED_Salud_Arequipa_Caylloma": [
+          "Nombrado Médico", "Nombrado Profesional Salud", "Nombrado Técnico asistencial", 
+          "Nombrado Administrativo", "Cas Indeterminado Médico", "Cas Indeterminado Profesional Salud", 
+          "Cas Indeterminado Técnico asistencial", "Cas Indeterminado Administrativo"
+        ]
+      });
+
+      const TIPOS_DEUDA = Object.freeze([
+        { id: "hipotecario", label: "Crédito Hipotecario", factorFijo: 0.011, factorPorc: 0.01 },
+        { id: "efectivo", label: "Crédito Efectivo", factorFijo: 0.044, factorPorc: 0 },
+        { id: "vehicular", label: "Crédito Vehicular", factorFijo: 0.024, factorPorc: 0.035 },
+        { id: "pyme", label: "Pyme", factorFijo: 0.088, factorPorc: 0.022 },
+        { id: "comercial", label: "Comercial", factorFijo: 0.028, factorPorc: 0 },
+        { id: "indirecta", label: "Deuda Indirecta", factorFijo: 0.000694, factorPorc: 0.0006944 },
+        { id: "tc_utilizada", label: "Línea utilizada de tarjeta de Crédito", factorFijo: 0.088, factorPorc: 0.078 },
+        { id: "tc_no_utilizada", label: "Línea no utilizada", factorFijo: 0.007417, factorPorc: 0.003306, factorLNU: 0.0065833922 }
+      ]);
+
+      let camarguitoGloboCerrado = true;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initConveniosSelect();
+        initDeudasTable();
+        vincularEventos();
+        recalcular();
+      });
+
+      function initConveniosSelect() {
+        const sel = document.getElementById("selConvenio");
+        sel.innerHTML = "";
+        CONVENIOS_DATA.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c.name;
+          opt.textContent = c.name.replace(/_/g, " ");
+          if (c.name === "Policia_Nacional_del_Perú") opt.selected = true;
+          sel.appendChild(opt);
+        });
+        actualizarCargosPorConvenio();
+      }
+
+      function actualizarCargosPorConvenio() {
+        const conv = document.getElementById("selConvenio").value;
+        const selCargo = document.getElementById("selCargo");
+        selCargo.innerHTML = "";
+
+        let cargos = CARGOS_POR_CONVENIO[conv] || ["Nombrado", "CAS Indeterminado", "Indeterminado", "Administrativo"];
+
+        cargos.forEach((cg, idx) => {
+          const opt = document.createElement("option");
+          opt.value = cg;
+          opt.textContent = cg;
+          if (cg === "Sub Oficial Técnico de Segunda" || cg === "Técnico de Tercera" || cg === "Técnico Tercero" || (idx === 0 && !cargos.includes("Sub Oficial Técnico de Segunda"))) {
+            opt.selected = true;
+          }
+          selCargo.appendChild(opt);
+        });
+      }
+
+      function initDeudasTable() {
+        const tbody = document.getElementById("tblDeudasBody");
+        tbody.innerHTML = "";
+        TIPOS_DEUDA.forEach(d => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-blue-50/40 border-b border-slate-100 transition-colors";
+          tr.innerHTML = `
+            <td class="p-2.5 border-r border-slate-100 font-medium text-slate-700">${d.label}</td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="bcp_${d.id}" placeholder="" step="0.01" class="w-full text-center p-1.5 border border-slate-200 rounded-lg focus:ring-1 focus:ring-[#002A8F] font-mono text-xs"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="nobcp_${d.id}" placeholder="" step="0.01" class="w-full text-center p-1.5 border border-slate-200 rounded-lg focus:ring-1 focus:ring-[#002A8F] font-mono text-xs"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="saldo_${d.id}" placeholder="" step="0.01" class="w-full text-center p-1.5 border border-slate-200 rounded-lg focus:ring-1 focus:ring-[#002A8F] font-mono text-xs"></td>
+            <td class="p-1 border-r border-slate-100"><input type="number" id="saldoAct_${d.id}" placeholder="" step="0.01" class="w-full text-center p-1.5 border border-slate-200 rounded-lg focus:ring-1 focus:ring-[#002A8F] font-mono text-xs"></td>
+            <td class="p-2.5 text-right font-extrabold text-[#002A8F]" id="cuota_${d.id}">S/ -</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function vincularEventos() {
+        document.getElementById("selConvenio").addEventListener("change", () => {
+          actualizarCargosPorConvenio();
+          const convData = CONVENIOS_DATA.find(c => c.name === document.getElementById("selConvenio").value);
+          if (convData) {
+            document.getElementById("inpTEA").value = (convData.tea * 100).toFixed(2);
+          }
+          recalcular();
+        });
+
+        document.getElementById("selCargo").addEventListener("change", recalcular);
+
+        const inputs = [
+          "inpIngresos", "inpVarMes", "inpVar3m", "inpCafae", "inpNoConstantes",
+          "inpLey", "inpFacultativos", "inpMonto", "selPlazo", "inpTEA", "selDesgravamen", "inpFechaDesembolso"
+        ];
+        inputs.forEach(id => {
+          document.getElementById(id).addEventListener("input", recalcular);
+        });
+
+        TIPOS_DEUDA.forEach(d => {
+          document.getElementById(`bcp_${d.id}`).addEventListener("input", recalcular);
+          document.getElementById(`nobcp_${d.id}`).addEventListener("input", recalcular);
+          document.getElementById(`saldo_${d.id}`).addEventListener("input", recalcular);
+          document.getElementById(`saldoAct_${d.id}`).addEventListener("input", recalcular);
+        });
+
+        document.getElementById("inpExcelMasivo").addEventListener("change", procesarArchivoMasivo);
+      }
+
+      function addMonths(date, months) {
+        const d = new Date(date);
+        const targetMonth = d.getMonth() + months;
+        d.setMonth(targetMonth);
+        return d;
+      }
+
+      function diffDays(d1, d2) {
+        const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+        const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+        return Math.round((utc1 - utc2) / (1000 * 60 * 60 * 24));
+      }
+
+      function calcularCuotaExactaConvenio(monto, plazo, tea, desgravamenMensual, fechaDesembStr, convenioObj) {
+        if (!monto || monto <= 0 || !plazo || plazo <= 0) return 0;
+
+        const fParts = fechaDesembStr.split("-");
+        const fDesemb = new Date(parseInt(fParts[0]), parseInt(fParts[1]) - 1, parseInt(fParts[2]));
+
+        const diaVenc = convenioObj.venc;
+        const pf1 = convenioObj.pf1 || 3;
+        const pg1 = convenioObj.pg1 || 2;
+
+        const fBaseVenc = addMonths(fDesemb, pf1);
+        const fPrimerVenc = new Date(fBaseVenc.getFullYear(), fBaseVenc.getMonth(), diaVenc);
+
+        const tna365 = (Math.pow(1 + tea, 1 / 12) - 1) * 12 * (365 / 360);
+        const tasaDesgAnual = desgravamenMensual * 12;
+        const iDiario = tna365 / 365;
+        const dDiario = tasaDesgAnual / 365;
+
+        const k41 = iDiario * 31;
+        const p41 = dDiario * 31;
+
+        const k64 = (k41 + p41) / (1 - Math.pow(1 + k41 + p41, -plazo));
+
+        const c23 = fPrimerVenc;
+        const c22 = addMonths(c23, -1);
+        const c21 = addMonths(c22, -1);
+
+        const dayDesemb = fDesemb.getDate();
+        const isPnpOMg = (convenioObj.name === "Policia_Nacional_del_Perú" || convenioObj.name === "Marina_de_Guerra");
+        let c20 = null;
+        if (!(dayDesemb > diaVenc || (isPnpOMg && dayDesemb < 5))) {
+          if (pg1 === 2) {
+            c20 = addMonths(c21, -1);
+          }
+        }
+
+        const d21 = diffDays(c21, fDesemb);
+        const e21 = c20 === null ? d21 : diffDays(c21, c20);
+        const f21 = monto;
+        const g21 = f21;
+        const h21 = iDiario * e21;
+        const i21 = h21 * f21;
+        const j21 = f21 * e21 * dDiario;
+
+        const e22 = diffDays(c22, c21);
+        const f22 = g21;
+        const h22 = iDiario * e22;
+        const i22 = h22 * f22;
+        const j22 = dDiario * e22 * g21;
+        const g22 = c20 === null ? (g21 + i22 + j22) : (g21 + i21 + j21);
+
+        const f23 = g22;
+        const k66 = (f23 + j21 + j22) * k64;
+        const w24 = 4.0;
+        return k66 + w24;
+      }
+
+      function recalcular() {
+        const convNombre = document.getElementById("selConvenio").value;
+        const cargo = document.getElementById("selCargo").value;
+        const conv = CONVENIOS_DATA.find(c => c.name === convNombre) || CONVENIOS_DATA[0];
+
+        let rci = conv.rci;
+        if (convNombre === "Policia_Nacional_del_Perú") {
+          if (cargo === "Sub Oficial de Tercera menor a 55 años") rci = 0.30;
+          else if (cargo === "Sub Oficial de Tercera") rci = 0.40;
+          else rci = 0.45;
+        } else if (["DIRIS_Lima_Norte", "DIRIS_Lima_Centro", "INSN"].includes(convNombre) && cargo.includes("CAS")) {
+          rci = 0.40;
+        } else if ((convNombre === "RENIEC" && cargo.includes("CAS")) || 
+                   (convNombre === "Hospital_Sullana" && (cargo.includes("Nombrado") || cargo.includes("Indeterminado")))) {
+          rci = 0.45;
+        } else if (["UE403_Morropon", "Hospital_Sullana", "GSR_Luciano_Castillo", "Hospital_de_la_Amistad", "Hospital_Chulucanas"].includes(convNombre) && cargo.includes("CAS")) {
+          rci = 0.42;
+        } else if (["UE403_Morropon", "Hospital_Chulucanas", "GSR_Luciano_Castillo", "Hospital_de_la_Amistad"].includes(convNombre) && cargo.includes("Nombrado")) {
+          rci = 0.49;
+        } else if ((convNombre === "Ejército_del_Perú" && cargo.includes("Suboficial Tercera")) || 
+                   (convNombre === "ANA" && cargo.includes("CAS")) || 
+                   (convNombre === "Municipalidad_Piura" && cargo.includes("CAS"))) {
+          rci = 0.45;
+        } else if (convNombre === "U_San_Juan_Bautista") {
+          rci = 0.30;
+        }
+
+        document.getElementById("lblRCI").textContent = (rci * 100).toFixed(0) + "%";
+        document.getElementById("lblReserva").textContent = "S/ " + conv.reserva.toFixed(2);
+        document.getElementById("lblTEA").textContent = (parseFloat(document.getElementById("inpTEA").value) || (conv.tea * 100)).toFixed(2) + "%";
+
+        const G15 = parseFloat(document.getElementById("inpIngresos").value) || 0;
+        const G16 = parseFloat(document.getElementById("inpVarMes").value) || 0;
+        const G17 = parseFloat(document.getElementById("inpVar3m").value) || 0;
+        const G18 = parseFloat(document.getElementById("inpCafae").value) || 0;
+        const G21 = parseFloat(document.getElementById("inpNoConstantes").value) || 0;
+        const G24 = parseFloat(document.getElementById("inpLey").value) || 0;
+        const G29 = parseFloat(document.getElementById("inpFacultativos").value) || 0;
+        const G28 = conv.reserva;
+
+        let disponible = 0;
+        if (convNombre === "Ministerio_Justicia" && cargo.includes("CAS")) {
+          disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24 - (G15 * 0.08)) * rci;
+        } else if (["Red_Salud_Pacífico_Sur", "Red_Salud_Pacífico_Norte", "UTES_N6", "DIRESA_Loreto", "Hospital_Cajamarca", "DIRESA_Cajamarca"].includes(convNombre) && cargo.includes("CAS")) {
+          disponible = ((G15 - G16 + G17 + G18 - G21) * rci) - G24;
+        } else if (convNombre === "U_San_Juan_Bautista") {
+          disponible = G15 * rci;
+        } else {
+          disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rci;
+        }
+
+        let netoDisponible = convNombre === "Ejército_del_Perú" ? (disponible - G28 - G29 - 5) : (disponible - G28 - G29);
+        if (netoDisponible < 0) netoDisponible = 0;
+
+        let totalCuotasBCP = 0;
+        let totalCuotasActualizadasH = 0;
+        let sumaPonderadaK58 = 0;
+        let sumaCuotasDirectasK58 = 0;
+        let hayDatosCarga = false;
+
+        TIPOS_DEUDA.forEach(d => {
+          const valBcpStr = document.getElementById(`bcp_${d.id}`).value.trim();
+          const valNoBcpStr = document.getElementById(`nobcp_${d.id}`).value.trim();
+          const valSaldoStr = document.getElementById(`saldo_${d.id}`).value.trim();
+          const valSaldoActStr = document.getElementById(`saldoAct_${d.id}`).value.trim();
+
+          const D_val = valBcpStr !== "" ? parseFloat(valBcpStr) : null;
+          const E_val = valNoBcpStr !== "" ? parseFloat(valNoBcpStr) : null;
+          const F_val = valSaldoStr !== "" ? parseFloat(valSaldoStr) : null;
+          const G_val = valSaldoActStr !== "" ? parseFloat(valSaldoActStr) : null;
+
+          if (D_val !== null || E_val !== null || F_val !== null || G_val !== null) {
+            hayDatosCarga = true;
+          }
+
+          const d_num = D_val || 0;
+          const e_num = E_val || 0;
+          const f_num = F_val || 0;
+          const g_num = G_val || 0;
+
+          totalCuotasBCP += d_num;
+
+          let H_val = 0;
+          if (E_val !== null && F_val !== null && G_val !== null && f_num > 0) {
+            if (d.id === "tc_no_utilizada") {
+              H_val = g_num * d.factorLNU;
+            } else {
+              H_val = (g_num / f_num) * e_num;
+            }
+          } else {
+            if (E_val === null || valNoBcpStr === "") {
+              H_val = g_num * d.factorFijo;
+            } else {
+              H_val = e_num;
+            }
+          }
+
+          totalCuotasActualizadasH += H_val;
+
+          if (d.id === "hipotecario") sumaPonderadaK58 += (g_num / 100);
+          else if (d.factorPorc > 0) sumaPonderadaK58 += (g_num * d.factorPorc);
+
+          sumaCuotasDirectasK58 += d_num + e_num;
+
+          const celdaCuota = document.getElementById(`cuota_${d.id}`);
+          if (H_val > 0) {
+            celdaCuota.textContent = "S/ " + H_val.toFixed(2);
+          } else {
+            celdaCuota.textContent = "S/ -";
+          }
+        });
+
+        const baseEndeudamiento = (G15 - G21 + G18 - G24 - G29);
+        let porcEndeudamiento = 0;
+        let K58 = 0;
+
+        if (baseEndeudamiento > 0 && hayDatosCarga) {
+          K58 = (sumaPonderadaK58 + sumaCuotasDirectasK58) / baseEndeudamiento;
+          porcEndeudamiento = K58;
+        }
+
+        let topeEndeudamiento = 0.65;
+        if (convNombre === "Gobierno_Regional_Piura" && cargo.includes("CAS")) topeEndeudamiento = 0.50;
+        if (convNombre === "UTES_N6") topeEndeudamiento = 0.70;
+
+        document.getElementById("lblTopeEndeudamiento").textContent = (topeEndeudamiento * 100).toFixed(0) + "%";
+
+        const cem = ((G15 - G16 + G17 + G18 - G21 - G24 - G29) * topeEndeudamiento) - totalCuotasActualizadasH - totalCuotasBCP;
+        const dictamenSBS = (K58 <= topeEndeudamiento) ? "Continuar" : "Sobre endeudado";
+
+        if (K58 > 0) {
+          document.getElementById("lblPorcEndeudamiento").textContent = (porcEndeudamiento * 100).toFixed(2) + "%";
+          document.getElementById("resEndeudamiento").textContent = (porcEndeudamiento * 100).toFixed(2) + "%";
+        } else {
+          document.getElementById("lblPorcEndeudamiento").textContent = "-";
+          document.getElementById("resEndeudamiento").textContent = "-";
+        }
+
+        document.getElementById("lblCEM").textContent = "S/ " + Math.max(0, cem).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("lblDictamenSBS").textContent = dictamenSBS;
+        document.getElementById("lblDictamenSBS").className = dictamenSBS === "Continuar" ? "font-extrabold text-emerald-600 text-sm" : "font-extrabold text-red-600 text-sm";
+
+        const monto = parseFloat(document.getElementById("inpMonto").value) || 0;
+        const plazo = parseInt(document.getElementById("selPlazo").value) || 72;
+        const tea = (parseFloat(document.getElementById("inpTEA").value) || 10.85) / 100;
+        const desgravamen = parseFloat(document.getElementById("selDesgravamen").value) || 0.000767;
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-26";
+
+        const cuota = calcularCuotaExactaConvenio(monto, plazo, tea, desgravamen, fechaDesembStr, conv);
+
+        document.getElementById("resNetoDisp").textContent = "S/ " + netoDisponible.toFixed(2);
+        document.getElementById("resCuota").textContent = "S/ " + cuota.toFixed(2);
+
+        evaluarDictamen(dictamenSBS, cuota, netoDisponible, cem);
+        actualizarMensajeCamarguito(dictamenSBS, cuota, netoDisponible, cem);
+      }
+
+      function evaluarDictamen(dictamenSBS, cuota, netoDisponible, cem) {
+        const card = document.getElementById("cardResultado");
+        const txt = document.getElementById("txtResultado");
+        const sub = document.getElementById("subResultado");
+        const det = document.getElementById("detResultado");
+
+        if (dictamenSBS === "Sobre endeudado") {
+          card.className = "p-5 rounded-2xl shadow-md border badge-sobreendeudado flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "NO CALIFICA";
+          sub.textContent = "DICTAMEN: SOBRE ENDEUDADO";
+          det.textContent = "El cliente excede el ratio de endeudamiento permitido en el sistema financiero (SBS).";
+        } else if (cuota > netoDisponible) {
+          card.className = "p-5 rounded-2xl shadow-md border badge-liquidez flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "NO CALIFICA";
+          sub.textContent = "DICTAMEN: FALTA DE LIQUIDEZ";
+          det.textContent = `La cuota mensual (S/ ${cuota.toFixed(2)}) supera el neto disponible en boleta (S/ ${netoDisponible.toFixed(2)}).`;
+        } else if (cuota > cem) {
+          card.className = "p-5 rounded-2xl shadow-md border badge-liquidez flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300";
+          txt.textContent = "OBSERVADO";
+          sub.textContent = "DICTAMEN: EXCEDE CEM";
+          det.textContent = "La cuota supera la capacidad de endeudamiento máxima permisible.";
+        } else {
+          card.className = "p-5 rounded-2xl shadow-md border badge-califica flex flex-col sm:flex-row justify-between items-center gap-4 transition-all duration-300 glow-califica";
+          txt.textContent = "CALIFICA";
+          sub.textContent = "DICTAMEN: APROBADO";
+          det.textContent = "El cliente cuenta con liquidez suficiente en boleta y holgura en el sistema financiero.";
+        }
+      }
+
+      function actualizarMensajeCamarguito(dictamenSBS, cuota, netoDisponible, cem) {
+        const textElem = document.getElementById("camarguitoText");
+        if (!textElem) return;
+
+        if (dictamenSBS === "Sobre endeudado") {
+          textElem.innerHTML = "⚠️ <strong>¡Ojo con la SBS!</strong> Endeudamiento > 65%. Evalúa una <strong>Compra de Deuda</strong>.";
+        } else if (cuota > netoDisponible) {
+          const dif = (cuota - netoDisponible).toFixed(2);
+          textElem.innerHTML = `📉 <strong>Falta liquidez:</strong> Excede por <strong>S/ ${dif}</strong>. Aumenta a 72 meses o baja el monto.`;
+        } else if (cuota > cem) {
+          textElem.innerHTML = "⚠️ <strong>Tope CEM excedido:</strong> La cuota supera el límite CEM permitido.";
+        } else {
+          textElem.innerHTML = `🎉 <strong>¡Excelente!</strong> Califica con cuota de <strong>S/ ${cuota.toFixed(2)}</strong> y neto disponible de S/ ${netoDisponible.toFixed(2)}.`;
+        }
+
+        const bubble = document.getElementById("camarguitoBubble");
+        if (camarguitoGloboCerrado) {
+          bubble.classList.add("hidden");
+        }
+      }
+
+      // Funciones públicas expuestas a la ventana de forma segura
+      window.cerrarCamarguitoGlobo = function(e) {
+        if (e) e.stopPropagation();
+        camarguitoGloboCerrado = true;
+        document.getElementById("camarguitoBubble").classList.add("hidden");
+      };
+
+      window.clickAvatarCamarguito = function(e) {
+        if (e) e.stopPropagation();
+        const bubble = document.getElementById("camarguitoBubble");
+        if (bubble.classList.contains("hidden")) {
+          camarguitoGloboCerrado = false;
+          bubble.classList.remove("hidden");
+        } else {
+          toggleCamarguitoHelp();
+        }
+      };
+
+      window.abrirCamarguitoManual = function() {
+        camarguitoGloboCerrado = false;
+        document.getElementById("camarguitoBubble").classList.remove("hidden");
+        toggleCamarguitoHelp();
+      };
+
+      window.toggleCamarguitoHelp = function() {
+        const modal = document.getElementById("modalCamarguito");
+        modal.classList.toggle("hidden");
+      };
+
+      window.cerrarModalFondo = function(e) {
+        if (e.target.id === "modalCamarguito") {
+          document.getElementById("modalCamarguito").classList.add("hidden");
+        }
+      };
+
+      window.switchTab = function(tab) {
+        if (tab === 'simulador') {
+          document.getElementById("tabSimulador").classList.remove("hidden");
+          document.getElementById("tabMasivo").classList.add("hidden");
+          document.getElementById("btnTabSimulador").className = "px-4 py-1.5 rounded-full text-xs font-bold bg-[#002A8F] text-white shadow-sm transition-all duration-200 flex items-center";
+          document.getElementById("btnTabMasivo").className = "px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-[#002A8F] transition-all duration-200 flex items-center";
+        } else {
+          document.getElementById("tabSimulador").classList.add("hidden");
+          document.getElementById("tabMasivo").classList.remove("hidden");
+          document.getElementById("btnTabMasivo").className = "px-4 py-1.5 rounded-full text-xs font-bold bg-[#002A8F] text-white shadow-sm transition-all duration-200 flex items-center";
+          document.getElementById("btnTabSimulador").className = "px-4 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-[#002A8F] transition-all duration-200 flex items-center";
+        }
+      };
+
+      let datosEvaluadosMasivos = [];
+
+      function procesarArchivoMasivo(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const json = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+
+          evaluarFilasExcel(json);
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      function evaluarFilasExcel(filas) {
+        datosEvaluadosMasivos = [];
+        const tbody = document.getElementById("tblMasivoBody");
+        tbody.innerHTML = "";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-26";
+
+        filas.forEach((f, idx) => {
+          const dni = f["DNI Cliente"] || f["DNI"] || f["Documento"] || `Cliente ${idx+1}`;
+          const nombre = f["Nombre Cliente"] || f["Cliente"] || f["Nombres"] || "S/N";
+          const convStr = (f["CONVENIO"] || f["Convenio"] || "Policia_Nacional_del_Perú").toString().trim();
+          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4498.07) || 0;
+          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 322.07) || 0;
+          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 210.31) || 0;
+          const monto = parseFloat(f["MONTO"] || f["Monto"] || 85000) || 0;
+          const plazo = parseInt(f["PLAZO"] || f["Plazo"] || 72) || 72;
+
+          const matchConv = CONVENIOS_DATA.find(c => 
+            c.name.toLowerCase().includes(convStr.toLowerCase()) || 
+            convStr.toLowerCase().includes(c.name.toLowerCase())
+          ) || CONVENIOS_DATA[33];
+
+          const rci = matchConv.rci;
+          const disp = (ingresos - ley) * rci;
+          const neto = Math.max(0, disp - matchConv.reserva - facult);
+
+          const cuota = calcularCuotaExactaConvenio(monto, plazo, matchConv.tea, 0.000767, fechaDesembStr, matchConv);
+
+          let estado = "Califica";
+          let motivo = "Aprobado por Liquidez";
+          let badgeClass = "badge-califica";
+
+          if (cuota > neto) {
+            estado = "No Califica";
+            motivo = "Falta de Liquidez en Boleta";
+            badgeClass = "badge-liquidez";
+          }
+
+          const registro = {
+            DNI: dni,
+            Nombre: nombre,
+            Convenio: matchConv.name,
+            Ingresos: ingresos,
+            NetoDisponible: neto.toFixed(2),
+            Monto: monto,
+            Cuota: cuota.toFixed(2),
+            Estado: estado,
+            Motivo: motivo
+          };
+          datosEvaluadosMasivos.push(registro);
+
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-blue-50/40 transition-colors";
+          tr.innerHTML = `
+            <td class="p-3 font-medium">${dni}</td>
+            <td class="p-3 font-bold text-slate-800">${nombre}</td>
+            <td class="p-3"><span class="px-2.5 py-1 bg-blue-50 text-[#002A8F] rounded-full text-[11px] font-bold border border-blue-100">${matchConv.name}</span></td>
+            <td class="p-3 text-right">S/ ${ingresos.toFixed(2)}</td>
+            <td class="p-3 text-right font-extrabold text-slate-700">S/ ${neto.toFixed(2)}</td>
+            <td class="p-3 text-right text-[#002A8F] font-bold">S/ ${monto.toFixed(2)}</td>
+            <td class="p-3 text-right font-black text-slate-900">S/ ${cuota.toFixed(2)}</td>
+            <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full font-bold text-[10px] ${badgeClass}">${estado.toUpperCase()}</span></td>
+            <td class="p-3 text-slate-500 font-medium">${motivo}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("lblContadorMasivo").textContent = `${datosEvaluadosMasivos.length} Registros Evaluados`;
+      }
+
+      window.exportarExcelResultados = function() {
+        if (datosEvaluadosMasivos.length === 0) {
+          alert("Primero carga un archivo o genera datos para exportar.");
+          return;
+        }
+        const ws = XLSX.utils.json_to_sheet(datosEvaluadosMasivos);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Evaluacion_Convenios");
+        XLSX.writeFile(wb, "Reporte_Evaluacion_Convenios_Calificado.xlsx");
+      };
+
+    })();
+  </script>
+</body>
+</html>
