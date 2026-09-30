@@ -21,7 +21,7 @@
     body {
       background-color: var(--bcp-bg);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      user-select: none; /* Protección visual de selección */
+      user-select: none;
       -webkit-user-select: none;
     }
 
@@ -69,7 +69,7 @@
       text-transform: uppercase;
     }
 
-    /* Insignia 3D BCP 4K */
+    /* Insignia 3D BCP */
     .bcp-badge-3d {
       display: inline-flex;
       align-items: center;
@@ -187,11 +187,11 @@
       <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">Campaña Activa 2026</span>
     </div>
 
-    <!-- Header Principal con Logo Camargo y Logo 3D BCP -->
+    <!-- Header Principal -->
     <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-30">
       <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-4">
         
-        <!-- Logos Co-Branding (Camargo Group + BCP 3D 4K) -->
+        <!-- Logos Co-Branding -->
         <div class="flex items-center gap-3">
           <div class="logo-badge-3d cursor-pointer select-none">
             <div class="cube-3d-cluster">
@@ -238,7 +238,7 @@
       </div>
     </header>
 
-    <!-- Banner Superior estilo BCP -->
+    <!-- Banner Superior -->
     <div class="bg-gradient-to-r from-[#EBF3FC] via-[#F4F8FE] to-[#FFF3E8] border-b border-blue-100/60 py-3.5 px-4 shadow-sm">
       <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
@@ -281,7 +281,7 @@
               <div class="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
                 <div class="bg-blue-50/60 p-2.5 rounded-xl border border-blue-100">
                   <span class="text-slate-500 block text-[10px] font-bold uppercase">RCI</span>
-                  <span id="lblRCI" class="font-extrabold text-[#002A8F] text-sm">45%</span>
+                  <span id="lblRCI" class="font-extrabold text-[#002A8F] text-sm">47%</span>
                 </div>
                 <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                   <span class="text-slate-500 block text-[10px] font-bold uppercase">Reserva</span>
@@ -289,7 +289,7 @@
                 </div>
                 <div class="bg-orange-50/60 p-2.5 rounded-xl border border-orange-100">
                   <span class="text-slate-500 block text-[10px] font-bold uppercase">TEA Base</span>
-                  <span id="lblTEA" class="font-extrabold text-[#FF7800] text-sm">10.85%</span>
+                  <span id="lblTEA" class="font-extrabold text-[#FF7800] text-sm">10.90%</span>
                 </div>
               </div>
             </div>
@@ -306,7 +306,7 @@
                 <label class="block font-semibold text-slate-600">Total Ingresos Fijos (Bruto)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
-                  <input type="number" id="inpIngresos" value="4498.07" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
+                  <input type="number" id="inpIngresos" value="4174.82" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
               </div>
 
@@ -345,7 +345,7 @@
                 <label class="block font-semibold text-slate-600">Descuentos de Ley (ONP / AFP / IR)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
-                  <input type="number" id="inpLey" value="322.07" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpLey" value="526.46" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
 
@@ -353,7 +353,7 @@
                 <label class="block font-semibold text-slate-600">Descuentos Facultativos</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">S/</span>
-                  <input type="number" id="inpFacultativos" value="210.31" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpFacultativos" value="87.00" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
             </div>
@@ -374,15 +374,15 @@
             <div class="flex gap-2.5 text-right w-full sm:w-auto justify-end">
               <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 uppercase font-bold block">Neto Disponible</span>
-                <span id="resNetoDisp" class="text-base font-black text-slate-800">S/ 1,668.89</span>
+                <span id="resNetoDisp" class="text-base font-black text-slate-800">S/ 1,627.73</span>
               </div>
               <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-blue-200 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-[#002A8F] uppercase font-bold block">Cuota Mensual</span>
-                <span id="resCuota" class="text-base font-black text-[#002A8F]">S/ 1,667.39</span>
+                <span id="resCuota" class="text-base font-black text-[#002A8F]">S/ 1,625.81</span>
               </div>
               <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-slate-200 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 uppercase font-bold block">% Endeudamiento</span>
-                <span id="resEndeudamiento" class="text-base font-black text-amber-700">-</span>
+                <span id="resEndeudamiento" class="text-base font-black text-amber-700">5.95%</span>
               </div>
             </div>
           </div>
@@ -396,7 +396,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
               <div>
                 <label class="block font-semibold text-slate-600">Monto Solicitado</label>
-                <input type="number" id="inpMonto" value="85000" step="100" class="w-full mt-1 p-2 border border-blue-200 rounded-xl font-bold text-[#002A8F] bg-blue-50/40 focus:ring-2 focus:ring-[#002A8F]">
+                <input type="number" id="inpMonto" value="82800" step="100" class="w-full mt-1 p-2 border border-blue-200 rounded-xl font-bold text-[#002A8F] bg-blue-50/40 focus:ring-2 focus:ring-[#002A8F]">
               </div>
 
               <div>
@@ -413,12 +413,12 @@
 
               <div>
                 <label class="block font-semibold text-slate-600">TEA (%)</label>
-                <input type="number" id="inpTEA" value="10.85" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl font-semibold bg-white focus:ring-2 focus:ring-[#002A8F]">
+                <input type="number" id="inpTEA" value="10.90" step="0.01" class="w-full mt-1 p-2 border border-slate-300 rounded-xl font-semibold bg-white focus:ring-2 focus:ring-[#002A8F]">
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-600">Desembolso</label>
-                <input type="date" id="inpFechaDesembolso" value="2026-09-26" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs bg-white focus:ring-2 focus:ring-[#002A8F]">
+                <input type="date" id="inpFechaDesembolso" value="2026-09-29" class="w-full mt-1 p-2 border border-slate-300 rounded-xl text-xs bg-white focus:ring-2 focus:ring-[#002A8F]">
               </div>
 
               <div>
@@ -460,11 +460,11 @@
             <div class="mt-4 pt-3.5 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
               <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
                 <span class="font-bold text-slate-600">% Endeudamiento:</span>
-                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 text-sm">-</span>
+                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 text-sm">5.95%</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
                 <span class="font-bold text-slate-600">CEM:</span>
-                <span id="lblCEM" class="font-black text-emerald-700 text-sm">S/ 2,577.70</span>
+                <span id="lblCEM" class="font-black text-emerald-700 text-sm">S/ 2,102.88</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
                 <span class="font-bold text-slate-600">Dictamen SBS:</span>
@@ -526,7 +526,7 @@
     </main>
   </div>
 
-  <!-- Footer Profesional con Autoría y Protección -->
+  <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 mt-12 py-5 px-4 text-center">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500">
       <div class="flex items-center gap-2">
@@ -535,7 +535,6 @@
         <span class="text-slate-400">• v2.5 Oficial</span>
       </div>
 
-      <!-- Bloque de Créditos Oficiales -->
       <div class="bg-slate-50 px-4 py-2 rounded-xl border border-slate-200/80 text-center sm:text-right">
         <span class="text-slate-400 text-[10px] uppercase font-bold block tracking-wider">Arquitectura y Desarrollo:</span>
         <span class="font-extrabold text-[#002A8F] text-xs">Luis Angel Garcia Cano (Aka Lattis)</span>
@@ -547,7 +546,6 @@
   <!-- ================= ASISTENTE VIRTUAL "CAMARGUITO" ================= -->
   <div class="fixed bottom-4 right-4 z-40 flex items-end gap-2.5 select-none" id="camarguitoContainer">
     
-    <!-- Globo de Mensajes Inteligente de Camarguito -->
     <div id="camarguitoBubble" class="bg-white p-3 rounded-2xl shadow-xl border border-blue-200 max-w-xs text-xs text-slate-700 animate-card relative hidden">
       <div class="font-bold text-[#002A8F] flex items-center justify-between pb-1 border-b border-slate-100 mb-1.5">
         <span class="flex items-center gap-1"><i class="fa-solid fa-sparkles text-amber-500"></i> Camarguito</span>
@@ -563,7 +561,6 @@
       </div>
     </div>
 
-    <!-- Botón / Avatar 3D de Camarguito -->
     <div onclick="clickAvatarCamarguito(event)" class="animate-mascot cursor-pointer group relative flex-shrink-0" title="Haz clic para ver la ayuda de Camarguito">
       <div class="camarguito-ear-l"></div>
       <div class="camarguito-ear-r"></div>
@@ -586,7 +583,7 @@
 
   </div>
 
-  <!-- Modal / Guía Rápida de Camarguito -->
+  <!-- Modal Camarguito -->
   <div id="modalCamarguito" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4 hidden" onclick="cerrarModalFondo(event)">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-blue-100 animate-card relative" onclick="event.stopPropagation()">
       <button onclick="toggleCamarguitoHelp()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
@@ -640,14 +637,8 @@
     </div>
   </div>
 
-  <!-- ================= CAPA DE PROTECCIÓN Y MOTOR ENCAPSULADO ================= -->
+  <!-- ================= MOTOR Y LÓGICA FINANCIERA ================= -->
   <script>
-    /**
-     * MÓDULO DE SIMULACIÓN Y EVALUACIÓN DE CONVENIOS PÚBLICOS
-     * Autor: Luis Angel Garcia Cano (Aka Lattis)
-     * Rol: Analista Comercial - Back Office Senior
-     * Todos los derechos reservados © 2026
-     */
     (function () {
       "use strict";
 
@@ -657,24 +648,21 @@
       });
 
       document.addEventListener("keydown", function (e) {
-        // Bloqueo de F12 (DevTools)
         if (e.keyCode === 123) {
           e.preventDefault();
           return false;
         }
-        // Bloqueo de Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (DevTools)
         if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
           e.preventDefault();
           return false;
         }
-        // Bloqueo de Ctrl+U (Ver código fuente) y Ctrl+S (Guardar página)
         if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) {
           e.preventDefault();
           return false;
         }
       });
 
-      // 2. MATRIZ OFICIAL DE CONVENIOS (PROTEGIDA CON Object.freeze)
+      // 2. MATRIZ OFICIAL DE CONVENIOS (sincronizada con el Excel Base)
       const CONVENIOS_DATA = Object.freeze([
         { name: "AGRORURAL", rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.12, pg1: 1, pf1: 3 },
         { name: "ANA", rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.109, pg1: 1, pf1: 2 },
@@ -817,6 +805,23 @@
         initConveniosSelect();
         initDeudasTable();
         vincularEventos();
+
+        // Cargar los valores iniciales para Ejército del Perú
+        document.getElementById("selConvenio").value = "Ejército_del_Perú";
+        actualizarCargosPorConvenio();
+        document.getElementById("selCargo").value = "Suboficial Tercera";
+        document.getElementById("inpIngresos").value = "4174.82";
+        document.getElementById("inpLey").value = "526.46";
+        document.getElementById("inpFacultativos").value = "87.00";
+        document.getElementById("inpMonto").value = "82800";
+        document.getElementById("selPlazo").value = "72";
+        document.getElementById("inpTEA").value = "10.90";
+        document.getElementById("inpFechaDesembolso").value = "2026-09-29";
+        
+        // Deuda comercial BCP = 212
+        const bcpCom = document.getElementById("bcp_comercial");
+        if (bcpCom) bcpCom.value = "212";
+
         recalcular();
       });
 
@@ -827,7 +832,7 @@
           const opt = document.createElement("option");
           opt.value = c.name;
           opt.textContent = c.name.replace(/_/g, " ");
-          if (c.name === "Policia_Nacional_del_Perú") opt.selected = true;
+          if (c.name === "Ejército_del_Perú") opt.selected = true;
           sel.appendChild(opt);
         });
         actualizarCargosPorConvenio();
@@ -844,7 +849,7 @@
           const opt = document.createElement("option");
           opt.value = cg;
           opt.textContent = cg;
-          if (cg === "Sub Oficial Técnico de Segunda" || cg === "Técnico de Tercera" || cg === "Técnico Tercero" || (idx === 0 && !cargos.includes("Sub Oficial Técnico de Segunda"))) {
+          if (cg === "Suboficial Tercera" || cg === "Sub Oficial Técnico de Segunda") {
             opt.selected = true;
           }
           selCargo.appendChild(opt);
@@ -912,6 +917,7 @@
         return Math.round((utc1 - utc2) / (1000 * 60 * 60 * 24));
       }
 
+      // Cálculo idéntico al Cronograma oficial del Excel
       function calcularCuotaExactaConvenio(monto, plazo, tea, desgravamenMensual, fechaDesembStr, convenioObj) {
         if (!monto || monto <= 0 || !plazo || plazo <= 0) return 0;
 
@@ -941,6 +947,7 @@
 
         const dayDesemb = fDesemb.getDate();
         const isPnpOMg = (convenioObj.name === "Policia_Nacional_del_Perú" || convenioObj.name === "Marina_de_Guerra");
+        
         let c20 = null;
         if (!(dayDesemb > diaVenc || (isPnpOMg && dayDesemb < 5))) {
           if (pg1 === 2) {
@@ -974,7 +981,8 @@
         const cargo = document.getElementById("selCargo").value;
         const conv = CONVENIOS_DATA.find(c => c.name === convNombre) || CONVENIOS_DATA[0];
 
-        let rci = conv.rci;
+        // Reglas oficiales de RCI (Sincronizadas exactamente con el Excel Base!$A:$F)
+        let rci = conv.rci; // Para Ejército_del_Perú es 0.47
         if (convNombre === "Policia_Nacional_del_Perú") {
           if (cargo === "Sub Oficial de Tercera menor a 55 años") rci = 0.30;
           else if (cargo === "Sub Oficial de Tercera") rci = 0.40;
@@ -982,15 +990,13 @@
         } else if (["DIRIS_Lima_Norte", "DIRIS_Lima_Centro", "INSN"].includes(convNombre) && cargo.includes("CAS")) {
           rci = 0.40;
         } else if ((convNombre === "RENIEC" && cargo.includes("CAS")) || 
-                   (convNombre === "Hospital_Sullana" && (cargo.includes("Nombrado") || cargo.includes("Indeterminado")))) {
+                   (convNombre === "Hospital_Sullana" && (cargo.includes("Nombrados") || cargo.includes("Indeterminados")))) {
           rci = 0.45;
         } else if (["UE403_Morropon", "Hospital_Sullana", "GSR_Luciano_Castillo", "Hospital_de_la_Amistad", "Hospital_Chulucanas"].includes(convNombre) && cargo.includes("CAS")) {
           rci = 0.42;
         } else if (["UE403_Morropon", "Hospital_Chulucanas", "GSR_Luciano_Castillo", "Hospital_de_la_Amistad"].includes(convNombre) && cargo.includes("Nombrado")) {
           rci = 0.49;
-        } else if ((convNombre === "Ejército_del_Perú" && cargo.includes("Suboficial Tercera")) || 
-                   (convNombre === "ANA" && cargo.includes("CAS")) || 
-                   (convNombre === "Municipalidad_Piura" && cargo.includes("CAS"))) {
+        } else if ((convNombre === "ANA" || convNombre === "Municipalidad_Piura") && cargo.includes("CAS")) {
           rci = 0.45;
         } else if (convNombre === "U_San_Juan_Bautista") {
           rci = 0.30;
@@ -1020,7 +1026,8 @@
           disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rci;
         }
 
-        let netoDisponible = convNombre === "Ejército_del_Perú" ? (disponible - G28 - G29 - 5) : (disponible - G28 - G29);
+        // En el Excel: Cáratula!K31 = G26 - G28 - G29
+        let netoDisponible = disponible - G28 - G29;
         if (netoDisponible < 0) netoDisponible = 0;
 
         let totalCuotasBCP = 0;
@@ -1113,9 +1120,9 @@
 
         const monto = parseFloat(document.getElementById("inpMonto").value) || 0;
         const plazo = parseInt(document.getElementById("selPlazo").value) || 72;
-        const tea = (parseFloat(document.getElementById("inpTEA").value) || 10.85) / 100;
+        const tea = (parseFloat(document.getElementById("inpTEA").value) || 10.90) / 100;
         const desgravamen = parseFloat(document.getElementById("selDesgravamen").value) || 0.000767;
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-26";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-29";
 
         const cuota = calcularCuotaExactaConvenio(monto, plazo, tea, desgravamen, fechaDesembStr, conv);
 
@@ -1176,7 +1183,6 @@
         }
       }
 
-      // Funciones públicas expuestas a la ventana de forma segura
       window.cerrarCamarguitoGlobo = function(e) {
         if (e) e.stopPropagation();
         camarguitoGloboCerrado = true;
@@ -1247,22 +1253,22 @@
         datosEvaluadosMasivos = [];
         const tbody = document.getElementById("tblMasivoBody");
         tbody.innerHTML = "";
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-26";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-09-29";
 
         filas.forEach((f, idx) => {
           const dni = f["DNI Cliente"] || f["DNI"] || f["Documento"] || `Cliente ${idx+1}`;
           const nombre = f["Nombre Cliente"] || f["Cliente"] || f["Nombres"] || "S/N";
           const convStr = (f["CONVENIO"] || f["Convenio"] || "Policia_Nacional_del_Perú").toString().trim();
-          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4498.07) || 0;
-          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 322.07) || 0;
-          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 210.31) || 0;
-          const monto = parseFloat(f["MONTO"] || f["Monto"] || 85000) || 0;
+          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4174.82) || 0;
+          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 526.46) || 0;
+          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 87.00) || 0;
+          const monto = parseFloat(f["MONTO"] || f["Monto"] || 82800) || 0;
           const plazo = parseInt(f["PLAZO"] || f["Plazo"] || 72) || 72;
 
           const matchConv = CONVENIOS_DATA.find(c => 
             c.name.toLowerCase().includes(convStr.toLowerCase()) || 
             convStr.toLowerCase().includes(c.name.toLowerCase())
-          ) || CONVENIOS_DATA[33];
+          ) || CONVENIOS_DATA[8];
 
           const rci = matchConv.rci;
           const disp = (ingresos - ley) * rci;
