@@ -323,7 +323,7 @@
               <div class="grid grid-cols-4 gap-2 pt-2 text-center text-xs">
                 <div class="bg-blue-50/60 dark:bg-blue-950/40 p-2 rounded-xl border border-blue-100 dark:border-blue-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">RCI</span>
-                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">47%</span>
+                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">45%</span>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">Reserva</span>
@@ -331,12 +331,12 @@
                 </div>
                 <div class="bg-orange-50/60 dark:bg-amber-950/30 p-2 rounded-xl border border-orange-100 dark:border-amber-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">TEA Base</span>
-                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">10.90%</span>
+                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">10.85%</span>
                 </div>
                 <!-- PG (Solo equipo SCC) -->
                 <div class="bg-indigo-50/60 dark:bg-indigo-950/40 p-2 rounded-xl border border-indigo-100 dark:border-indigo-900/50" title="Periodo de gracia calculado para el equipo SCC según fecha de desembolso y corte">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">PG (SCC)</span>
-                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">1 mes</span>
+                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">2 meses</span>
                 </div>
               </div>
             </div>
@@ -353,7 +353,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Total Ingresos Fijos (Bruto)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpIngresos" value="4174.82" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
+                  <input type="number" id="inpIngresos" value="4167.87" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
               </div>
 
@@ -392,7 +392,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos de Ley (ONP / AFP / IR)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpLey" value="526.46" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpLey" value="559.47" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
 
@@ -400,7 +400,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos Facultativos</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpFacultativos" value="87.00" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpFacultativos" value="67.33" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
             </div>
@@ -421,15 +421,15 @@
             <div class="flex gap-2.5 text-right w-full sm:w-auto justify-end">
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">Neto Disponible</span>
-                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,627.73</span>
+                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,556.45</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-blue-200 dark:border-blue-900 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-[#002A8F] dark:text-blue-400 uppercase font-bold block">Cuota Mensual</span>
-                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,625.81</span>
+                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,555.39</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">% Endeudamiento</span>
-                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">5.95%</span>
+                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">2.71%</span>
               </div>
             </div>
           </div>
@@ -443,7 +443,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Monto Solicitado</label>
-                <input type="number" id="inpMonto" value="82800" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpMonto" value="78500" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -460,12 +460,12 @@
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">TEA (%)</label>
-                <input type="number" id="inpTEA" value="10.90" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpTEA" value="10.85" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Desembolso</label>
-                <input type="date" id="inpFechaDesembolso" value="2026-10-01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="date" id="inpFechaDesembolso" value="2026-10-05" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -507,11 +507,11 @@
             <div class="mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">% Endeudamiento:</span>
-                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">5.95%</span>
+                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">2.71%</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">CEM:</span>
-                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 2,102.88</span>
+                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 2,205.70</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">Dictamen SBS:</span>
@@ -579,7 +579,7 @@
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
         <span class="font-semibold text-slate-700 dark:text-slate-300">Sistema Seguro de Simulación Financiera</span>
-        <span class="text-slate-400 dark:text-slate-500">• v2.94 Oficial (01.10.2026)</span>
+        <span class="text-slate-400 dark:text-slate-500">• v2.95 Oficial (01.10.2026)</span>
       </div>
 
       <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700 text-center sm:text-right">
@@ -882,23 +882,28 @@
         initDeudasTable();
         vincularEventos();
 
-        // Parámetros iniciales
+        // Parámetros iniciales exactamente como en el Excel Base (Cáratula)
         document.getElementById("selConvenio").value = "Policia_Nacional_del_Perú";
         actualizarCargosPorConvenio();
         document.getElementById("selCargo").value = "Sub Oficial de Segunda";
         document.getElementById("inpIngresos").value = "4167.87";
         document.getElementById("inpLey").value = "559.47";
-        document.getElementById("inpFacultativos").value = "39.00";
-        document.getElementById("inpMonto").value = "80500";
+        document.getElementById("inpFacultativos").value = "67.33";
+        document.getElementById("inpMonto").value = "78500";
         document.getElementById("selPlazo").value = "72";
         document.getElementById("inpTEA").value = "10.85";
-        document.getElementById("inpFechaDesembolso").value = "2026-10-02";
+        document.getElementById("inpFechaDesembolso").value = "2026-10-05";
         
-        // Deuda no BCP Efectivo
-        const noBcpEf = document.getElementById("nobcp_efectivo");
-        if (noBcpEf) noBcpEf.value = "739.88";
-        const saldoEf = document.getElementById("saldo_efectivo");
-        if (saldoEf) saldoEf.value = "21901";
+        // Deudas precargadas en fila 58 y 59 del Excel
+        const noBcpTcUt = document.getElementById("nobcp_tc_utilizada");
+        if (noBcpTcUt) noBcpTcUt.value = "89";
+        const saldoTcUt = document.getElementById("saldo_tc_utilizada");
+        if (saldoTcUt) saldoTcUt.value = "1029";
+
+        const noBcpTcNoUt = document.getElementById("nobcp_tc_no_utilizada");
+        if (noBcpTcNoUt) noBcpTcNoUt.value = "7";
+        const saldoTcNoUt = document.getElementById("saldo_tc_no_utilizada");
+        if (saldoTcNoUt) saldoTcNoUt.value = "971";
 
         recalcular();
       });
@@ -1000,7 +1005,7 @@
       }
 
       function addMonths(date, months) {
-        const d = new Date(date);
+        const d = new Date(date.getTime());
         const targetMonth = d.getMonth() + months;
         d.setMonth(targetMonth);
         return d;
@@ -1035,7 +1040,6 @@
           return diaDesemb <= venc ? 1 : 0;
         }
 
-        // Demás convenios generales
         if (diaDesemb <= venc) return 1;
         if (diaDesemb > venc && diaDesemb <= corte) return 0;
         return 1;
@@ -1051,32 +1055,35 @@
 
         const diaCorte = convenioObj.corte;
         const diaVenc = convenioObj.venc;
-        const pgBase = convenioObj.pgBase || 1; // Col B en Base
+        const pgBase = convenioObj.pgBase || 1;
 
-        // 1. Calcular dinámicamente Periodo de Gracia 1 (Col D en Base / D69 en Cáratula)
+        // 1. Periodo de gracia 1 (D69 en Cáratula / Col D en Base)
         let pg1 = 1;
         if (["Policia_Nacional_del_Perú", "Marina_de_Guerra", "Ejército_del_Perú", "Fuerza_Aerea_del_Perú"].includes(convenioObj.name)) {
           pg1 = 2;
         } else if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE", "PRONABEC", "PRONACEJ", "RENIEC", "SENASA", "U_San_Juan_Bautista"].includes(convenioObj.name)) {
           pg1 = 1;
         } else {
-          pg1 = (dayDesemb > diaCorte) ? (pgBase + 1) : pgBase;
+          pg1 = (diaCorte > diaVenc) ? (dayDesemb > diaCorte ? pgBase + 1 : pgBase) : (dayDesemb > diaCorte ? pgBase + 1 : pgBase);
         }
 
-        // 2. Calcular dinámicamente Periodo Final 1 (Col E en Base / D71 en Cáratula)
-        // Fórmula oficial: =IF(G>H, IF(day>G, B+2, B+1), IF(day>G, B+1, B))
+        // 2. Periodo final 1 (D71 en Cáratula / Col E en Base)
         let pf1 = 2;
-        if (diaCorte > diaVenc) {
+        if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE"].includes(convenioObj.name)) {
+          pf1 = 2;
+        } else if (convenioObj.name === "Ejército_del_Perú" || convenioObj.name === "Fuerza_Aerea_del_Perú") {
+          pf1 = 3;
+        } else if (diaCorte > diaVenc) {
           pf1 = (dayDesemb > diaCorte) ? (pgBase + 2) : (pgBase + 1);
         } else {
           pf1 = (dayDesemb > diaCorte) ? (pgBase + 1) : pgBase;
         }
 
-        // 3. Fecha de primer vencimiento oficial (Cáratula G38)
+        // 3. Primer vencimiento (G38)
         const fBaseVenc = addMonths(fDesemb, pf1);
         const fPrimerVenc = new Date(fBaseVenc.getFullYear(), fBaseVenc.getMonth(), diaVenc);
 
-        // 4. Parámetros diarios y K64
+        // 4. Tasas diarias y factor K64
         const tna365 = (Math.pow(1 + tea, 1 / 12) - 1) * 12 * (365 / 360);
         const tasaDesgAnual = desgravamenMensual * 12;
         const iDiario = tna365 / 365;
@@ -1086,40 +1093,60 @@
         const p41 = dDiario * 31;
         const k64 = (k41 + p41) / (1 - Math.pow(1 + k41 + p41, -plazo));
 
-        // 5. Fechas del Cronograma (filas 23, 22, 21)
+        // 5. Fechas Cronograma
         const c23 = fPrimerVenc;
         const c22 = addMonths(c23, -1);
         const c21 = addMonths(c22, -1);
 
-        // 6. Validación de C20 en Cronograma
+        // 6. Condición exacta Cronograma!C20
         const isPnpOMg = (convenioObj.name === "Policia_Nacional_del_Perú" || convenioObj.name === "Marina_de_Guerra");
+        const condVaciaC20 = (dayDesemb > diaVenc) || (isPnpOMg && dayDesemb < 5);
+        let tieneC20 = false;
         let c20 = null;
-        if (!(dayDesemb > diaVenc || (isPnpOMg && dayDesemb < 5))) {
-          if (pg1 === 2) {
-            c20 = addMonths(c21, -1);
-          }
+
+        if (!condVaciaC20 && pg1 === 2) {
+          tieneC20 = true;
+          c20 = addMonths(c21, -1);
         }
 
-        // 7. Liquidación de intereses pre-vencimiento y saldo
+        // 7. Liquidación pre-vencimiento cronograma (filas 20 a 23)
+        let j20 = 0, i20 = 0;
+        if (tieneC20) {
+          const d20 = diffDays(c20, fDesemb);
+          const f20 = monto;
+          const g20 = f20;
+          const h20 = iDiario * d20;
+          i20 = h20 * f20;
+          j20 = g20 * dDiario * d20;
+        }
+
         const d21 = diffDays(c21, fDesemb);
-        const e21 = (c20 === null) ? d21 : diffDays(c21, c20);
+        const e21 = !tieneC20 ? d21 : diffDays(c21, c20);
         const f21 = monto;
         const g21 = f21;
         const h21 = iDiario * e21;
         const i21 = h21 * f21;
-        const j21 = f21 * e21 * dDiario;
+        const j21 = !tieneC20 ? (f21 * e21 * dDiario) : (dDiario * e21 * monto);
 
         const e22 = diffDays(c22, c21);
-        const f22 = g21;
+        const g22 = !tieneC20 ? (g21 + (iDiario * e22 * g21) + (dDiario * e22 * g21)) : (g21 + i21 + j21);
+        const f22 = !tieneC20 ? g21 : g22;
         const h22 = iDiario * e22;
         const i22 = h22 * f22;
-        const j22 = dDiario * e22 * g21;
-        const g22 = (c20 === null) ? (g21 + i22 + j22) : (g21 + i21 + j21);
+        const j22 = !tieneC20 ? (dDiario * e22 * g21) : (dDiario * e22 * g22);
 
         const f23 = g22;
-        const k66 = (f23 + j21 + j22) * k64;
-        const w24 = 4.0;
+        const g23 = !tieneC20 ? g22 : (g22 + i22 + j22);
 
+        // 8. Cuota K66 del Excel
+        let k66 = 0;
+        if (!tieneC20) {
+          k66 = (f23 + j21 + j22) * k64;
+        } else {
+          k66 = (g23 + j20 + j21 + j22) * k64;
+        }
+
+        const w24 = 4.0; // Gasto fijo de administración por cuota
         return k66 + w24;
       }
 
@@ -1127,7 +1154,7 @@
         const convNombre = document.getElementById("selConvenio").value;
         const cargo = document.getElementById("selCargo").value;
         const conv = CONVENIOS_DATA.find(c => c.name === convNombre) || CONVENIOS_DATA[0];
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-02";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
 
         // Reglas oficiales de RCI (Sincronizadas con Cáratula!$J$11:$L$14)
         let rci = conv.rci;
@@ -1155,7 +1182,6 @@
         document.getElementById("lblReserva").textContent = "S/ " + conv.reserva.toFixed(2);
         document.getElementById("lblTEA").textContent = (parseFloat(document.getElementById("inpTEA").value) || (conv.tea * 100)).toFixed(2) + "%";
 
-        // Cálculo de PG (SCC)
         const pgSCC = calcularPGSCC(conv, fechaDesembStr);
         document.getElementById("lblPGSCC").textContent = pgSCC + (pgSCC === 1 ? " mes" : " meses");
 
@@ -1179,7 +1205,9 @@
           disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rci;
         }
 
-        let netoDisponible = disponible - G28 - G29;
+        // Deducción específica de S/ 5 para Ejército del Perú según Cáratula!K31
+        const deduccionExtra = (convNombre === "Ejército_del_Perú") ? 5 : 0;
+        let netoDisponible = disponible - G28 - G29 - deduccionExtra;
         if (netoDisponible < 0) netoDisponible = 0;
 
         let totalCuotasBCP = 0;
@@ -1211,14 +1239,14 @@
           totalCuotasBCP += d_num;
 
           let H_val = 0;
-          if (E_val !== null && F_val !== null && G_val !== null && f_num > 0) {
+          if (valNoBcpStr !== "" && valSaldoStr !== "" && valSaldoActStr !== "" && f_num > 0) {
             if (d.id === "tc_no_utilizada") {
               H_val = g_num * d.factorLNU;
             } else {
               H_val = (g_num / f_num) * e_num;
             }
           } else {
-            if (E_val === null || valNoBcpStr === "") {
+            if (valNoBcpStr === "") {
               H_val = g_num * d.factorFijo;
             } else {
               H_val = e_num;
@@ -1404,16 +1432,16 @@
         datosEvaluadosMasivos = [];
         const tbody = document.getElementById("tblMasivoBody");
         tbody.innerHTML = "";
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-02";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
 
         filas.forEach((f, idx) => {
           const dni = f["DNI Cliente"] || f["DNI"] || f["Documento"] || `Cliente ${idx+1}`;
           const nombre = f["Nombre Cliente"] || f["Cliente"] || f["Nombres"] || "S/N";
           const convStr = (f["CONVENIO"] || f["Convenio"] || "Policia_Nacional_del_Perú").toString().trim();
-          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4174.82) || 0;
-          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 526.46) || 0;
-          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 87.00) || 0;
-          const monto = parseFloat(f["MONTO"] || f["Monto"] || 80500) || 0;
+          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4167.87) || 0;
+          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 559.47) || 0;
+          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 67.33) || 0;
+          const monto = parseFloat(f["MONTO"] || f["Monto"] || 78500) || 0;
           const plazo = parseInt(f["PLAZO"] || f["Plazo"] || 72, 10) || 72;
 
           const matchConv = CONVENIOS_DATA.find(c => 
@@ -1423,7 +1451,8 @@
 
           const rci = matchConv.rci;
           const disp = (ingresos - ley) * rci;
-          const neto = Math.max(0, disp - matchConv.reserva - facult);
+          const dedExtra = (matchConv.name === "Ejército_del_Perú") ? 5 : 0;
+          const neto = Math.max(0, disp - matchConv.reserva - facult - dedExtra);
 
           const cuota = calcularCuotaExactaConvenio(monto, plazo, matchConv.tea, 0.000767, fechaDesembStr, matchConv);
 
