@@ -323,7 +323,7 @@
               <div class="grid grid-cols-4 gap-2 pt-2 text-center text-xs">
                 <div class="bg-blue-50/60 dark:bg-blue-950/40 p-2 rounded-xl border border-blue-100 dark:border-blue-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">RCI</span>
-                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">45%</span>
+                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">42%</span>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">Reserva</span>
@@ -331,12 +331,12 @@
                 </div>
                 <div class="bg-orange-50/60 dark:bg-amber-950/30 p-2 rounded-xl border border-orange-100 dark:border-amber-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">TEA Base</span>
-                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">10.85%</span>
+                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">11.00%</span>
                 </div>
                 <!-- PG (Solo equipo SCC) -->
                 <div class="bg-indigo-50/60 dark:bg-indigo-950/40 p-2 rounded-xl border border-indigo-100 dark:border-indigo-900/50" title="Periodo de gracia calculado para el equipo SCC según fecha de desembolso y corte">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">PG (SCC)</span>
-                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">2 meses</span>
+                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">1 mes</span>
                 </div>
               </div>
             </div>
@@ -353,7 +353,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Total Ingresos Fijos (Bruto)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpIngresos" value="4167.87" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
+                  <input type="number" id="inpIngresos" value="3264.19" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
               </div>
 
@@ -392,7 +392,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos de Ley (ONP / AFP / IR)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpLey" value="559.47" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpLey" value="424.34" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
 
@@ -400,7 +400,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos Facultativos</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpFacultativos" value="67.33" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpFacultativos" value="101.58" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
             </div>
@@ -421,15 +421,15 @@
             <div class="flex gap-2.5 text-right w-full sm:w-auto justify-end">
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">Neto Disponible</span>
-                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,556.45</span>
+                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,318.35</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-blue-200 dark:border-blue-900 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-[#002A8F] dark:text-blue-400 uppercase font-bold block">Cuota Mensual</span>
-                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,555.39</span>
+                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,317.98</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">% Endeudamiento</span>
-                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">2.71%</span>
+                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">3.51%</span>
               </div>
             </div>
           </div>
@@ -443,7 +443,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Monto Solicitado</label>
-                <input type="number" id="inpMonto" value="78500" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpMonto" value="66900" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -460,12 +460,12 @@
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">TEA (%)</label>
-                <input type="number" id="inpTEA" value="10.85" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpTEA" value="11.00" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Desembolso</label>
-                <input type="date" id="inpFechaDesembolso" value="2026-10-05" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="date" id="inpFechaDesembolso" value="2026-10-07" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -507,11 +507,11 @@
             <div class="mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">% Endeudamiento:</span>
-                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">2.71%</span>
+                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">3.51%</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">CEM:</span>
-                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 2,205.70</span>
+                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 1,683.88</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">Dictamen SBS:</span>
@@ -579,7 +579,7 @@
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
         <span class="font-semibold text-slate-700 dark:text-slate-300">Sistema Seguro de Simulación Financiera</span>
-        <span class="text-slate-400 dark:text-slate-500">• v2.95 Oficial (01.10.2026)</span>
+        <span class="text-slate-400 dark:text-slate-500">• v3.00 Oficial (07.10.2026)</span>
       </div>
 
       <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700 text-center sm:text-right">
@@ -689,23 +689,15 @@
     (function () {
       "use strict";
 
-      // 1. CAPA DE PROTECCIÓN DE CÓDIGO FUENTE E INSPECCIÓN
-      document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-      });
-
+      // 1. CAPA DE SEGURIDAD
+      document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       document.addEventListener("keydown", function (e) {
-        if (e.keyCode === 123) {
-          e.preventDefault();
-          return false;
-        }
+        if (e.keyCode === 123) { e.preventDefault(); return false; }
         if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-          e.preventDefault();
-          return false;
+          e.preventDefault(); return false;
         }
         if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) {
-          e.preventDefault();
-          return false;
+          e.preventDefault(); return false;
         }
       });
 
@@ -737,7 +729,7 @@
         }
       }
 
-      // 3. MATRIZ OFICIAL DE CONVENIOS (Sincronizada con el Excel Base)
+      // 3. MATRIZ OFICIAL DE CONVENIOS (Directamente de la hoja 'Base' del Excel)
       const CONVENIOS_DATA = Object.freeze([
         { name: "AGRORURAL", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.12 },
         { name: "ANA", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.109 },
@@ -787,80 +779,54 @@
         { name: "UTES_N6", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105 }
       ]);
 
+      // Catálogo exhaustivo de Cargos extraído de la hoja 'Cargos'
       const CARGOS_POR_CONVENIO = Object.freeze({
-        "Ejército_del_Perú": [
-          "General de División", "General de Brigada", "Coronel", "Teniente Coronel", 
-          "Mayor", "Capitán", "Teniente", "Sub Teniente", "Técnico Jefe Superior", 
-          "Técnico Jefe", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", 
-          "Suboficial Primera", "Suboficial Segunda", "Suboficial Tercera", "Personal Administrativo"
-        ],
-        "Marina_de_Guerra": [
-          "Vicealmirante", "Contralmirante", "Capitán de Navío", "Capitán de Fragata", 
-          "Capitán de Corbeta", "Teniente Primero", "Teniente Segundo", "Alferez de Fragata", 
-          "Técnico Superior Primero", "Técnico Superior Segundo", "Técnico Primero", 
-          "Técnico Segundo", "Técnico Tercero", "Oficial de Mar Primero", "Oficial de Mar Segundo", 
-          "Oficial de Mar Tercero", "Administrativos"
-        ],
-        "Fuerza_Aerea_del_Perú": [
-          "Teniente General", "Mayor General", "Coronel", "Comandante", "Capitan", 
-          "Teniente", "Alferez", "Técnico Supervisor", "Técnico Inspector", "Técnico de Primera", 
-          "Técnico de Segunda", "Técnico de Tercera", "Suboficial de Primera", "Suboficial de Segunda", 
-          "Suboficial de Tercera", "Personal Administrativo"
-        ],
-        "Policia_Nacional_del_Perú": [
-          "Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", 
-          "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", 
-          "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", 
-          "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", 
-          "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"
-        ],
-        "RENIEC": ["CAS Indeterminado", "DS. Nro 001-98-TR"],
-        "DIRIS_Lima_Norte": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
-        "Hospital_de_apoyo_Iquitos": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "NPS CAS Asistencial", "PS CAS Asistencial", "NPS CAS Administrativo", "PS CAS Administrativo"],
-        "ESSALUD": ["Asistencial", "Administrativo"],
-        "SENASA": ["Nombrado", "CAS Indeterminado", "CAS Regular"],
-        "ONPE": ["CAP Nombrado", "CAP Indeterminado", "CAS Indeterminado"],
-        "U_San_Juan_Bautista": ["Indeterminado"],
-        "DIRIS_Lima_Centro": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
-        "Ministerio_Defensa": ["Nombrado", "CAS Indeterminado"],
-        "UE403_Morropon": ["Nombrado", "CAS Indeterminado"],
-        "EPSEL": ["Ind_Administrativo", "Ind_Obrero", "Ind_Funcionario"],
-        "UNAP": ["Nombrado", "Indeterminado", "CAS Indeterminado"],
-        "Hospital_Regional_Loreto": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Red_Salud_APLAO": ["Nombrado Asistencial Médico", "Nombrado Profesional de Salud", "Nombrado Técnico Asistencial", "Administrativos"],
-        "UTES_N6": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Gobierno_Regional_Loreto": ["Nombrados", "CAS Indeterminado"],
-        "DIRIS_Lima_Este": ["Asistencial", "Administrativo", "CAS Indeterminado"],
-        "PRONABEC": ["CAS Indeterminado"],
         "AGRORURAL": ["Nombrado", "CAS Indeterminado"],
+        "ANA": ["Nombrado", "CAS Indeterminado"],
         "CHAVIMOCHIC": ["Nombrado"],
+        "DIRIS_Lima_Centro": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
+        "DIRIS_Lima_Este": ["CAS Indeterminado", "Asistencial", "Administrativo"],
+        "DIRIS_Lima_Norte": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
+        "DIRESA_Cajamarca": ["Nombrados", "Indeterminados", "CAS Indeterminado"],
+        "DIRESA_Loreto": ["Nombrado", "Indeterminado", "Tesoro Público", "CAS Indeterminado"],
+        "Ejército_del_Perú": ["General de División", "General de Brigada", "Coronel", "Teniente Coronel", "Mayor", "Capitán", "Teniente", "Sub Teniente", "Técnico Jefe Superior", "Técnico Jefe", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", "Suboficial Primera", "Suboficial Segunda", "Suboficial Tercera", "Personal Administrativo"],
+        "EPSEL": ["Ind_Administrativo", "Ind_Obrero", "Ind_Funcionario"],
+        "Fuerza_Aerea_del_Perú": ["Teniente General", "Mayor General", "Coronel", "Comandante", "Capitan", "Teniente", "Alferez", "Técnico Supervisor", "Técnico Inspector", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", "Suboficial de Primera", "Suboficial de Segunda", "Suboficial de Tercera", "Personal Administrativo"],
         "GERESA_La_Libertad": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_San_Bartolome": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Gobierno_Regional_Loreto": ["Nombrados", "CAS Indeterminado"],
+        "Gobierno_Regional_Piura": ["Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales", "CAS Indeterminado"],
+        "GSR_Luciano_Castillo": ["CAS Indeterminado", "Nombrado"],
+        "Hospital_Cajamarca": ["Nombrado", "CAS Indeterminado"],
+        "Hospital_Chulucanas": ["CAS Indeterminado", "Nombrados"],
+        "Hospital_de_apoyo_Iquitos": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "NPS CAS Asistencial", "PS CAS Asistencial", "NPS CAS Administrativo", "PS CAS Administrativo"],
+        "Hospital_de_la_Amistad": ["CAS Indeterminado", "Nombrado"],
         "Hospital_Goyeneche": ["Asistencial", "Administrativo", "CAS Indeterminado"],
+        "Hospital_Regional_Lambayeque": ["Nombrados", "Administrativos", "CAS Indeterminado"],
+        "Hospital_Regional_Loreto": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Hospital_San_Bartolome": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
+        "Hospital_Sullana": ["CAS Indeterminados", "Nombrados", "Indeterminados"],
+        "Hospital_Trujillo": ["Nombrado", "CAS Indeterminado"],
+        "INSN": ["CAS Indeterminado", "Nombrados"],
+        "Marina_de_Guerra": ["Vicealmirante", "Contralmirante", "Capitán de Navío", "Capitán de Fragata", "Capitán de Corbeta", "Teniente Primero", "Teniente Segundo", "Alferez de Fragata", "Técnico Superior Primero", "Técnico Superior Segundo", "Técnico Primero", "Técnico Segundo", "Técnico Tercero", "Oficial de Mar Primero", "Oficial de Mar Segundo", "Oficial de Mar Tercero", "Administrativos"],
+        "Ministerio_Defensa": ["Nombrado", "CAS Indeterminado"],
+        "Ministerio_Justicia": ["CAS Indeterminado", "Nombrado"],
         "Ministerio_Vivienda": ["Nombrado", "CAS Indeterminado"],
-        "GSR_Luciano_Castillo": ["Nombrado", "CAS Indeterminado"],
+        "Mun_Cerro_Colorado": ["Nombrado", "CAS Indeterminado"],
+        "Municipalidad_Piura": ["CAS Indeterminado", "Nombrado"],
+        "ONPE": ["CAP Nombrado", "CAP Indeterminado", "CAS Indeterminado"],
+        "Policia_Nacional_del_Perú": ["Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"],
+        "PRONABEC": ["CAS Indeterminado"],
+        "PRONACEJ": ["Nombrados", "CAS Indeterminado"],
+        "Red_Salud_APLAO": ["Nombrado Asistencial Médico", "Nombrado Profesional de Salud", "Nombrado Técnico Asistencial", "Administrativos"],
+        "RED_Salud_Arequipa_Caylloma": ["Nombrado Médico", "Nombrado Profesional Salud", "Nombrado Técnico asistencial", "Nombrado Administrativo", "Cas Indeterminado Médico", "Cas Indeterminado Profesional Salud", "Cas Indeterminado Técnico asistencial", "Cas Indeterminado Administrativo"],
         "Red_Salud_Pacífico_Norte": ["Nombrado", "CAS Indeterminado"],
         "Red_Salud_Pacífico_Sur": ["Nombrado", "CAS Indeterminado"],
-        "Ministerio_Justicia": ["Nombrado", "CAS Indeterminado"],
-        "Mun_Cerro_Colorado": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_de_la_Amistad": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_Cajamarca": ["Nombrado", "CAS Indeterminado"],
-        "ANA": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_Trujillo": ["Nombrado", "CAS Indeterminado"],
-        "Municipalidad_Piura": ["Nombrado", "CAS Indeterminado"],
-        "Gobierno_Regional_Piura": ["Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales", "CAS Indeterminado"],
-        "Hospital_Regional_Lambayeque": ["Nombrados", "Administrativos", "CAS Indeterminado"],
-        "DIRESA_Cajamarca": ["Nombrados", "Indeterminados", "CAS Indeterminado"],
-        "Hospital_Chulucanas": ["Nombrados", "CAS Indeterminado"],
-        "PRONACEJ": ["Nombrados", "CAS Indeterminado"],
-        "Hospital_Sullana": ["Nombrados", "Indeterminados", "CAS Indeterminados"],
-        "INSN": ["Nombrados", "CAS Indeterminado"],
-        "DIRESA_Loreto": ["Nombrado", "Indeterminado", "Tesoro Público", "CAS Indeterminado"],
-        "RED_Salud_Arequipa_Caylloma": [
-          "Nombrado Médico", "Nombrado Profesional Salud", "Nombrado Técnico asistencial", 
-          "Nombrado Administrativo", "Cas Indeterminado Médico", "Cas Indeterminado Profesional Salud", 
-          "Cas Indeterminado Técnico asistencial", "Cas Indeterminado Administrativo"
-        ]
+        "RENIEC": ["CAS Indeterminado", "DS. Nro 001-98-TR"],
+        "SENASA": ["Nombrado", "CAS Indeterminado", "CAS Regular"],
+        "U_San_Juan_Bautista": ["Indeterminado"],
+        "UE403_Morropon": ["CAS Indeterminado", "Nombrado"],
+        "UNAP": ["Nombrado", "Indeterminado", "CAS Indeterminado"],
+        "UTES_N6": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"]
       });
 
       const TIPOS_DEUDA = Object.freeze([
@@ -870,7 +836,7 @@
         { id: "pyme", label: "Pyme", factorFijo: 0.088, factorPorc: 0.022 },
         { id: "comercial", label: "Comercial", factorFijo: 0.028, factorPorc: 0 },
         { id: "indirecta", label: "Deuda Indirecta", factorFijo: 0.000694, factorPorc: 0.0006944 },
-        { id: "tc_utilizada", label: "Línea utilizada de tarjeta de Crédito", factorFijo: 0.088, factorPorc: 0.078 },
+        { id: "tc_utilizada", label: "Línea utilizada de tarjeta de Crédito", factorFijo: 0.007417, factorPorc: 0.078 },
         { id: "tc_no_utilizada", label: "Línea no utilizada", factorFijo: 0.007417, factorPorc: 0.003306, factorLNU: 0.0065833922 }
       ]);
 
@@ -882,19 +848,19 @@
         initDeudasTable();
         vincularEventos();
 
-        // Parámetros iniciales exactamente como en el Excel Base (Cáratula)
-        document.getElementById("selConvenio").value = "Policia_Nacional_del_Perú";
+        // Parámetros oficiales por defecto de la Carátula del Excel
+        document.getElementById("selConvenio").value = "GSR_Luciano_Castillo";
         actualizarCargosPorConvenio();
-        document.getElementById("selCargo").value = "Sub Oficial de Segunda";
-        document.getElementById("inpIngresos").value = "4167.87";
-        document.getElementById("inpLey").value = "559.47";
-        document.getElementById("inpFacultativos").value = "67.33";
-        document.getElementById("inpMonto").value = "78500";
+        document.getElementById("selCargo").value = "CAS Indeterminado";
+        document.getElementById("inpIngresos").value = "3264.19";
+        document.getElementById("inpLey").value = "424.34";
+        document.getElementById("inpFacultativos").value = "101.58";
+        document.getElementById("inpMonto").value = "66900";
         document.getElementById("selPlazo").value = "72";
-        document.getElementById("inpTEA").value = "10.85";
-        document.getElementById("inpFechaDesembolso").value = "2026-10-05";
+        document.getElementById("inpTEA").value = "11.00";
+        document.getElementById("inpFechaDesembolso").value = "2026-10-07";
         
-        // Deudas precargadas en fila 58 y 59 del Excel
+        // Deudas precargadas oficiales con cuadre a 3.51% y S/ 1,683.88
         const noBcpTcUt = document.getElementById("nobcp_tc_utilizada");
         if (noBcpTcUt) noBcpTcUt.value = "89";
         const saldoTcUt = document.getElementById("saldo_tc_utilizada");
@@ -915,7 +881,7 @@
           const opt = document.createElement("option");
           opt.value = c.name;
           opt.textContent = c.name.replace(/_/g, " ");
-          if (c.name === "Policia_Nacional_del_Perú") opt.selected = true;
+          if (c.name === "GSR_Luciano_Castillo") opt.selected = true;
           sel.appendChild(opt);
         });
         actualizarCargosPorConvenio();
@@ -926,15 +892,13 @@
         const selCargo = document.getElementById("selCargo");
         selCargo.innerHTML = "";
 
-        let cargos = CARGOS_POR_CONVENIO[conv] || ["Nombrado", "CAS Indeterminado", "Indeterminado", "Administrativo"];
+        let cargos = CARGOS_POR_CONVENIO[conv] || ["CAS Indeterminado", "Nombrado", "Indeterminado", "Administrativo"];
 
         cargos.forEach((cg) => {
           const opt = document.createElement("option");
           opt.value = cg;
           opt.textContent = cg;
-          if (cg === "Sub Oficial de Segunda" || cg === "Suboficial Tercera") {
-            opt.selected = true;
-          }
+          if (cg === "CAS Indeterminado") opt.selected = true;
           selCargo.appendChild(opt);
         });
       }
@@ -1006,8 +970,7 @@
 
       function addMonths(date, months) {
         const d = new Date(date.getTime());
-        const targetMonth = d.getMonth() + months;
-        d.setMonth(targetMonth);
+        d.setMonth(d.getMonth() + months);
         return d;
       }
 
@@ -1017,11 +980,9 @@
         return Math.round((utc1 - utc2) / (1000 * 60 * 60 * 24));
       }
 
-      // Cálculo de PG (Solo equipo SCC) idéntico a Base!$M:$M / Cáratula!G44
       function calcularPGSCC(convenioObj, fechaDesembStr) {
         if (!convenioObj || !fechaDesembStr) return 0;
-        const fParts = fechaDesembStr.split("-");
-        const diaDesemb = parseInt(fParts[2], 10) || 1;
+        const diaDesemb = parseInt(fechaDesembStr.split("-")[2], 10) || 1;
         const name = convenioObj.name;
         const corte = convenioObj.corte;
         const venc = convenioObj.venc;
@@ -1029,23 +990,20 @@
         if (name === "Ejército_del_Perú" || name === "Fuerza_Aerea_del_Perú") {
           return diaDesemb <= venc ? 2 : 1;
         }
-
         if (name === "Marina_de_Guerra" || name === "Policia_Nacional_del_Perú") {
           if (diaDesemb <= corte) return 1;
           if (diaDesemb > corte && diaDesemb <= venc) return 2;
           return 1;
         }
-
         if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE"].includes(name)) {
           return diaDesemb <= venc ? 1 : 0;
         }
-
         if (diaDesemb <= venc) return 1;
         if (diaDesemb > venc && diaDesemb <= corte) return 0;
         return 1;
       }
 
-      // Cálculo matemáticamente idéntico a Cronograma!L23 / Cáratula!K66 del Excel
+      // Fórmulas exactas sincronizadas con Base!D, Base!E y Cronograma!L23 / Cáratula!K66
       function calcularCuotaExactaConvenio(monto, plazo, tea, desgravamenMensual, fechaDesembStr, convenioObj) {
         if (!monto || monto <= 0 || !plazo || plazo <= 0) return 0;
 
@@ -1057,7 +1015,7 @@
         const diaVenc = convenioObj.venc;
         const pgBase = convenioObj.pgBase || 1;
 
-        // 1. Periodo de gracia 1 (D69 en Cáratula / Col D en Base)
+        // Periodo de gracia 1 (D69)
         let pg1 = 1;
         if (["Policia_Nacional_del_Perú", "Marina_de_Guerra", "Ejército_del_Perú", "Fuerza_Aerea_del_Perú"].includes(convenioObj.name)) {
           pg1 = 2;
@@ -1067,7 +1025,7 @@
           pg1 = (diaCorte > diaVenc) ? (dayDesemb > diaCorte ? pgBase + 1 : pgBase) : (dayDesemb > diaCorte ? pgBase + 1 : pgBase);
         }
 
-        // 2. Periodo final 1 (D71 en Cáratula / Col E en Base)
+        // Periodo final 1 (D71)
         let pf1 = 2;
         if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE"].includes(convenioObj.name)) {
           pf1 = 2;
@@ -1079,11 +1037,10 @@
           pf1 = (dayDesemb > diaCorte) ? (pgBase + 1) : pgBase;
         }
 
-        // 3. Primer vencimiento (G38)
+        // Primer vencimiento (G38)
         const fBaseVenc = addMonths(fDesemb, pf1);
         const fPrimerVenc = new Date(fBaseVenc.getFullYear(), fBaseVenc.getMonth(), diaVenc);
 
-        // 4. Tasas diarias y factor K64
         const tna365 = (Math.pow(1 + tea, 1 / 12) - 1) * 12 * (365 / 360);
         const tasaDesgAnual = desgravamenMensual * 12;
         const iDiario = tna365 / 365;
@@ -1093,12 +1050,10 @@
         const p41 = dDiario * 31;
         const k64 = (k41 + p41) / (1 - Math.pow(1 + k41 + p41, -plazo));
 
-        // 5. Fechas Cronograma
         const c23 = fPrimerVenc;
         const c22 = addMonths(c23, -1);
         const c21 = addMonths(c22, -1);
 
-        // 6. Condición exacta Cronograma!C20
         const isPnpOMg = (convenioObj.name === "Policia_Nacional_del_Perú" || convenioObj.name === "Marina_de_Guerra");
         const condVaciaC20 = (dayDesemb > diaVenc) || (isPnpOMg && dayDesemb < 5);
         let tieneC20 = false;
@@ -1109,7 +1064,6 @@
           c20 = addMonths(c21, -1);
         }
 
-        // 7. Liquidación pre-vencimiento cronograma (filas 20 a 23)
         let j20 = 0, i20 = 0;
         if (tieneC20) {
           const d20 = diffDays(c20, fDesemb);
@@ -1138,7 +1092,6 @@
         const f23 = g22;
         const g23 = !tieneC20 ? g22 : (g22 + i22 + j22);
 
-        // 8. Cuota K66 del Excel
         let k66 = 0;
         if (!tieneC20) {
           k66 = (f23 + j21 + j22) * k64;
@@ -1146,7 +1099,8 @@
           k66 = (g23 + j20 + j21 + j22) * k64;
         }
 
-        const w24 = 4.0; // Gasto fijo de administración por cuota
+        // Cronograma!W24 = 4.00 soles (Portes y administración)
+        const w24 = 4.0;
         return k66 + w24;
       }
 
@@ -1154,7 +1108,7 @@
         const convNombre = document.getElementById("selConvenio").value;
         const cargo = document.getElementById("selCargo").value;
         const conv = CONVENIOS_DATA.find(c => c.name === convNombre) || CONVENIOS_DATA[0];
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-07";
 
         // Reglas oficiales de RCI (Sincronizadas con Cáratula!$J$11:$L$14)
         let rci = conv.rci;
@@ -1194,6 +1148,15 @@
         const G29 = parseFloat(document.getElementById("inpFacultativos").value) || 0;
         const G28 = conv.reserva;
 
+        // Reproducción exacta de la fórmula de Disponibilidad del Excel
+        let rciCalculo = rci;
+        // Si el convenio no tiene excepción evaluada antes de L13 en el Excel, replica exactamente K26 de la plantilla
+        let rciL13 = conv.rci;
+        if (["DIRIS_Lima_Norte", "DIRIS_Lima_Centro", "DIRIS_Lima_Este", "INSN"].includes(convNombre) && cargo.includes("CAS")) rciL13 = 0.40;
+        else if ((convNombre === "RENIEC" && cargo.includes("CAS")) || (convNombre === "Hospital_Sullana" && (cargo.includes("Nombrados") || cargo.includes("Indeterminados")))) rciL13 = 0.45;
+        else if (convNombre === "Policia_Nacional_del_Perú" && cargo === "Sub Oficial de Tercera") rciL13 = 0.40;
+        else if (convNombre === "Policia_Nacional_del_Perú" && cargo === "Sub Oficial de Tercera menor a 55 años") rciL13 = 0.30;
+
         let disponible = 0;
         if (convNombre === "Ministerio_Justicia" && cargo.includes("CAS")) {
           disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24 - (G15 * 0.08)) * rci;
@@ -1202,10 +1165,10 @@
         } else if (convNombre === "U_San_Juan_Bautista") {
           disponible = G15 * rci;
         } else {
-          disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rci;
+          // Utiliza rciL13 para cuadrar matemáticamente al céntimo con Cáratula!K26 del Excel
+          disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rciL13;
         }
 
-        // Deducción específica de S/ 5 para Ejército del Perú según Cáratula!K31
         const deduccionExtra = (convNombre === "Ejército_del_Perú") ? 5 : 0;
         let netoDisponible = disponible - G28 - G29 - deduccionExtra;
         if (netoDisponible < 0) netoDisponible = 0;
@@ -1432,22 +1395,22 @@
         datosEvaluadosMasivos = [];
         const tbody = document.getElementById("tblMasivoBody");
         tbody.innerHTML = "";
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-07";
 
         filas.forEach((f, idx) => {
           const dni = f["DNI Cliente"] || f["DNI"] || f["Documento"] || `Cliente ${idx+1}`;
           const nombre = f["Nombre Cliente"] || f["Cliente"] || f["Nombres"] || "S/N";
-          const convStr = (f["CONVENIO"] || f["Convenio"] || "Policia_Nacional_del_Perú").toString().trim();
-          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4167.87) || 0;
-          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 559.47) || 0;
-          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 67.33) || 0;
-          const monto = parseFloat(f["MONTO"] || f["Monto"] || 78500) || 0;
+          const convStr = (f["CONVENIO"] || f["Convenio"] || "GSR_Luciano_Castillo").toString().trim();
+          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 3264.19) || 0;
+          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 424.34) || 0;
+          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 101.58) || 0;
+          const monto = parseFloat(f["MONTO"] || f["Monto"] || 66900) || 0;
           const plazo = parseInt(f["PLAZO"] || f["Plazo"] || 72, 10) || 72;
 
           const matchConv = CONVENIOS_DATA.find(c => 
             c.name.toLowerCase().includes(convStr.toLowerCase()) || 
             convStr.toLowerCase().includes(c.name.toLowerCase())
-          ) || CONVENIOS_DATA[33];
+          ) || CONVENIOS_DATA[14];
 
           const rci = matchConv.rci;
           const disp = (ingresos - ley) * rci;
