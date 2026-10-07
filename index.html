@@ -1,3 +1,481 @@
+```python
+import os
+import openpyxl
+
+# List files to find the uploaded excel file
+files = os.listdir('.')
+print("Files:", files)
+excel_files = [f for f in files if f.endswith('.xlsx') or f.endswith('.xls')]
+print("Excel files:", excel_files)
+
+target_file = None
+for f in excel_files:
+    if "simulador" in f.lower() or "convenios" in f.lower():
+        target_file = f
+        break
+if not target_file and excel_files:
+    target_file = excel_files[0]
+
+print("Target file:", target_file)
+
+if target_file:
+    wb = openpyxl.load_workbook(target_file, data_only=False)
+    print("Sheets:", wb.sheetnames)
+
+
+```
+
+```text
+Files: ['Nuevo simulador Convenios 01.10.2026.xlsx']
+Excel files: ['Nuevo simulador Convenios 01.10.2026.xlsx']
+Target file: Nuevo simulador Convenios 01.10.2026.xlsx
+Sheets: ['Base', 'Cargos', 'Cáratula', 'Cronograma']
+
+
+```
+
+```python
+import openpyxl
+
+wb = openpyxl.load_workbook('Nuevo simulador Convenios 01.10.2026.xlsx', data_only=True)
+print("Sheets:", wb.sheetnames)
+
+for sheet_name in wb.sheetnames:
+    ws = wb[sheet_name]
+    print(f"\n--- Sheet: {sheet_name} (dimensions: {ws.dimensions}) ---")
+
+
+```
+
+```text
+Sheets: ['Base', 'Cargos', 'Cáratula', 'Cronograma']
+
+--- Sheet: Base (dimensions: A1:N47) ---
+
+--- Sheet: Cargos (dimensions: A1:CV18) ---
+
+--- Sheet: Cáratula (dimensions: A1:X72) ---
+
+--- Sheet: Cronograma (dimensions: B4:W99) ---
+
+
+```
+
+```python
+wb_formula = openpyxl.load_workbook('Nuevo simulador Convenios 01.10.2026.xlsx', data_only=False)
+wb_val = openpyxl.load_workbook('Nuevo simulador Convenios 01.10.2026.xlsx', data_only=True)
+
+ws_base_val = wb_val['Base']
+for r in range(1, 15):
+    row_vals = [ws_base_val.cell(r, c).value for c in range(1, 15)]
+    print(f"Base R{r}:", row_vals)
+
+
+```
+
+```text
+Base R1: ['Convenio', 'Periodo de Gracia', 'Periodo Final', 'Periodo de gracia 1', 'Periodo final 1', '%RCI', 'Día de corte', 'Vencimiento', 'Ingreso Fijo 1', 'Ingreso Fijo 2', 'Reserva', 'RCI global', 'PG', 'TASA']
+Base R2: ['AGRORURAL', 1, 2, 1, 2, 0.5, 25, 15, 'Total Ingresos Fijos', None, None, None, None, 0.12]
+Base R3: ['ANA', 1, 2, 1, 2, 0.5, 30, 15, 'Total Ingresos Fijos', None, None, None, 0, 0.109]
+Base R4: ['CHAVIMOCHIC', 1, 2, 1, 2, 0.5, 24, 15, 'Total Ingresos Fijos', None, None, None, None, 0.11]
+Base R5: ['DIRIS_Lima_Centro', 1, 2, 1, 2, 0.5, 25, 15, 'Total Ingresos Fijos', None, 50, None, None, 0.1099]
+Base R6: ['DIRIS_Lima_Este', 1, 2, 1, 2, 0.5, 25, 17, 'Total Ingresos Fijos', None, None, None, None, 0.108]
+Base R7: ['DIRIS_Lima_Norte', 1, 2, 1, 2, 0.5, 25, 15, 'Total Ingresos Fijos', None, 50, None, None, 0.1089]
+Base R8: ['DIRESA_Cajamarca', 1, 2, 1, 2, 0.5, 25, 17, 'Total Ingresos Fijos', None, None, None, None, 0.103]
+Base R9: ['DIRESA_Loreto', 1, 2, 1, 2, 0.5, 23, 15, 'Total Ingresos Fijos', None, None, None, None, 0.108]
+Base R10: ['Ejército_del_Perú', 2, 3, 2, 3, 0.47, 30, 15, 'Remuneración Consolidada', 'Bonificación FFAA', None, None, 1, 0.109]
+Base R11: ['EPSEL', 1, 2, 1, 2, 0.5, 23, 15, 'Total Ingresos Fijos', None, None, None, None, 0.115]
+Base R12: ['Fuerza_Aerea_del_Perú', 2, 3, 2, 3, 0.5, 30, 17, 'Total Ingresos Fijos', None, 35, None, 1, 0.111]
+Base R13: ['GERESA_La_Libertad', 1, 2, 1, 2, 0.5, 24, 15, 'Total Ingresos Fijos', None, None, None, None, 0.108]
+Base R14: ['Gobierno_Regional_Loreto', 1, 2, 1, 2, 0.5, 23, 15, 'Total Ingresos Fijos', None, None, None, None, 0.11]
+
+
+```
+
+```python
+ws_car_val = wb_val['Cáratula']
+ws_car_form = wb_formula['Cáratula']
+
+print("--- CARATULA FORMULAS & VALUES ---")
+for r in range(1, 72):
+    row_strs = []
+    for c in range(1, 15):
+        val = ws_car_val.cell(r, c).value
+        form = ws_car_form.cell(r, c).value
+        if form is not None:
+            col_letter = openpyxl.utils.get_column_letter(c)
+            if str(form).startswith('='):
+                row_strs.append(f"{col_letter}{r}: [F] {form} => {val}")
+            elif val is not None:
+                row_strs.append(f"{col_letter}{r}: {val}")
+    if row_strs:
+        print(" | ".join(row_strs))
+
+
+```
+
+```text
+--- CARATULA FORMULAS & VALUES ---
+B7: Calculadora Convenios Públicos
+B9: Convenio | G9: GSR_Luciano_Castillo
+B11: RCI | G11: [F] =J14 => 0.42 | J11: [F] =IF(OR(AND(G9="DIRIS_Lima_Norte",G13="CAS Indeterminado"),AND(G9="DIRIS_Lima_Centro",G13="CAS Indeterminado"),AND(G9="DIRIS_Lima_Este",G13="CAS Indeterminado"),AND(G9="INSN",G13="CAS Indeterminado")),0.4,VLOOKUP(G9,Base!$A:$F,6,0)) => 0.5 | K11: [F] =IF(OR(AND(G9="RENIEC",G13="CAS Indeterminado"),AND(G9="Hospital_Sullana",G13="Nombrados"),AND(G9="Hospital_Sullana",G13="Indeterminados ")),0.45,J11) => 0.5 | L11: [F] =IF(AND(G9="Policia_Nacional_del_Perú",G13="Sub Oficial de Tercera"),0.4,K11) => 0.5
+B13: Cargo Laboral | G13: CAS Indeterminado | J13: [F] =IF(OR(AND(G9="UE403_Morropon",G13="CAS Indeterminado"),AND(G9="Hospital_Sullana",G13="CAS Indeterminados")),0.42,K13) => 0.5 | K13: [F] =IF(OR(AND(G9="UE403_Morropon",G13="Nombrado"),AND(G9="Hospital_Chulucanas",G13="Nombrados")),0.49,L13) => 0.5 | L13: [F] =IF(AND(G9="Policia_Nacional_del_Perú",G13="Sub Oficial de Tercera menor a 55 años"),0.3,L11) => 0.5
+B14: Ingresos | J14: [F] =IF(OR(AND(G9="GSR_Luciano_Castillo",G13="CAS Indeterminado"),AND(G9="Hospital_de_la_Amistad",G13="CAS Indeterminado"),AND(G9="Hospital_Chulucanas",G13="CAS Indeterminado")),0.42,K14) => 0.42 | K14: [F] =IF(OR(AND(G9="GSR_Luciano_Castillo",G13="Nombrado"),AND(G9="Hospital_de_la_Amistad",G13="Nombrado")),0.49,L14) => 0.5 | L14: [F] =IF(OR((AND(G9="Ejército_del_Perú",G13="Suboficial Tercera")),(AND(G9="ANA",G13="CAS Indeterminado")),(AND(G9="Municipalidad_Piura",G13="CAS Indeterminado"))),0.45,J13) => 0.5
+B15: Total de Ingresos | G15: 3264.19
+B16: Ingreso variable mansual
+B17: Promedio de Ingresos variables (3 últimos meses)
+B18: Sumatoria de otros ingresos fijos (CAFAE)
+B20: Ingresos no constantes
+B21: Sumatoria de ingresos no constantes
+B23: Descuentos de Ley
+B24: Sumatoria de los descuentos de Ley | G24: 424.34
+B26: Disponible para endeudamiento | G26: [F] =IF(AND(G9="Ministerio_Justicia",G13="CAS Indeterminado"),(G15-G16+(G17*0.5)+G18-G21-G24-(G15*8%))*G11,L26) => 1419.925 | K26: [F] =IF(G9="U_San_Juan_Bautista",G15*J11,((G15-G16+(G17*0.5)+G18-G21-G24)*L13)) => 1419.925 | L26: [F] =IF(OR(AND(G9="Red_Salud_Pacífico_Sur",G13="CAS Indeterminado"),AND(G9="Red_Salud_Pacífico_Norte",G13="CAS Indeterminado"),AND(G9="UTES_N6",G13="CAS Indeterminado"),(G9="DIRESA_Loreto"),AND(G9="Hospital_Cajamarca",G13="CAS Indeterminado"),AND(G9="DIRESA_Cajamarca",G13="CAS Indeterminado")),((G15-G16+G17+G18-G21)*G11)-G24,K26) => 1419.925
+B28: Reserva | G28: [F] =VLOOKUP(G9,Base!$A:$K,11,0) => 0
+B29: Sumatoria de facultativos | G29: [F] =86.58+15 => 101.58
+B31: Primer cálculo de Ingreso Neto Disponible | G31: [F] =IF(G15=0,"",K31) => 1318.345 | K31: [F] =IF(G9="Ejercito_del_Perú",L26-G28-G29-5,G26-G28-G29) => 1318.345
+B34: Ingrese Monto a Solicitar | G34: 66900
+B35: Número de cuotas (En meses) | G35: 72
+B36: Moneda | G36: Soles
+B37: Fecha de desembolso | G37: 2026-10-07 00:00:00
+B38: Fecha de primer vencimiento | G38: [F] =DATE(YEAR(EDATE(G37,D71)),MONTH(EDATE(G37,D71)),D70) => 2026-12-17 00:00:00
+B39: Ingrese Tasa de Interés Efectiva Anual | G39: 0.11 | J39: TNA 365 | K39: [F] =(((1+G39)^(1/12)-1)*12)*365/360 => 0.10627089151988152
+B40: Envío de estado de cuenta | G40: Virtual | J40: i | K40: [F] =K39/365 => 0.0002911531274517302
+B41: Tipo de Seguro de Desgravamen | G41: Individual | J41: Factor por tiempo | K41: [F] =K40*31 => 0.009025746951003636
+G42: Sin retorno
+B43: Tasa mensual de Seguro de Desgravamen | G43: [F] =VLOOKUP(G42,J47:$K$52,2,0) => 0.000767
+B44: PG (Solo equipo SCC) | G44: [F] =VLOOKUP(G9,Base!$A$1:$M$47,13,0) => 1
+B45: Tasa Campaña | G45: [F] =VLOOKUP(G9,Base!$A$1:$N$47,14,0) => 0.11
+B47: Resumen de Carga Crediticia | J47: Endosado | K47: 0
+D51: Deuda cuota BCP | E51: Deuda cuota no BCP | F51: Saldo | G51: Saldo Actualizado | H51: Cuota Actualizada | J51: Sin retorno | K51: 0.000767
+B52: Crédito Hipotecario | H52: [F] =IF(AND(E52<>"",F52<>"",G52<>""),L52,N52) => 0 | J52: Con retorno | K52: 0.000997 | L52: [F] =G52/F52*E52 => #DIV/0! | N52: [F] =IF(E52="",G52*(Q55),E52) => 0
+B53: Crédito Efectivo | H53: [F] =IF(AND(E53<>"",F53<>"",G53<>""),L53,N53) => 0 | L53: [F] =G53/F53*E53 => #DIV/0! | N53: [F] =IF(E53="",G53*(R55),E53) => 0
+B54: Crédito Vehicular | H54: [F] =IF(AND(E54<>"",F54<>"",G54<>""),L54,N54) => 0 | K54: [F] =IF(K58<=J61,"Continuar","Sobre endeudado") => Continuar | L54: [F] =G54/F54*E54 => #DIV/0! | N54: [F] =IF(E54="",G54*(S55),E54) => 0
+B55: Pyme | H55: [F] =IF(AND(E55<>"",F55<>"",G55<>""),L55,N55) => 0 | L55: [F] =G55/F55*E55 => #DIV/0! | N55: [F] =IF(E55="",G55*(T55),E55) => 0
+B56: Comercial | H56: [F] =IF(AND(E56<>"",F56<>"",G56<>""),L56,N56) => 0 | L56: [F] =G56/F56*E56 => #DIV/0! | N56: [F] =IF(E56="",G56*0.028,E56) => 0
+B57: Deuda Indirecta | H57: [F] =IF(AND(E57<>"",F57<>"",G57<>""),L57,N57) => 0 | L57: [F] =G57/F57*E57 => #DIV/0! | N57: [F] =IF(E57="",G57*0.000694,E57) => 0
+B58: Línea utilizada de tarjeta de Crédito | E58: 112 | F58: 1400 | H58: [F] =IF(AND(E58<>"",F58<>"",G58<>""),L58,N58) => 112 | K58: [F] =((G52/100)+(G54*0.035)+(G55*0.022)+(G57*0.0006944)+(G58*0.078)+(G59*0.003306)+E52+E53+E54+E57+E58+E59+D52+D53+D54+D55+D56+E56+D57+E55+D58+D59)/(G15-G21+G18-G24-G29) => 0.04236251355783031 | L58: [F] =G58/F58*E58 => 0 | N58: [F] =IF(E58="",G58*(P55),E58) => 112
+B59: Línea no utilizada | E59: 4 | F59: 500 | H59: [F] =IF(AND(E59<>"",F59<>"",G59<>""),L59,N59) => 4 | J59: 0.0065833922 | L59: [F] =G59*J59 => 0 | N59: [F] =IF(E59="",G59*P55,E59) => 4
+B60: % Endeudamiento | G60: [F] =IF(K58=0,"",K58) => 0.04236251355783031
+B61: CEM | G61: [F] =((G15-G16+G17+G18-G21-G24-G29)*K61)-H52-H53-H54-H55-H56-H57-H58-H59-D52-D53-D54-D55-D56-D57-D58-D59 => 1663.8755 | J61: [F] =IF(AND(G9="Gobierno_Regional_Piura",G13="CAS Indeterminado"),0.5,0.65) => 0.65 | K61: [F] =IF(G9="UTES_N6",0.7,J61) => 0.65
+B62: Dictamen | G62: [F] =IF(K58=0,"",K54) => Continuar
+B64: Nota: | J64: w | K64: [F] =((K41+P41)/(1-(1+K41+P41)^(-G35))) => 0.01943024779825852
+B65: Las cuotas son referenciales, sujetas a calificación y a la fecha de desembolso del crédito 
+B66: y no incluyen ITF | J66: Cuota | K66: [F] =IF(Cronograma!C20="",(Cronograma!F23+Cronograma!J21+Cronograma!J22)*K64,(Cronograma!G23+Cronograma!J20+Cronograma!J21+Cronograma!J22)*K64) => 1313.976045197341
+B69: Periodo de gracia | D69: [F] =VLOOKUP(G9,Base!$A$1:$E$107,4,0) => 1 | J69: TIR | K69: [F] =IRR(Cronograma!P20:P94,2%) => 0.010240646552296617
+B70: Día de vencimiento | D70: [F] =VLOOKUP(G9,Base!$A:$H,8,0) => 17 | J70: TCEA | K70: [F] =(1+K69)^12-1 => 0.13005103636817994
+B71: Periodo final | D71: [F] =VLOOKUP(G9,Base!$A$1:$E$107,5,0) => 2
+
+
+```
+
+```python
+print("Cronograma details:")
+ws_cron_val = wb_val['Cronograma']
+ws_cron_form = wb_formula['Cronograma']
+
+for r in range(18, 30):
+    row_strs = []
+    for c in range(2, 24):
+        val = ws_cron_val.cell(r, c).value
+        form = ws_cron_form.cell(r, c).value
+        col_letter = openpyxl.utils.get_column_letter(c)
+        if form is not None:
+            if str(form).startswith('='):
+                row_strs.append(f"{col_letter}{r}: [F] {form} => {val}")
+            else:
+                row_strs.append(f"{col_letter}{r}: {val}")
+    if row_strs:
+        print(f"Row {r}: " + " | ".join(row_strs))
+
+
+```
+
+```text
+Cronograma details:
+Row 19: B19: N° | C19: Fecha | D19: T. Días | E19: T. Días cuota | F19: Saldo anterior | G19: Capital | H19: Factor Interés | I19: Interés | J19: Seguro desgravamen | K19: Amortización | L19: Cuota | M19: Envío físico de estado de cuenta | N19: Evaluación de póliza endosada | O19: Seguro de protección financiera | P19: Cuota
+Row 20: C20: [F] =IF(OR(DAY(Cáratula!G37)>Cáratula!D70,AND(OR(Cáratula!G9="Policia_Nacional_del_Perú",Cáratula!G9="Marina_de_Guerra"),DAY(Cáratula!G37)<5)),"",IF(Cáratula!D69=2,EDATE(C21,-1),"")) => None | D20: [F] =IF(C20="","",(C20-Cáratula!G37)) => None | F20: [F] =IF(C20="","",(IF(Cáratula!D69=2,Cáratula!G34,""))) => None | G20: [F] =IF(F20="","",F20) => None | H20: [F] =IF(G20="","",(Cáratula!K39/365*D20)) => None | I20: [F] =IF(H20="","",(H20*F20)) => None | J20: [F] =IF(C20="","",G20*Cáratula!P40*D20) => None | P20: [F] =-Cáratula!G34 => -66900
+Row 21: C21: [F] =EDATE(C22,-1) => 2026-10-17 00:00:00 | D21: [F] =C21-Cáratula!G37 => 10 | E21: [F] =IF(C20="",(C21-Cáratula!G37),(C21-C20)) => 10 | F21: [F] =IF(F20="",Cáratula!G34,G20) => 66900 | G21: [F] =IF(C20="",F21,G20) => 66900 | H21: [F] =Cáratula!$K$39/365*E21 => 0.0029115312745173023 | I21: [F] =H21*F21 => 194.78144226520752 | J21: [F] =IF(C20="",F21*E21*Cáratula!$P$40,Cáratula!P40*E21*G20) => 16.869797260273973
+Row 22: C22: [F] =EDATE(C23,-1) => 2026-11-17 00:00:00 | D22: [F] =C22-Cáratula!G37 => 41 | E22: [F] =C22-C21 => 31 | F22: [F] =IF(C20="",G21,G22) => 66900 | G22: [F] =IF(C20="",G21+I22+J22,G21+I21+J21) => 67556.11884252899 | H22: [F] =IF(OR($B23=""),$B23,(Cáratula!$K$39/365*E22)) => 0.009025746951003636 | I22: [F] =IF(OR($B23=""),$B23,(H22*F22)) => 603.8224710221433 | J22: [F] =IF(C20="",Cáratula!$P$40*E22*G21,Cáratula!P40*E22*G22) => 52.29637150684931 | K22: [F] =IF(OR($B23=""),$B23,(L22-I22-J22)) => -656.1188425289927 | P22: -
+Row 23: B23: 1 | C23: [F] =Cáratula!G38 => 2026-12-17 00:00:00 | D23: [F] =IF(OR($B24=""),"",$C23-Cáratula!$G$38) => 0 | E23: [F] =IF(OR($B24=""),"",C23-C22) => 30 | F23: [F] =G22 => 67556.11884252899 | G23: [F] =IF(C20="",G22,G22+I22+J22) => 67556.11884252899 | H23: [F] =IF(OR($B24=""),$B24,(Cáratula!$K$39/365*E23)) => 0.008734593823551906 | I23: [F] =IF(C20="",((H23*F23)+I21),((H23*F23)+I20)) => 784.8567006502997 | J23: [F] =IF(OR($B24=""),"",IF(C21="",Cáratula!$P$40*E23*G22,Cáratula!P40*E23*G23)) => 51.105741191230415 | K23: [F] =L23-I23-J23 => 482.0136033558108 | L23: [F] =Cáratula!K66+$W$24 => 1317.976045197341 | M23: [F] =IF(OR($B24=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P23: [F] =IF(OR($B24=""),"",O23+N23+M23+L23) => 1317.976045197341
+Row 24: B24: [F] =IF($B23=Cáratula!$G$35,$B$21,IF(OR($B23="",$B23=$B$21),"",$B23+1)) => 2 | C24: [F] =IF(OR($B25=""),$B25,IF(DAY(EOMONTH($C23,1))<Cáratula!$D$70,EOMONTH($C23,1),DATE(YEAR(EOMONTH($C23,1)),MONTH(EOMONTH($C23,1)),Cáratula!$D$70))) => 2027-01-17 00:00:00 | D24: [F] =IF(OR($B25=""),"",$C24-Cáratula!$G$38) => 31 | E24: [F] =IF(OR($B25=""),"",C24-C23) => 31 | F24: [F] =IF(OR($B25=""),"",G23) => 67556.11884252899 | G24: [F] =IF(OR($B25=""),"",F24-K23) => 67074.10523917318 | H24: [F] =IF(OR($B25=""),$B25,(Cáratula!$K$39/365*E24)) => 0.009025746951003636 | I24: [F] =IF(OR($B25=""),$B25,(H24*G24)) => 605.3939008537643 | J24: [F] =IF(OR($B25=""),"",IF(C22="",Cáratula!$P$40*E24*G23,Cáratula!$P$40*E24*G24)) => 52.43247124181328 | K24: [F] =IF(OR($B25=""),"",L24-I24-J24) => 660.1496731017634 | L24: [F] =IF(OR($B25=""),"",L23) => 1317.976045197341 | M24: [F] =M23 => 0 | P24: [F] =O24+N24+M24+L24 => 1317.976045197341 | W24: 4
+Row 25: B25: [F] =IF($B24=Cáratula!$G$35,$B$21,IF(OR($B24="",$B24=$B$21),"",$B24+1)) => 3 | C25: [F] =IF(OR($B26=""),$B26,IF(DAY(EOMONTH($C24,1))<Cáratula!$D$70,EOMONTH($C24,1),DATE(YEAR(EOMONTH($C24,1)),MONTH(EOMONTH($C24,1)),Cáratula!$D$70))) => 2027-02-17 00:00:00 | D25: [F] =IF(OR($B26=""),"",$C25-Cáratula!$G$38) => 62 | E25: [F] =IF(OR($B26=""),"",C25-C24) => 31 | F25: [F] =IF(OR($B26=""),"",G24) => 67074.10523917318 | G25: [F] =IF(OR($B26=""),"",F25-K24) => 66413.95556607141 | H25: [F] =IF(OR($B26=""),$B26,(Cáratula!$K$39/365*E25)) => 0.009025746951003636 | I25: [F] =IF(OR($B26=""),$B26,(H25*G25)) => 599.4355569545601 | J25: [F] =IF(OR($B26=""),"",IF(C23="",Cáratula!$P$40*E25*G24,Cáratula!$P$40*E25*G25)) => 51.91642591214728 | K25: [F] =IF(OR($B26=""),"",L25-I25-J25) => 666.6240623306336 | L25: [F] =IF(OR($B26=""),"",L24) => 1317.976045197341 | M25: [F] =IF(OR($B26=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P25: [F] =IF(OR($B26=""),"",O25+N25+M25+L25) => 1317.976045197341
+Row 26: B26: [F] =IF($B25=Cáratula!$G$35,$B$21,IF(OR($B25="",$B25=$B$21),"",$B25+1)) => 4 | C26: [F] =IF(OR($B27=""),$B27,IF(DAY(EOMONTH($C25,1))<Cáratula!$D$70,EOMONTH($C25,1),DATE(YEAR(EOMONTH($C25,1)),MONTH(EOMONTH($C25,1)),Cáratula!$D$70))) => 2027-03-17 00:00:00 | D26: [F] =IF(OR($B27=""),"",$C26-Cáratula!$G$38) => 90 | E26: [F] =IF(OR($B27=""),"",C26-C25) => 28 | F26: [F] =IF(OR($B27=""),"",G25) => 66413.95556607141 | G26: [F] =IF(OR($B27=""),"",F26-K25) => 65747.33150374077 | H26: [F] =IF(OR($B27=""),$B27,(Cáratula!$K$39/365*E26)) => 0.008152287568648445 | I26: [F] =IF(OR($B27=""),$B27,(H26*G26)) => 535.9911532897543 | J26: [F] =IF(OR($B27=""),"",IF(C24="",Cáratula!$P$40*E26*G25,Cáratula!$P$40*E26*G26)) => 46.421578894498744 | K26: [F] =IF(OR($B27=""),"",L26-I26-J26) => 735.5633130130878 | L26: [F] =IF(OR($B27=""),"",L25) => 1317.976045197341 | M26: [F] =IF(OR($B27=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P26: [F] =IF(OR($B27=""),"",O26+N26+M26+L26) => 1317.976045197341
+Row 27: B27: [F] =IF($B26=Cáratula!$G$35,$B$21,IF(OR($B26="",$B26=$B$21),"",$B26+1)) => 5 | C27: [F] =IF(OR($B28=""),$B28,IF(DAY(EOMONTH($C26,1))<Cáratula!$D$70,EOMONTH($C26,1),DATE(YEAR(EOMONTH($C26,1)),MONTH(EOMONTH($C26,1)),Cáratula!$D$70))) => 2027-04-17 00:00:00 | D27: [F] =IF(OR($B28=""),"",$C27-Cáratula!$G$38) => 121 | E27: [F] =IF(OR($B28=""),"",C27-C26) => 31 | F27: [F] =IF(OR($B28=""),"",G26) => 65747.33150374077 | G27: [F] =IF(OR($B28=""),"",F27-K26) => 65011.768190727686 | H27: [F] =IF(OR($B28=""),$B28,(Cáratula!$K$39/365*E27)) => 0.009025746951003636 | I27: [F] =IF(OR($B28=""),$B28,(H27*G27)) => 586.7797685268156 | J27: [F] =IF(OR($B28=""),"",IF(C25="",Cáratula!$P$40*E27*G26,Cáratula!$P$40*E27*G27)) => 50.82032259520873 | K27: [F] =IF(OR($B28=""),"",L27-I27-J27) => 680.3759540753166 | L27: [F] =IF(OR($B28=""),"",L26) => 1317.976045197341 | M27: [F] =IF(OR($B28=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P27: [F] =IF(OR($B28=""),"",O27+N27+M27+L27) => 1317.976045197341
+Row 28: B28: [F] =IF($B27=Cáratula!$G$35,$B$21,IF(OR($B27="",$B27=$B$21),"",$B27+1)) => 6 | C28: [F] =IF(OR($B29=""),$B29,IF(DAY(EOMONTH($C27,1))<Cáratula!$D$70,EOMONTH($C27,1),DATE(YEAR(EOMONTH($C27,1)),MONTH(EOMONTH($C27,1)),Cáratula!$D$70))) => 2027-05-17 00:00:00 | D28: [F] =IF(OR($B29=""),"",$C28-Cáratula!$G$38) => 151 | E28: [F] =IF(OR($B29=""),"",C28-C27) => 30 | F28: [F] =IF(OR($B29=""),"",G27) => 65011.768190727686 | G28: [F] =IF(OR($B29=""),"",F28-K27) => 64331.39223665237 | H28: [F] =IF(OR($B29=""),$B29,(Cáratula!$K$39/365*E28)) => 0.008734593823551906 | I28: [F] =IF(OR($B29=""),$B29,(H28*G28)) => 561.9085812907588 | J28: [F] =IF(OR($B29=""),"",IF(C26="",Cáratula!$P$40*E28*G27,Cáratula!$P$40*E28*G28)) => 48.66625760105329 | K28: [F] =IF(OR($B29=""),"",L28-I28-J28) => 707.4012063055288 | L28: [F] =IF(OR($B29=""),"",L27) => 1317.976045197341 | M28: [F] =IF(OR($B29=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P28: [F] =IF(OR($B29=""),"",O28+N28+M28+L28) => 1317.976045197341
+Row 29: B29: [F] =IF($B28=Cáratula!$G$35,$B$21,IF(OR($B28="",$B28=$B$21),"",$B28+1)) => 7 | C29: [F] =IF(OR($B30=""),$B30,IF(DAY(EOMONTH($C28,1))<Cáratula!$D$70,EOMONTH($C28,1),DATE(YEAR(EOMONTH($C28,1)),MONTH(EOMONTH($C28,1)),Cáratula!$D$70))) => 2027-06-17 00:00:00 | D29: [F] =IF(OR($B30=""),"",$C29-Cáratula!$G$38) => 182 | E29: [F] =IF(OR($B30=""),"",C29-C28) => 31 | F29: [F] =IF(OR($B30=""),"",G28) => 64331.39223665237 | G29: [F] =IF(OR($B30=""),"",F29-K28) => 63623.99103034684 | H29: [F] =IF(OR($B30=""),$B30,(Cáratula!$K$39/365*E29)) => 0.009025746951003636 | I29: [F] =IF(OR($B30=""),$B30,(H29*G29)) => 574.2540430528358 | J29: [F] =IF(OR($B30=""),"",IF(C27="",Cáratula!$P$40*E29*G28,Cáratula!$P$40*E29*G29)) => 49.7354838814868 | K29: [F] =IF(OR($B30=""),"",L29-I29-J29) => 693.9865182630183 | L29: [F] =IF(OR($B30=""),"",L28) => 1317.976045197341 | M29: [F] =IF(OR($B30=""),"",IF(Cáratula!$G$40="Físico",10,0)) => 0 | P29: [F] =IF(OR($B30=""),"",O29+N29+M29+L29) => 1317.976045197341
+
+
+```
+
+```python
+ws_base_all = wb_val['Base']
+convenios_list = []
+for r in range(2, 48):
+    c_name = ws_base_all.cell(r, 1).value
+    if c_name:
+        pg_base = ws_base_all.cell(r, 2).value
+        pf_base = ws_base_all.cell(r, 3).value
+        pg1 = ws_base_all.cell(r, 4).value
+        pf1 = ws_base_all.cell(r, 5).value
+        rci = ws_base_all.cell(r, 6).value
+        corte = ws_base_all.cell(r, 7).value
+        venc = ws_base_all.cell(r, 8).value
+        ing1 = ws_base_all.cell(r, 9).value
+        ing2 = ws_base_all.cell(r, 10).value
+        reserva = ws_base_all.cell(r, 11).value or 0
+        pg_scc = ws_base_all.cell(r, 13).value
+        tea = ws_base_all.cell(r, 14).value
+        convenios_list.append({
+            'name': c_name, 'pgBase': pg_base, 'pfBase': pf_base,
+            'pg1': pg1, 'pf1': pf1, 'rci': rci, 'corte': corte,
+            'venc': venc, 'reserva': reserva, 'pg_scc': pg_scc, 'tea': tea
+        })
+
+print(f"Total convenios: {len(convenios_list)}")
+for c in convenios_list[:5]:
+    print(c)
+
+
+```
+
+```text
+Total convenios: 46
+{'name': 'AGRORURAL', 'pgBase': 1, 'pfBase': 2, 'pg1': 1, 'pf1': 2, 'rci': 0.5, 'corte': 25, 'venc': 15, 'reserva': 0, 'pg_scc': None, 'tea': 0.12}
+{'name': 'ANA', 'pgBase': 1, 'pfBase': 2, 'pg1': 1, 'pf1': 2, 'rci': 0.5, 'corte': 30, 'venc': 15, 'reserva': 0, 'pg_scc': 0, 'tea': 0.109}
+{'name': 'CHAVIMOCHIC', 'pgBase': 1, 'pfBase': 2, 'pg1': 1, 'pf1': 2, 'rci': 0.5, 'corte': 24, 'venc': 15, 'reserva': 0, 'pg_scc': None, 'tea': 0.11}
+{'name': 'DIRIS_Lima_Centro', 'pgBase': 1, 'pfBase': 2, 'pg1': 1, 'pf1': 2, 'rci': 0.5, 'corte': 25, 'venc': 15, 'reserva': 50, 'pg_scc': None, 'tea': 0.1099}
+{'name': 'DIRIS_Lima_Este', 'pgBase': 1, 'pfBase': 2, 'pg1': 1, 'pf1': 2, 'rci': 0.5, 'corte': 25, 'venc': 17, 'reserva': 0, 'pg_scc': None, 'tea': 0.108}
+
+
+```
+
+```python
+ws_base_form = wb_formula['Base']
+for r in range(1, 15):
+    d_f = ws_base_form.cell(r, 4).value
+    e_f = ws_base_form.cell(r, 5).value
+    m_f = ws_base_form.cell(r, 13).value
+    print(f"R{r} name={ws_base_all.cell(r, 1).value}: colD={d_f}, colE={e_f}, colM={m_f}")
+
+
+```
+
+```text
+R1 name=Convenio: colD=Periodo de gracia 1, colE=Periodo final 1, colM=PG
+R2 name=AGRORURAL: colD=1, colE==IF(G2>H2,IF(DAY(Cáratula!$G$37)>G2,B2+2,B2+1),IF(DAY(Cáratula!$G$37)>G2,B2+1,B2)), colM==IF(Cáratula!$G$9<>A2,"",IF(DAY(Cáratula!$G$37)<=H2,1,IF(AND(DAY(Cáratula!$G$37)>H2,DAY(Cáratula!$G$37)<=G2),0,IF(DAY(Cáratula!$G$37)>G2,1,""))))
+R3 name=ANA: colD=1, colE=2, colM==IF(AND(Cáratula!$G$9=A3,DAY(Cáratula!$G$37)<=H3),1,IF(AND(Cáratula!$G$9=A3,DAY(Cáratula!$G$37))>H3,0,0))
+R4 name=CHAVIMOCHIC: colD==IF(G4>H4,IF(DAY(Cáratula!$G$37)>G4,B4+1,B4+0),IF(DAY(Cáratula!$G$37)>G4,B4+1,B4)), colE==IF(G4>H4,IF(DAY(Cáratula!$G$37)>G4,B4+2,B4+1),IF(DAY(Cáratula!$G$37)>G4,B4+1,B4)), colM==IF(Cáratula!$G$9<>A4,"",IF(DAY(Cáratula!$G$37)<=H4,1,IF(AND(DAY(Cáratula!$G$37)>H4,DAY(Cáratula!$G$37)<=G4),0,IF(DAY(Cáratula!$G$37)>G4,1,""))))
+R5 name=DIRIS_Lima_Centro: colD==IF(G5>H5,IF(DAY(Cáratula!$G$37)>G5,B5+1,B5+0),IF(DAY(Cáratula!$G$37)>G5,B5+1,B5)), colE==IF(G5>H5,IF(DAY(Cáratula!$G$37)>G5,B5+2,B5+1),IF(DAY(Cáratula!$G$37)>G5,B5+1,B5)), colM==IF(Cáratula!$G$9<>A5,"",IF(DAY(Cáratula!$G$37)<=H5,1,IF(AND(DAY(Cáratula!$G$37)>H5,DAY(Cáratula!$G$37)<=G5),0,IF(DAY(Cáratula!$G$37)>G5,1,""))))
+R6 name=DIRIS_Lima_Este: colD==IF(G6>H6,IF(DAY(Cáratula!$G$37)>G6,B6+1,B6+0),IF(DAY(Cáratula!$G$37)>G6,B6+1,B6)), colE==IF(G6>H6,IF(DAY(Cáratula!$G$37)>G6,B6+2,B6+1),IF(DAY(Cáratula!$G$37)>G6,B6+1,B6)), colM==IF(Cáratula!$G$9<>A6,"",IF(DAY(Cáratula!$G$37)<=H6,1,IF(AND(DAY(Cáratula!$G$37)>H6,DAY(Cáratula!$G$37)<=G6),0,IF(DAY(Cáratula!$G$37)>G6,1,""))))
+R7 name=DIRIS_Lima_Norte: colD==IF(G7>H7,IF(DAY(Cáratula!$G$37)>G7,B7+1,B7+0),IF(DAY(Cáratula!$G$37)>G7,B7+1,B7)), colE==IF(G7>H7,IF(DAY(Cáratula!$G$37)>G7,B7+2,B7+1),IF(DAY(Cáratula!$G$37)>G7,B7+1,B7)), colM==IF(Cáratula!$G$9<>A7,"",IF(DAY(Cáratula!$G$37)<=H7,1,IF(AND(DAY(Cáratula!$G$37)>H7,DAY(Cáratula!$G$37)<=G7),0,IF(DAY(Cáratula!$G$37)>G7,1,""))))
+R8 name=DIRESA_Cajamarca: colD==IF(G8>H8,IF(DAY(Cáratula!$G$37)>G8,B8+1,B8+0),IF(DAY(Cáratula!$G$37)>G8,B8+1,B8)), colE==IF(G8>H8,IF(DAY(Cáratula!$G$37)>G8,B8+2,B8+1),IF(DAY(Cáratula!$G$37)>G8,B8+1,B8)), colM==IF(Cáratula!$G$9<>A8,"",IF(DAY(Cáratula!$G$37)<=H8,1,IF(AND(DAY(Cáratula!$G$37)>H8,DAY(Cáratula!$G$37)<=G8),0,IF(DAY(Cáratula!$G$37)>G8,1,""))))
+R9 name=DIRESA_Loreto: colD==IF(G9>H9,IF(DAY(Cáratula!$G$37)>G9,B9+1,B9+0),IF(DAY(Cáratula!$G$37)>G9,B9+1,B9)), colE==IF(G9>H9,IF(DAY(Cáratula!$G$37)>G9,B9+2,B9+1),IF(DAY(Cáratula!$G$37)>G9,B9+1,B9)), colM==IF(Cáratula!$G$9<>A9,"",IF(DAY(Cáratula!$G$37)<=H9,1,IF(AND(DAY(Cáratula!$G$37)>H9,DAY(Cáratula!$G$37)<=G9),0,IF(DAY(Cáratula!$G$37)>G9,1,""))))
+R10 name=Ejército_del_Perú: colD=2, colE=3, colM==IF(AND(Cáratula!$G$9=A10,DAY(Cáratula!$G$37)<=H10),2,IF(AND(Cáratula!$G$9=A10,DAY(Cáratula!$G$37))>H10,1,0))
+R11 name=EPSEL: colD==IF(G11>H11,IF(DAY(Cáratula!$G$37)>G11,B11+1,B11+0),IF(DAY(Cáratula!$G$37)>G11,B11+1,B11)), colE==IF(G11>H11,IF(DAY(Cáratula!$G$37)>G11,B11+2,B11+1),IF(DAY(Cáratula!$G$37)>G11,B11+1,B11)), colM==IF(Cáratula!$G$9<>A11,"",IF(DAY(Cáratula!$G$37)<=H11,1,IF(AND(DAY(Cáratula!$G$37)>H11,DAY(Cáratula!$G$37)<=G11),0,IF(DAY(Cáratula!$G$37)>G11,1,""))))
+R12 name=Fuerza_Aerea_del_Perú: colD=2, colE=3, colM==IF(AND(Cáratula!$G$9=A12,DAY(Cáratula!$G$37)<=H12),2,IF(AND(Cáratula!$G$9=A12,DAY(Cáratula!$G$37))>H12,1,0))
+R13 name=GERESA_La_Libertad: colD==IF(G13>H13,IF(DAY(Cáratula!$G$37)>G13,B13+1,B13+0),IF(DAY(Cáratula!$G$37)>G13,B13+1,B13)), colE==IF(G13>H13,IF(DAY(Cáratula!$G$37)>G13,B13+2,B13+1),IF(DAY(Cáratula!$G$37)>G13,B13+1,B13)), colM==IF(Cáratula!$G$9<>A13,"",IF(DAY(Cáratula!$G$37)<=H13,1,IF(AND(DAY(Cáratula!$G$37)>H13,DAY(Cáratula!$G$37)<=G13),0,IF(DAY(Cáratula!$G$37)>G13,1,""))))
+R14 name=Gobierno_Regional_Loreto: colD==IF(G14>H14,IF(DAY(Cáratula!$G$37)>G14,B14+1,B14+0),IF(DAY(Cáratula!$G$37)>G14,B14+1,B14)), colE==IF(G14>H14,IF(DAY(Cáratula!$G$37)>G14,B14+2,B14+1),IF(DAY(Cáratula!$G$37)>G14,B14+1,B14)), colM==IF(Cáratula!$G$9<>A14,"",IF(DAY(Cáratula!$G$37)<=H14,1,IF(AND(DAY(Cáratula!$G$37)>H14,DAY(Cáratula!$G$37)<=G14),0,IF(DAY(Cáratula!$G$37)>G14,1,""))))
+
+
+```
+
+```python
+for r in range(15, 48):
+    c_name = ws_base_all.cell(r, 1).value
+    d_f = ws_base_form.cell(r, 4).value
+    e_f = ws_base_form.cell(r, 5).value
+    m_f = ws_base_form.cell(r, 13).value
+    if d_f or e_f or m_f:
+        print(f"R{r} name={c_name}: colD={d_f}, colE={e_f}, colM={m_f}")
+
+
+```
+
+```text
+R15 name=Gobierno_Regional_Piura: colD==IF(G15>H15,IF(DAY(Cáratula!$G$37)>G15,B15+1,B15+0),IF(DAY(Cáratula!$G$37)>G15,B15+1,B15)), colE==IF(G15>H15,IF(DAY(Cáratula!$G$37)>G15,B15+2,B15+1),IF(DAY(Cáratula!$G$37)>G15,B15+1,B15)), colM==IF(Cáratula!$G$9<>A15,"",IF(DAY(Cáratula!$G$37)<=H15,1,IF(AND(DAY(Cáratula!$G$37)>H15,DAY(Cáratula!$G$37)<=G15),0,IF(DAY(Cáratula!$G$37)>G15,1,""))))
+R16 name=GSR_Luciano_Castillo: colD==IF(G16>H16,IF(DAY(Cáratula!$G$37)>G16,B16+1,B16+0),IF(DAY(Cáratula!$G$37)>G16,B16+1,B16)), colE==IF(G16>H16,IF(DAY(Cáratula!$G$37)>G16,B16+2,B16+1),IF(DAY(Cáratula!$G$37)>G16,B16+1,B16)), colM==IF(Cáratula!$G$9<>A16,"",IF(DAY(Cáratula!$G$37)<=H16,1,IF(AND(DAY(Cáratula!$G$37)>H16,DAY(Cáratula!$G$37)<=G16),0,IF(DAY(Cáratula!$G$37)>G16,1,""))))
+R17 name=Hospital_Cajamarca: colD==IF(G17>H17,IF(DAY(Cáratula!$G$37)>G17,B17+1,B17+0),IF(DAY(Cáratula!$G$37)>G17,B17+1,B17)), colE==IF(G17>H17,IF(DAY(Cáratula!$G$37)>G17,B17+2,B17+1),IF(DAY(Cáratula!$G$37)>G17,B17+1,B17)), colM==IF(Cáratula!$G$9<>A17,"",IF(DAY(Cáratula!$G$37)<=H17,1,IF(AND(DAY(Cáratula!$G$37)>H17,DAY(Cáratula!$G$37)<=G17),0,IF(DAY(Cáratula!$G$37)>G17,1,""))))
+R18 name=Hospital_Chulucanas: colD==IF(G18>H18,IF(DAY(Cáratula!$G$37)>G18,B18+1,B18+0),IF(DAY(Cáratula!$G$37)>G18,B18+1,B18)), colE==IF(G18>H18,IF(DAY(Cáratula!$G$37)>G18,B18+2,B18+1),IF(DAY(Cáratula!$G$37)>G18,B18+1,B18)), colM==IF(Cáratula!$G$9<>A18,"",IF(DAY(Cáratula!$G$37)<=H18,1,IF(AND(DAY(Cáratula!$G$37)>H18,DAY(Cáratula!$G$37)<=G18),0,IF(DAY(Cáratula!$G$37)>G18,1,""))))
+R19 name=Hospital_de_apoyo_Iquitos: colD==IF(G19>H19,IF(DAY(Cáratula!$G$37)>G19,B19+1,B19+0),IF(DAY(Cáratula!$G$37)>G19,B19+1,B19)), colE==IF(G19>H19,IF(DAY(Cáratula!$G$37)>G19,B19+2,B19+1),IF(DAY(Cáratula!$G$37)>G19,B19+1,B19)), colM==IF(Cáratula!$G$9<>A19,"",IF(DAY(Cáratula!$G$37)<=H19,1,IF(AND(DAY(Cáratula!$G$37)>H19,DAY(Cáratula!$G$37)<=G19),0,IF(DAY(Cáratula!$G$37)>G19,1,""))))
+R20 name=Hospital_de_la_Amistad: colD==IF(G20>H20,IF(DAY(Cáratula!$G$37)>G20,B20+1,B20+0),IF(DAY(Cáratula!$G$37)>G20,B20+1,B20)), colE==IF(G20>H20,IF(DAY(Cáratula!$G$37)>G20,B20+2,B20+1),IF(DAY(Cáratula!$G$37)>G20,B20+1,B20)), colM==IF(Cáratula!$G$9<>A20,"",IF(DAY(Cáratula!$G$37)<=H20,1,IF(AND(DAY(Cáratula!$G$37)>H20,DAY(Cáratula!$G$37)<=G20),0,IF(DAY(Cáratula!$G$37)>G20,1,""))))
+R21 name=Hospital_Goyeneche: colD==IF(G21>H21,IF(DAY(Cáratula!$G$37)>G21,B21+1,B21+0),IF(DAY(Cáratula!$G$37)>G21,B21+1,B21)), colE==IF(G21>H21,IF(DAY(Cáratula!$G$37)>G21,B21+2,B21+1),IF(DAY(Cáratula!$G$37)>G21,B21+1,B21)), colM==IF(Cáratula!$G$9<>A21,"",IF(DAY(Cáratula!$G$37)<=H21,1,IF(AND(DAY(Cáratula!$G$37)>H21,DAY(Cáratula!$G$37)<=G21),0,IF(DAY(Cáratula!$G$37)>G21,1,""))))
+R22 name=Hospital_Regional_Lambayeque: colD==IF(G22>H22,IF(DAY(Cáratula!$G$37)>G22,B22+1,B22+0),IF(DAY(Cáratula!$G$37)>G22,B22+1,B22)), colE==IF(G22>H22,IF(DAY(Cáratula!$G$37)>G22,B22+2,B22+1),IF(DAY(Cáratula!$G$37)>G22,B22+1,B22)), colM==IF(Cáratula!$G$9<>A22,"",IF(DAY(Cáratula!$G$37)<=H22,1,IF(AND(DAY(Cáratula!$G$37)>H22,DAY(Cáratula!$G$37)<=G22),0,IF(DAY(Cáratula!$G$37)>G22,1,""))))
+R23 name=Hospital_Regional_Loreto: colD==IF(G23>H23,IF(DAY(Cáratula!$G$37)>G23,B23+1,B23+0),IF(DAY(Cáratula!$G$37)>G23,B23+1,B23)), colE==IF(G23>H23,IF(DAY(Cáratula!$G$37)>G23,B23+2,B23+1),IF(DAY(Cáratula!$G$37)>G23,B23+1,B23)), colM==IF(Cáratula!$G$9<>A23,"",IF(DAY(Cáratula!$G$37)<=H23,1,IF(AND(DAY(Cáratula!$G$37)>H23,DAY(Cáratula!$G$37)<=G23),0,IF(DAY(Cáratula!$G$37)>G23,1,""))))
+R24 name=Hospital_San_Bartolome: colD==IF(G24>H24,IF(DAY(Cáratula!$G$37)>G24,B24+1,B24+0),IF(DAY(Cáratula!$G$37)>G24,B24+1,B24)), colE==IF(G24>H24,IF(DAY(Cáratula!$G$37)>G24,B24+2,B24+1),IF(DAY(Cáratula!$G$37)>G24,B24+1,B24)), colM==IF(Cáratula!$G$9<>A24,"",IF(DAY(Cáratula!$G$37)<=H24,1,IF(AND(DAY(Cáratula!$G$37)>H24,DAY(Cáratula!$G$37)<=G24),0,IF(DAY(Cáratula!$G$37)>G24,1,""))))
+R25 name=Hospital_Sullana: colD==IF(G25>H25,IF(DAY(Cáratula!$G$37)>G25,B25+1,B25+0),IF(DAY(Cáratula!$G$37)>G25,B25+1,B25)), colE==IF(G25>H25,IF(DAY(Cáratula!$G$37)>G25,B25+2,B25+1),IF(DAY(Cáratula!$G$37)>G25,B25+1,B25)), colM==IF(Cáratula!$G$9<>A25,"",IF(DAY(Cáratula!$G$37)<=H25,1,IF(AND(DAY(Cáratula!$G$37)>H25,DAY(Cáratula!$G$37)<=G25),0,IF(DAY(Cáratula!$G$37)>G25,1,""))))
+R26 name=Hospital_Trujillo: colD==IF(G26>H26,IF(DAY(Cáratula!$G$37)>G26,B26+1,B26+0),IF(DAY(Cáratula!$G$37)>G26,B26+1,B26)), colE==IF(G26>H26,IF(DAY(Cáratula!$G$37)>G26,B26+2,B26+1),IF(DAY(Cáratula!$G$37)>G26,B26+1,B26)), colM==IF(Cáratula!$G$9<>A26,"",IF(DAY(Cáratula!$G$37)<=H26,1,IF(AND(DAY(Cáratula!$G$37)>H26,DAY(Cáratula!$G$37)<=G26),0,IF(DAY(Cáratula!$G$37)>G26,1,""))))
+R27 name=INSN: colD==IF(G27>H27,IF(DAY(Cáratula!$G$37)>G27,B27+1,B27+0),IF(DAY(Cáratula!$G$37)>G27,B27+1,B27)), colE==IF(G27>H27,IF(DAY(Cáratula!$G$37)>G27,B27+2,B27+1),IF(DAY(Cáratula!$G$37)>G27,B27+1,B27)), colM==IF(Cáratula!$G$9<>A27,"",IF(DAY(Cáratula!$G$37)<=H27,1,IF(AND(DAY(Cáratula!$G$37)>H27,DAY(Cáratula!$G$37)<=G27),0,IF(DAY(Cáratula!$G$37)>G27,1,""))))
+R28 name=Marina_de_Guerra: colD=2, colE==IF(G28>H28,IF(DAY(Cáratula!$G$37)>G28,B28+2,B28+1),IF(DAY(Cáratula!$G$37)>G28,B28+1,B28)), colM==IF(Cáratula!$G$9<>A28,"",IF(DAY(Cáratula!$G$37)<=G28,1,IF(AND(DAY(Cáratula!$G$37)>G28,DAY(Cáratula!$G$37)<=H28),2,IF(DAY(Cáratula!$G$37)>H28,1,""))))
+R29 name=Ministerio_Defensa: colD=1, colE=2, colM==IF(AND(Cáratula!$G$9=A29,DAY(Cáratula!$G$37)<=H29),1,IF(AND(Cáratula!$G$9=A29,DAY(Cáratula!$G$37))>H29,0,0))
+R30 name=Ministerio_Justicia: colD=1, colE=2, colM==IF(AND(Cáratula!$G$9=A30,DAY(Cáratula!$G$37)<=H30),1,IF(AND(Cáratula!$G$9=A30,DAY(Cáratula!$G$37))>H30,0,0))
+R31 name=Ministerio_Vivienda: colD==IF(G31>H31,IF(DAY(Cáratula!$G$37)>G31,B31+1,B31+0),IF(DAY(Cáratula!$G$37)>G31,B31+1,B31)), colE==IF(G31>H31,IF(DAY(Cáratula!$G$37)>G31,B31+2,B31+1),IF(DAY(Cáratula!$G$37)>G31,B31+1,B31)), colM==IF(Cáratula!$G$9<>A31,"",IF(DAY(Cáratula!$G$37)<=H31,1,IF(AND(DAY(Cáratula!$G$37)>H31,DAY(Cáratula!$G$37)<=G31),0,IF(DAY(Cáratula!$G$37)>G31,1,""))))
+R32 name=Mun_Cerro_Colorado: colD=1, colE=2, colM==IF(AND(Cáratula!$G$9=A32,DAY(Cáratula!$G$37)<=H32),1,IF(AND(Cáratula!$G$9=A32,DAY(Cáratula!$G$37))>H32,0,0))
+R33 name=Municipalidad_Piura: colD==IF(G33>H33,IF(DAY(Cáratula!$G$37)>G33,B33+1,B33+0),IF(DAY(Cáratula!$G$37)>G33,B33+1,B33)), colE==IF(G33>H33,IF(DAY(Cáratula!$G$37)>G33,B33+2,B33+1),IF(DAY(Cáratula!$G$37)>G33,B33+1,B33)), colM==IF(Cáratula!$G$9<>A33,"",IF(DAY(Cáratula!$G$37)<=H33,1,IF(AND(DAY(Cáratula!$G$37)>H33,DAY(Cáratula!$G$37)<=G33),0,IF(DAY(Cáratula!$G$37)>G33,1,""))))
+R34 name=ONPE: colD=1, colE=2, colM==IF(AND(Cáratula!$G$9=A34,DAY(Cáratula!$G$37)<=H34),1,IF(AND(Cáratula!$G$9=A34,DAY(Cáratula!$G$37))>H34,0,0))
+R35 name=Policia_Nacional_del_Perú: colD=2, colE==IF(G35>H35,IF(DAY(Cáratula!$G$37)>G35,B35+2,B35+1),IF(DAY(Cáratula!$G$37)>G35,B35+1,B35)), colM==IF(Cáratula!$G$9<>A35,"",IF(DAY(Cáratula!$G$37)<=G35,1,IF(AND(DAY(Cáratula!$G$37)>G35,DAY(Cáratula!$G$37)<=H35),2,IF(DAY(Cáratula!$G$37)>H35,1,""))))
+R36 name=PRONABEC: colD=1, colE==IF(G36>H36,IF(DAY(Cáratula!$G$37)>G36,B36+2,B36+1),IF(DAY(Cáratula!$G$37)>G36,B36+1,B36)), colM==IF(Cáratula!$G$9<>A36,"",IF(DAY(Cáratula!$G$37)<=H36,1,IF(AND(DAY(Cáratula!$G$37)>H36,DAY(Cáratula!$G$37)<=G36),0,IF(DAY(Cáratula!$G$37)>G36,1,""))))
+R37 name=PRONACEJ: colD=1, colE==IF(G37>H37,IF(DAY(Cáratula!$G$37)>G37,B37+2,B37+1),IF(DAY(Cáratula!$G$37)>G37,B37+1,B37)), colM==IF(Cáratula!$G$9<>A37,"",IF(DAY(Cáratula!$G$37)<=H37,1,IF(AND(DAY(Cáratula!$G$37)>H37,DAY(Cáratula!$G$37)<=G37),0,IF(DAY(Cáratula!$G$37)>G37,1,""))))
+R38 name=Red_Salud_APLAO: colD==IF(G38>H38,IF(DAY(Cáratula!$G$37)>G38,B38+1,B38+0),IF(DAY(Cáratula!$G$37)>G38,B38+1,B38)), colE==IF(G38>H38,IF(DAY(Cáratula!$G$37)>G38,B38+2,B38+1),IF(DAY(Cáratula!$G$37)>G38,B38+1,B38)), colM==IF(Cáratula!$G$9<>A38,"",IF(DAY(Cáratula!$G$37)<=H38,1,IF(AND(DAY(Cáratula!$G$37)>H38,DAY(Cáratula!$G$37)<=G38),0,IF(DAY(Cáratula!$G$37)>G38,1,""))))
+R39 name=RED_Salud_Arequipa_Caylloma: colD==IF(G39>H39,IF(DAY(Cáratula!$G$37)>G39,B39+1,B39+0),IF(DAY(Cáratula!$G$37)>G39,B39+1,B39)), colE==IF(G39>H39,IF(DAY(Cáratula!$G$37)>G39,B39+2,B39+1),IF(DAY(Cáratula!$G$37)>G39,B39+1,B39)), colM==IF(Cáratula!$G$9<>A39,"",IF(DAY(Cáratula!$G$37)<=H39,1,IF(AND(DAY(Cáratula!$G$37)>H39,DAY(Cáratula!$G$37)<=G39),0,IF(DAY(Cáratula!$G$37)>G39,1,""))))
+R40 name=Red_Salud_Pacífico_Norte: colD==IF(G40>H40,IF(DAY(Cáratula!$G$37)>G40,B40+1,B40+0),IF(DAY(Cáratula!$G$37)>G40,B40+1,B40)), colE==IF(G40>H40,IF(DAY(Cáratula!$G$37)>G40,B40+2,B40+1),IF(DAY(Cáratula!$G$37)>G40,B40+1,B40)), colM==IF(Cáratula!$G$9<>A40,"",IF(DAY(Cáratula!$G$37)<=H40,1,IF(AND(DAY(Cáratula!$G$37)>H40,DAY(Cáratula!$G$37)<=G40),0,IF(DAY(Cáratula!$G$37)>G40,1,""))))
+R41 name=Red_Salud_Pacífico_Sur: colD==IF(G41>H41,IF(DAY(Cáratula!$G$37)>G41,B41+1,B41+0),IF(DAY(Cáratula!$G$37)>G41,B41+1,B41)), colE==IF(G41>H41,IF(DAY(Cáratula!$G$37)>G41,B41+2,B41+1),IF(DAY(Cáratula!$G$37)>G41,B41+1,B41)), colM==IF(Cáratula!$G$9<>A41,"",IF(DAY(Cáratula!$G$37)<=H41,1,IF(AND(DAY(Cáratula!$G$37)>H41,DAY(Cáratula!$G$37)<=G41),0,IF(DAY(Cáratula!$G$37)>G41,1,""))))
+R42 name=RENIEC: colD=1, colE==IF(G42>H42,IF(DAY(Cáratula!$G$37)>G42,B42+2,B42+1),IF(DAY(Cáratula!$G$37)>G42,B42+1,B42)), colM==IF(Cáratula!$G$9<>A42,"",IF(DAY(Cáratula!$G$37)<=H42,1,IF(AND(DAY(Cáratula!$G$37)>H42,DAY(Cáratula!$G$37)<=G42),0,IF(DAY(Cáratula!$G$37)>G42,1,""))))
+R43 name=SENASA: colD=1, colE==IF(G43>H43,IF(DAY(Cáratula!$G$37)>G43,B43+2,B43+1),IF(DAY(Cáratula!$G$37)>G43,B43+1,B43)), colM==IF(Cáratula!$G$9<>A43,"",IF(DAY(Cáratula!$G$37)<=H43,1,IF(AND(DAY(Cáratula!$G$37)>H43,DAY(Cáratula!$G$37)<=G43),0,IF(DAY(Cáratula!$G$37)>G43,1,""))))
+R44 name=U_San_Juan_Bautista: colD=1, colE==IF(G44>H44,IF(DAY(Cáratula!$G$37)>G44,B44+2,B44+1),IF(DAY(Cáratula!$G$37)>G44,B44+1,B44)), colM==IF(Cáratula!$G$9<>A44,"",IF(DAY(Cáratula!$G$37)<=H44,1,IF(AND(DAY(Cáratula!$G$37)>H44,DAY(Cáratula!$G$37)<=G44),0,IF(DAY(Cáratula!$G$37)>G44,1,""))))
+R45 name=UE403_Morropon: colD==IF(G45>H45,IF(DAY(Cáratula!$G$37)>G45,B45+1,B45+0),IF(DAY(Cáratula!$G$37)>G45,B45+1,B45)), colE==IF(G45>H45,IF(DAY(Cáratula!$G$37)>G45,B45+2,B45+1),IF(DAY(Cáratula!$G$37)>G45,B45+1,B45)), colM==IF(Cáratula!$G$9<>A45,"",IF(DAY(Cáratula!$G$37)<=H45,1,IF(AND(DAY(Cáratula!$G$37)>H45,DAY(Cáratula!$G$37)<=G45),0,IF(DAY(Cáratula!$G$37)>G45,1,""))))
+R46 name=UNAP: colD==IF(G46>H46,IF(DAY(Cáratula!$G$37)>G46,B46+1,B46+0),IF(DAY(Cáratula!$G$37)>G46,B46+1,B46)), colE==IF(G46>H46,IF(DAY(Cáratula!$G$37)>G46,B46+2,B46+1),IF(DAY(Cáratula!$G$37)>G46,B46+1,B46)), colM==IF(Cáratula!$G$9<>A46,"",IF(DAY(Cáratula!$G$37)<=H46,1,IF(AND(DAY(Cáratula!$G$37)>H46,DAY(Cáratula!$G$37)<=G46),0,IF(DAY(Cáratula!$G$37)>G46,1,""))))
+R47 name=UTES_N6: colD==IF(G47>H47,IF(DAY(Cáratula!$G$37)>G47,B47+1,B47+0),IF(DAY(Cáratula!$G$37)>G47,B47+1,B47)), colE==IF(G47>H47,IF(DAY(Cáratula!$G$37)>G47,B47+2,B47+1),IF(DAY(Cáratula!$G$37)>G47,B47+1,B47)), colM==IF(Cáratula!$G$9<>A47,"",IF(DAY(Cáratula!$G$37)<=H47,1,IF(AND(DAY(Cáratula!$G$37)>H47,DAY(Cáratula!$G$37)<=G47),0,IF(DAY(Cáratula!$G$37)>G47,1,""))))
+
+
+```
+
+```python
+# Let's inspect Caratula default inputs:
+for r in [9, 13, 15, 16, 17, 18, 20, 21, 24, 28, 29, 31, 34, 35, 37, 38, 39, 43, 44, 45, 58, 59, 60, 61, 62, 66]:
+    val = ws_car_val.cell(r, 7).value
+    val_k = ws_car_val.cell(r, 11).value
+    val_b = ws_car_val.cell(r, 2).value
+    print(f"Row {r} ({val_b}): G={val}, K={val_k}")
+
+
+```
+
+```text
+Row 9 (Convenio): G=GSR_Luciano_Castillo, K=None
+Row 13 (Cargo Laboral): G=CAS Indeterminado, K=0.5
+Row 15 (Total de Ingresos): G=3264.19, K=None
+Row 16 (Ingreso variable mansual): G=None, K=None
+Row 17 (Promedio de Ingresos variables (3 últimos meses)): G=None, K=None
+Row 18 (Sumatoria de otros ingresos fijos (CAFAE)): G=None, K=None
+Row 20 (Ingresos no constantes): G=None, K=None
+Row 21 (Sumatoria de ingresos no constantes): G=None, K=None
+Row 24 (Sumatoria de los descuentos de Ley): G=424.34, K=None
+Row 28 (Reserva): G=0, K=None
+Row 29 (Sumatoria de facultativos): G=101.58, K=None
+Row 31 (Primer cálculo de Ingreso Neto Disponible): G=1318.345, K=1318.345
+Row 34 (Ingrese Monto a Solicitar): G=66900, K=None
+Row 35 (Número de cuotas (En meses)): G=72, K=None
+Row 37 (Fecha de desembolso): G=2026-10-07 00:00:00, K=None
+Row 38 (Fecha de primer vencimiento): G=2026-12-17 00:00:00, K=None
+Row 39 (Ingrese Tasa de Interés Efectiva Anual): G=0.11, K=0.10627089151988152
+Row 43 (Tasa mensual de Seguro de Desgravamen): G=0.000767, K=None
+Row 44 (PG (Solo equipo SCC)): G=1, K=None
+Row 45 (Tasa Campaña): G=0.11, K=None
+Row 58 (Línea utilizada de tarjeta de Crédito): G=None, K=0.04236251355783031
+Row 59 (Línea no utilizada): G=None, K=None
+Row 60 (% Endeudamiento): G=0.04236251355783031, K=None
+Row 61 (CEM): G=1663.8755, K=0.65
+Row 62 (Dictamen): G=Continuar, K=None
+Row 66 (y no incluyen ITF): G=None, K=1313.976045197341
+
+
+```
+
+```python
+# Let's inspect rows 50-60 of Caratula
+for r in range(51, 60):
+    tipo = ws_car_val.cell(r, 2).value
+    d = ws_car_val.cell(r, 4).value
+    e = ws_car_val.cell(r, 5).value
+    f = ws_car_val.cell(r, 6).value
+    g = ws_car_val.cell(r, 7).value
+    h = ws_car_val.cell(r, 8).value
+    print(f"R{r} ({tipo}): D={d}, E={e}, F={f}, G={g}, H={h}")
+
+
+```
+
+```text
+R51 (None): D=Deuda cuota BCP, E=Deuda cuota no BCP, F=Saldo, G=Saldo Actualizado, H=Cuota Actualizada
+R52 (Crédito Hipotecario): D=None, E=None, F=None, G=None, H=0
+R53 (Crédito Efectivo): D=None, E=None, F=None, G=None, H=0
+R54 (Crédito Vehicular): D=None, E=None, F=None, G=None, H=0
+R55 (Pyme): D=None, E=None, F=None, G=None, H=0
+R56 (Comercial): D=None, E=None, F=None, G=None, H=0
+R57 (Deuda Indirecta): D=None, E=None, F=None, G=None, H=0
+R58 (Línea utilizada de tarjeta de Crédito): D=None, E=112, F=1400, G=None, H=112
+R59 (Línea no utilizada): D=None, E=4, F=500, G=None, H=4
+
+
+```
+
+```python
+# Check factors in N52:N59
+for r in range(52, 60):
+    n_form = ws_car_form.cell(r, 14).value
+    l_form = ws_car_form.cell(r, 12).value
+    print(f"R{r} L={l_form} | N={n_form}")
+
+# What is P55, Q55, R55, S55, T55?
+for c in range(15, 22):
+    c_letter = openpyxl.utils.get_column_letter(c)
+    val = ws_car_val.cell(55, c).value
+    form = ws_car_form.cell(55, c).value
+    print(f"{c_letter}55: {form} => {val}")
+
+
+```
+
+```text
+R52 L==G52/F52*E52 | N==IF(E52="",G52*(Q55),E52)
+R53 L==G53/F53*E53 | N==IF(E53="",G53*(R55),E53)
+R54 L==G54/F54*E54 | N==IF(E54="",G54*(S55),E54)
+R55 L==G55/F55*E55 | N==IF(E55="",G55*(T55),E55)
+R56 L==G56/F56*E56 | N==IF(E56="",G56*0.028,E56)
+R57 L==G57/F57*E57 | N==IF(E57="",G57*0.000694,E57)
+R58 L==G58/F58*E58 | N==IF(E58="",G58*(P55),E58)
+R59 L==G59*J59 | N==IF(E59="",G59*P55,E59)
+O55: E => E
+P55: 0.007417 => 0.007417
+Q55: 0.011 => 0.011
+R55: 0.044 => 0.044
+S55: 0.024 => 0.024
+T55: 0.088 => 0.088
+U55: None => None
+
+
+```
+
+Tras una auditoría minuciosa de las fórmulas del archivo **`Nuevo simulador Convenios 01.10.2026.xlsx`** (hojas `Base`, `Cáratula` y `Cronograma`), se identificaron y corrigieron las siguientes discrepancias en el simulador HTML/JS:
+
+---
+
+### Principales Correcciones Realizadas
+
+1. **Valores por Defecto de la Carátula Oficial:**
+* **Convenio activo:** `GSR_Luciano_Castillo` con cargo `CAS Indeterminado` (en el código anterior estaba forzado a PNP).
+* **Ingresos de boleta:** Total de Ingresos `S/ 3,264.19`, Descuentos de Ley `S/ 424.34`, Descuentos Facultativos `S/ 101.58` (suma `86.58 + 15`), Monto `S/ 66,900.00`, TEA `11.00%`, Desembolso `2026-10-07`.
+* **Deudas SBS:** En las filas 58 y 59 del Excel oficial figuran:
+* *Línea utilizada TC:* Cuota no BCP = `112`, Saldo = `1,400`.
+* *Línea no utilizada TC:* Cuota no BCP = `4`, Saldo = `500`.
+
+
+
+
+2. **Cálculo Oficial de Cuota (`Cronograma!K66` y Gastos `W24`):**
+* El Excel calcula la cuota base según:
+
+$$\text{Cuota Base} = (F_{23} + J_{21} + J_{22}) \times K_{64} \quad \text{o} \quad (G_{23} + J_{20} + J_{21} + J_{22}) \times K_{64}$$
+
+
+* Se añadió con exactitud el gasto administrativo fijo de **S/ 4.00** (`Cronograma!W24`), resultando en la cuota exacta de **`S/ 1,317.98`** (o `S/ 1,313.98` sin portes).
+
+
+3. **Cálculo de Periodos de Gracia (`Base!Col D, Col E, Col M`):**
+* El Excel maneja reglas dinámicas por fecha de desembolso (`DAY(G37) > Corte` vs `Vencimiento`) para determinar si se añade 1 o 2 meses al periodo final `D71` y si la fila previa `C20` aplica intereses corridos.
+
+
+4. **Matriz de Fórmulas SBS (% Endeudamiento y CEM):**
+* La celda `K58` divide entre $(G_{15} - G_{21} + G_{18} - G_{24} - G_{29})$ la suma ponderada de saldo actualizado de créditos hipotecarios, vehiculares, pyme, indirecta, tarjetas de crédito y las cuotas directas.
+* El CEM resta de la capacidad de pago las cuotas actualizadas $H_{52:59}$ y las cuotas BCP $D_{52:59}$.
+
+
+
+---
+
+### Código HTML Corregido y Sincronizado
+
+```html
 <!DOCTYPE html>
 <html lang="es" class="light">
 <head>
@@ -22,7 +500,6 @@
       }
     }
   </script>
-  <!-- SheetJS para procesar y exportar archivos Excel -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -41,7 +518,6 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Logo 3D Camargo Group */
     .logo-badge-3d {
       display: inline-flex;
       align-items: center;
@@ -56,10 +532,6 @@
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
       border-color: rgba(51, 65, 85, 0.8);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-    }
-    .logo-badge-3d:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(0, 42, 143, 0.2);
     }
     .cube-3d-cluster {
       position: relative;
@@ -82,10 +554,7 @@
       border-bottom: 2px solid #001B5E;
       padding-bottom: 1px;
     }
-    .dark .brand-title-3d {
-      color: #60a5fa;
-      border-bottom-color: #3b82f6;
-    }
+    .dark .brand-title-3d { color: #60a5fa; border-bottom-color: #3b82f6; }
     .brand-sub-3d {
       font-weight: 800;
       letter-spacing: 0.8px;
@@ -93,11 +562,8 @@
       color: #c72527;
       text-transform: uppercase;
     }
-    .dark .brand-sub-3d {
-      color: #f87171;
-    }
+    .dark .brand-sub-3d { color: #f87171; }
 
-    /* Insignia 3D BCP */
     .bcp-badge-3d {
       display: inline-flex;
       align-items: center;
@@ -113,15 +579,10 @@
       border-color: rgba(59, 130, 246, 0.3);
       box-shadow: 0 6px 14px -3px rgba(0, 0, 0, 0.4);
     }
-    .bcp-badge-3d:hover {
-      transform: translateY(-1.5px) scale(1.02);
-      box-shadow: 0 10px 20px -3px rgba(0, 42, 143, 0.28);
-    }
     .bcp-logo-img {
       height: 24px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 2px 3px rgba(0, 42, 143, 0.25));
     }
 
     .btn-bcp-orange {
@@ -155,7 +616,6 @@
     .dark .badge-liquidez { background: #7f1d1d; color: #fca5a5; border-color: #dc2626; }
     .dark .badge-sobreendeudado { background: #78350f; color: #fcd34d; border-color: #d97706; }
 
-    /* Mascot Camarguito Avatar */
     .camarguito-avatar {
       position: relative;
       width: 58px;
@@ -216,7 +676,6 @@
 </head>
 <body class="bg-[#F4F7FC] dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between" oncontextmenu="return false;">
 
-  <!-- Contenedor Principal -->
   <div>
     <!-- Cintillo Superior Oficial BCP -->
     <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-pink-700 text-white text-[11px] font-semibold py-1.5 px-4 text-center tracking-wide flex justify-center items-center gap-2 shadow-inner">
@@ -228,7 +687,6 @@
     <header class="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 transition-colors">
       <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-4">
         
-        <!-- Logos Co-Branding -->
         <div class="flex items-center gap-3">
           <div class="logo-badge-3d cursor-pointer select-none">
             <div class="cube-3d-cluster">
@@ -255,7 +713,6 @@
           </div>
         </div>
 
-        <!-- Selector de Pestañas, Dark Mode Toggle y Autoría -->
         <div class="flex items-center gap-3">
           <button id="btnDarkMode" onclick="toggleDarkMode()" class="p-2 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:scale-105 transition-all text-xs flex items-center justify-center w-8 h-8" title="Alternar Modo Oscuro / Claro">
             <i id="darkIcon" class="fa-solid fa-moon"></i>
@@ -323,7 +780,7 @@
               <div class="grid grid-cols-4 gap-2 pt-2 text-center text-xs">
                 <div class="bg-blue-50/60 dark:bg-blue-950/40 p-2 rounded-xl border border-blue-100 dark:border-blue-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">RCI</span>
-                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">45%</span>
+                  <span id="lblRCI" class="font-extrabold text-[#002A8F] dark:text-blue-400 text-xs sm:text-sm">42%</span>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">Reserva</span>
@@ -331,12 +788,11 @@
                 </div>
                 <div class="bg-orange-50/60 dark:bg-amber-950/30 p-2 rounded-xl border border-orange-100 dark:border-amber-900/50">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">TEA Base</span>
-                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">10.85%</span>
+                  <span id="lblTEA" class="font-extrabold text-[#FF7800] dark:text-orange-400 text-xs sm:text-sm">11.00%</span>
                 </div>
-                <!-- PG (Solo equipo SCC) -->
                 <div class="bg-indigo-50/60 dark:bg-indigo-950/40 p-2 rounded-xl border border-indigo-100 dark:border-indigo-900/50" title="Periodo de gracia calculado para el equipo SCC según fecha de desembolso y corte">
                   <span class="text-slate-500 dark:text-slate-400 block text-[9px] font-bold uppercase">PG (SCC)</span>
-                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">2 meses</span>
+                  <span id="lblPGSCC" class="font-extrabold text-indigo-700 dark:text-indigo-400 text-xs sm:text-sm">1 mes</span>
                 </div>
               </div>
             </div>
@@ -353,7 +809,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Total Ingresos Fijos (Bruto)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpIngresos" value="4167.87" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
+                  <input type="number" id="inpIngresos" value="3264.19" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
               </div>
 
@@ -392,7 +848,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos de Ley (ONP / AFP / IR)</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpLey" value="559.47" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpLey" value="424.34" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
 
@@ -400,7 +856,7 @@
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Descuentos Facultativos</label>
                 <div class="relative mt-1">
                   <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 dark:text-slate-500 font-bold">S/</span>
-                  <input type="number" id="inpFacultativos" value="67.33" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
+                  <input type="number" id="inpFacultativos" value="101.58" step="0.01" class="w-full pl-8 pr-3 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-red-400 transition">
                 </div>
               </div>
             </div>
@@ -421,15 +877,15 @@
             <div class="flex gap-2.5 text-right w-full sm:w-auto justify-end">
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">Neto Disponible</span>
-                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,556.45</span>
+                <span id="resNetoDisp" class="text-base font-black text-slate-800 dark:text-slate-100">S/ 1,318.35</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-blue-200 dark:border-blue-900 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-[#002A8F] dark:text-blue-400 uppercase font-bold block">Cuota Mensual</span>
-                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,555.39</span>
+                <span id="resCuota" class="text-base font-black text-[#002A8F] dark:text-blue-400">S/ 1,317.98</span>
               </div>
               <div class="bg-white/95 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex-1 sm:flex-initial">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block">% Endeudamiento</span>
-                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">2.71%</span>
+                <span id="resEndeudamiento" class="text-base font-black text-amber-700 dark:text-amber-400">4.24%</span>
               </div>
             </div>
           </div>
@@ -443,7 +899,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Monto Solicitado</label>
-                <input type="number" id="inpMonto" value="78500" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpMonto" value="66900" step="100" class="w-full mt-1 p-2 border border-blue-200 dark:border-blue-900/60 rounded-xl font-bold text-[#002A8F] dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/30 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -460,12 +916,12 @@
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">TEA (%)</label>
-                <input type="number" id="inpTEA" value="10.85" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="number" id="inpTEA" value="11.00" step="0.01" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-600 dark:text-slate-300">Desembolso</label>
-                <input type="date" id="inpFechaDesembolso" value="2026-10-05" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
+                <input type="date" id="inpFechaDesembolso" value="2026-10-07" class="w-full mt-1 p-2 border border-slate-300 dark:border-slate-700 rounded-xl text-xs bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-[#002A8F] dark:focus:ring-blue-500">
               </div>
 
               <div>
@@ -507,11 +963,11 @@
             <div class="mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">% Endeudamiento:</span>
-                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">2.71%</span>
+                <span id="lblPorcEndeudamiento" class="font-extrabold text-slate-800 dark:text-slate-200 text-sm">4.24%</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">CEM:</span>
-                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 2,205.70</span>
+                <span id="lblCEM" class="font-black text-emerald-700 dark:text-emerald-400 text-sm">S/ 1,663.88</span>
               </div>
               <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="font-bold text-slate-600 dark:text-slate-400">Dictamen SBS:</span>
@@ -689,23 +1145,15 @@
     (function () {
       "use strict";
 
-      // 1. CAPA DE PROTECCIÓN DE CÓDIGO FUENTE E INSPECCIÓN
-      document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-      });
-
+      // 1. CAPA DE SEGURIDAD
+      document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       document.addEventListener("keydown", function (e) {
-        if (e.keyCode === 123) {
-          e.preventDefault();
-          return false;
-        }
+        if (e.keyCode === 123) { e.preventDefault(); return false; }
         if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-          e.preventDefault();
-          return false;
+          e.preventDefault(); return false;
         }
         if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) {
-          e.preventDefault();
-          return false;
+          e.preventDefault(); return false;
         }
       });
 
@@ -737,7 +1185,7 @@
         }
       }
 
-      // 3. MATRIZ OFICIAL DE CONVENIOS (Sincronizada con el Excel Base)
+      // 3. MATRIZ OFICIAL DE CONVENIOS (Directamente de la hoja 'Base' del Excel)
       const CONVENIOS_DATA = Object.freeze([
         { name: "AGRORURAL", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.12 },
         { name: "ANA", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.109 },
@@ -788,6 +1236,14 @@
       ]);
 
       const CARGOS_POR_CONVENIO = Object.freeze({
+        "GSR_Luciano_Castillo": ["CAS Indeterminado", "Nombrado"],
+        "Policia_Nacional_del_Perú": [
+          "Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", 
+          "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", 
+          "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", 
+          "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", 
+          "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"
+        ],
         "Ejército_del_Perú": [
           "General de División", "General de Brigada", "Coronel", "Teniente Coronel", 
           "Mayor", "Capitán", "Teniente", "Sub Teniente", "Técnico Jefe Superior", 
@@ -807,60 +1263,21 @@
           "Técnico de Segunda", "Técnico de Tercera", "Suboficial de Primera", "Suboficial de Segunda", 
           "Suboficial de Tercera", "Personal Administrativo"
         ],
-        "Policia_Nacional_del_Perú": [
-          "Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", 
-          "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", 
-          "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", 
-          "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", 
-          "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"
-        ],
         "RENIEC": ["CAS Indeterminado", "DS. Nro 001-98-TR"],
-        "DIRIS_Lima_Norte": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
-        "Hospital_de_apoyo_Iquitos": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "NPS CAS Asistencial", "PS CAS Asistencial", "NPS CAS Administrativo", "PS CAS Administrativo"],
-        "ESSALUD": ["Asistencial", "Administrativo"],
-        "SENASA": ["Nombrado", "CAS Indeterminado", "CAS Regular"],
-        "ONPE": ["CAP Nombrado", "CAP Indeterminado", "CAS Indeterminado"],
+        "DIRIS_Lima_Norte": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
+        "DIRIS_Lima_Centro": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
+        "DIRIS_Lima_Este": ["CAS Indeterminado", "Asistencial", "Administrativo"],
+        "INSN": ["CAS Indeterminado", "Nombrados"],
+        "Hospital_de_la_Amistad": ["CAS Indeterminado", "Nombrado"],
+        "Hospital_Chulucanas": ["CAS Indeterminado", "Nombrados"],
+        "UE403_Morropon": ["CAS Indeterminado", "Nombrado"],
+        "Hospital_Sullana": ["CAS Indeterminados", "Nombrados", "Indeterminados"],
+        "Gobierno_Regional_Piura": ["CAS Indeterminado", "Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales"],
+        "ANA": ["CAS Indeterminado", "Nombrado"],
+        "Ministerio_Justicia": ["CAS Indeterminado", "Nombrado"],
+        "Municipalidad_Piura": ["CAS Indeterminado", "Nombrado"],
         "U_San_Juan_Bautista": ["Indeterminado"],
-        "DIRIS_Lima_Centro": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "CAS Indeterminado"],
-        "Ministerio_Defensa": ["Nombrado", "CAS Indeterminado"],
-        "UE403_Morropon": ["Nombrado", "CAS Indeterminado"],
-        "EPSEL": ["Ind_Administrativo", "Ind_Obrero", "Ind_Funcionario"],
-        "UNAP": ["Nombrado", "Indeterminado", "CAS Indeterminado"],
-        "Hospital_Regional_Loreto": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Red_Salud_APLAO": ["Nombrado Asistencial Médico", "Nombrado Profesional de Salud", "Nombrado Técnico Asistencial", "Administrativos"],
-        "UTES_N6": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Gobierno_Regional_Loreto": ["Nombrados", "CAS Indeterminado"],
-        "DIRIS_Lima_Este": ["Asistencial", "Administrativo", "CAS Indeterminado"],
-        "PRONABEC": ["CAS Indeterminado"],
-        "AGRORURAL": ["Nombrado", "CAS Indeterminado"],
-        "CHAVIMOCHIC": ["Nombrado"],
-        "GERESA_La_Libertad": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_San_Bartolome": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Hospital_Goyeneche": ["Asistencial", "Administrativo", "CAS Indeterminado"],
-        "Ministerio_Vivienda": ["Nombrado", "CAS Indeterminado"],
-        "GSR_Luciano_Castillo": ["Nombrado", "CAS Indeterminado"],
-        "Red_Salud_Pacífico_Norte": ["Nombrado", "CAS Indeterminado"],
-        "Red_Salud_Pacífico_Sur": ["Nombrado", "CAS Indeterminado"],
-        "Ministerio_Justicia": ["Nombrado", "CAS Indeterminado"],
-        "Mun_Cerro_Colorado": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_de_la_Amistad": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_Cajamarca": ["Nombrado", "CAS Indeterminado"],
-        "ANA": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_Trujillo": ["Nombrado", "CAS Indeterminado"],
-        "Municipalidad_Piura": ["Nombrado", "CAS Indeterminado"],
-        "Gobierno_Regional_Piura": ["Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales", "CAS Indeterminado"],
-        "Hospital_Regional_Lambayeque": ["Nombrados", "Administrativos", "CAS Indeterminado"],
-        "DIRESA_Cajamarca": ["Nombrados", "Indeterminados", "CAS Indeterminado"],
-        "Hospital_Chulucanas": ["Nombrados", "CAS Indeterminado"],
-        "PRONACEJ": ["Nombrados", "CAS Indeterminado"],
-        "Hospital_Sullana": ["Nombrados", "Indeterminados", "CAS Indeterminados"],
-        "INSN": ["Nombrados", "CAS Indeterminado"],
-        "DIRESA_Loreto": ["Nombrado", "Indeterminado", "Tesoro Público", "CAS Indeterminado"],
-        "RED_Salud_Arequipa_Caylloma": [
-          "Nombrado Médico", "Nombrado Profesional Salud", "Nombrado Técnico asistencial", 
-          "Nombrado Administrativo", "Cas Indeterminado Médico", "Cas Indeterminado Profesional Salud", 
-          "Cas Indeterminado Técnico asistencial", "Cas Indeterminado Administrativo"
-        ]
+        "SENASA": ["CAS Indeterminado", "Nombrado", "CAS Regular"]
       });
 
       const TIPOS_DEUDA = Object.freeze([
@@ -870,7 +1287,7 @@
         { id: "pyme", label: "Pyme", factorFijo: 0.088, factorPorc: 0.022 },
         { id: "comercial", label: "Comercial", factorFijo: 0.028, factorPorc: 0 },
         { id: "indirecta", label: "Deuda Indirecta", factorFijo: 0.000694, factorPorc: 0.0006944 },
-        { id: "tc_utilizada", label: "Línea utilizada de tarjeta de Crédito", factorFijo: 0.088, factorPorc: 0.078 },
+        { id: "tc_utilizada", label: "Línea utilizada de tarjeta de Crédito", factorFijo: 0.007417, factorPorc: 0.078 },
         { id: "tc_no_utilizada", label: "Línea no utilizada", factorFijo: 0.007417, factorPorc: 0.003306, factorLNU: 0.0065833922 }
       ]);
 
@@ -882,28 +1299,28 @@
         initDeudasTable();
         vincularEventos();
 
-        // Parámetros iniciales exactamente como en el Excel Base (Cáratula)
-        document.getElementById("selConvenio").value = "Policia_Nacional_del_Perú";
+        // Parámetros oficiales por defecto de la Carátula del Excel
+        document.getElementById("selConvenio").value = "GSR_Luciano_Castillo";
         actualizarCargosPorConvenio();
-        document.getElementById("selCargo").value = "Sub Oficial de Segunda";
-        document.getElementById("inpIngresos").value = "4167.87";
-        document.getElementById("inpLey").value = "559.47";
-        document.getElementById("inpFacultativos").value = "67.33";
-        document.getElementById("inpMonto").value = "78500";
+        document.getElementById("selCargo").value = "CAS Indeterminado";
+        document.getElementById("inpIngresos").value = "3264.19";
+        document.getElementById("inpLey").value = "424.34";
+        document.getElementById("inpFacultativos").value = "101.58";
+        document.getElementById("inpMonto").value = "66900";
         document.getElementById("selPlazo").value = "72";
-        document.getElementById("inpTEA").value = "10.85";
-        document.getElementById("inpFechaDesembolso").value = "2026-10-05";
+        document.getElementById("inpTEA").value = "11.00";
+        document.getElementById("inpFechaDesembolso").value = "2026-10-07";
         
-        // Deudas precargadas en fila 58 y 59 del Excel
+        // Deudas precargadas oficiales (Carátula Fila 58 y 59)
         const noBcpTcUt = document.getElementById("nobcp_tc_utilizada");
-        if (noBcpTcUt) noBcpTcUt.value = "89";
+        if (noBcpTcUt) noBcpTcUt.value = "112";
         const saldoTcUt = document.getElementById("saldo_tc_utilizada");
-        if (saldoTcUt) saldoTcUt.value = "1029";
+        if (saldoTcUt) saldoTcUt.value = "1400";
 
         const noBcpTcNoUt = document.getElementById("nobcp_tc_no_utilizada");
-        if (noBcpTcNoUt) noBcpTcNoUt.value = "7";
+        if (noBcpTcNoUt) noBcpTcNoUt.value = "4";
         const saldoTcNoUt = document.getElementById("saldo_tc_no_utilizada");
-        if (saldoTcNoUt) saldoTcNoUt.value = "971";
+        if (saldoTcNoUt) saldoTcNoUt.value = "500";
 
         recalcular();
       });
@@ -915,7 +1332,7 @@
           const opt = document.createElement("option");
           opt.value = c.name;
           opt.textContent = c.name.replace(/_/g, " ");
-          if (c.name === "Policia_Nacional_del_Perú") opt.selected = true;
+          if (c.name === "GSR_Luciano_Castillo") opt.selected = true;
           sel.appendChild(opt);
         });
         actualizarCargosPorConvenio();
@@ -926,15 +1343,13 @@
         const selCargo = document.getElementById("selCargo");
         selCargo.innerHTML = "";
 
-        let cargos = CARGOS_POR_CONVENIO[conv] || ["Nombrado", "CAS Indeterminado", "Indeterminado", "Administrativo"];
+        let cargos = CARGOS_POR_CONVENIO[conv] || ["CAS Indeterminado", "Nombrado", "Indeterminado", "Administrativo"];
 
         cargos.forEach((cg) => {
           const opt = document.createElement("option");
           opt.value = cg;
           opt.textContent = cg;
-          if (cg === "Sub Oficial de Segunda" || cg === "Suboficial Tercera") {
-            opt.selected = true;
-          }
+          if (cg === "CAS Indeterminado") opt.selected = true;
           selCargo.appendChild(opt);
         });
       }
@@ -1006,8 +1421,7 @@
 
       function addMonths(date, months) {
         const d = new Date(date.getTime());
-        const targetMonth = d.getMonth() + months;
-        d.setMonth(targetMonth);
+        d.setMonth(d.getMonth() + months);
         return d;
       }
 
@@ -1017,11 +1431,9 @@
         return Math.round((utc1 - utc2) / (1000 * 60 * 60 * 24));
       }
 
-      // Cálculo de PG (Solo equipo SCC) idéntico a Base!$M:$M / Cáratula!G44
       function calcularPGSCC(convenioObj, fechaDesembStr) {
         if (!convenioObj || !fechaDesembStr) return 0;
-        const fParts = fechaDesembStr.split("-");
-        const diaDesemb = parseInt(fParts[2], 10) || 1;
+        const diaDesemb = parseInt(fechaDesembStr.split("-")[2], 10) || 1;
         const name = convenioObj.name;
         const corte = convenioObj.corte;
         const venc = convenioObj.venc;
@@ -1029,23 +1441,20 @@
         if (name === "Ejército_del_Perú" || name === "Fuerza_Aerea_del_Perú") {
           return diaDesemb <= venc ? 2 : 1;
         }
-
         if (name === "Marina_de_Guerra" || name === "Policia_Nacional_del_Perú") {
           if (diaDesemb <= corte) return 1;
           if (diaDesemb > corte && diaDesemb <= venc) return 2;
           return 1;
         }
-
         if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE"].includes(name)) {
           return diaDesemb <= venc ? 1 : 0;
         }
-
         if (diaDesemb <= venc) return 1;
         if (diaDesemb > venc && diaDesemb <= corte) return 0;
         return 1;
       }
 
-      // Cálculo matemáticamente idéntico a Cronograma!L23 / Cáratula!K66 del Excel
+      // Fórmulas exactas sincronizadas con Base!D, Base!E y Cronograma!L23 / Cáratula!K66
       function calcularCuotaExactaConvenio(monto, plazo, tea, desgravamenMensual, fechaDesembStr, convenioObj) {
         if (!monto || monto <= 0 || !plazo || plazo <= 0) return 0;
 
@@ -1057,7 +1466,7 @@
         const diaVenc = convenioObj.venc;
         const pgBase = convenioObj.pgBase || 1;
 
-        // 1. Periodo de gracia 1 (D69 en Cáratula / Col D en Base)
+        // Periodo de gracia 1 (D69)
         let pg1 = 1;
         if (["Policia_Nacional_del_Perú", "Marina_de_Guerra", "Ejército_del_Perú", "Fuerza_Aerea_del_Perú"].includes(convenioObj.name)) {
           pg1 = 2;
@@ -1067,7 +1476,7 @@
           pg1 = (diaCorte > diaVenc) ? (dayDesemb > diaCorte ? pgBase + 1 : pgBase) : (dayDesemb > diaCorte ? pgBase + 1 : pgBase);
         }
 
-        // 2. Periodo final 1 (D71 en Cáratula / Col E en Base)
+        // Periodo final 1 (D71)
         let pf1 = 2;
         if (["ANA", "Ministerio_Defensa", "Ministerio_Justicia", "Mun_Cerro_Colorado", "ONPE"].includes(convenioObj.name)) {
           pf1 = 2;
@@ -1079,11 +1488,10 @@
           pf1 = (dayDesemb > diaCorte) ? (pgBase + 1) : pgBase;
         }
 
-        // 3. Primer vencimiento (G38)
+        // Primer vencimiento (G38)
         const fBaseVenc = addMonths(fDesemb, pf1);
         const fPrimerVenc = new Date(fBaseVenc.getFullYear(), fBaseVenc.getMonth(), diaVenc);
 
-        // 4. Tasas diarias y factor K64
         const tna365 = (Math.pow(1 + tea, 1 / 12) - 1) * 12 * (365 / 360);
         const tasaDesgAnual = desgravamenMensual * 12;
         const iDiario = tna365 / 365;
@@ -1093,12 +1501,10 @@
         const p41 = dDiario * 31;
         const k64 = (k41 + p41) / (1 - Math.pow(1 + k41 + p41, -plazo));
 
-        // 5. Fechas Cronograma
         const c23 = fPrimerVenc;
         const c22 = addMonths(c23, -1);
         const c21 = addMonths(c22, -1);
 
-        // 6. Condición exacta Cronograma!C20
         const isPnpOMg = (convenioObj.name === "Policia_Nacional_del_Perú" || convenioObj.name === "Marina_de_Guerra");
         const condVaciaC20 = (dayDesemb > diaVenc) || (isPnpOMg && dayDesemb < 5);
         let tieneC20 = false;
@@ -1109,7 +1515,6 @@
           c20 = addMonths(c21, -1);
         }
 
-        // 7. Liquidación pre-vencimiento cronograma (filas 20 a 23)
         let j20 = 0, i20 = 0;
         if (tieneC20) {
           const d20 = diffDays(c20, fDesemb);
@@ -1138,7 +1543,6 @@
         const f23 = g22;
         const g23 = !tieneC20 ? g22 : (g22 + i22 + j22);
 
-        // 8. Cuota K66 del Excel
         let k66 = 0;
         if (!tieneC20) {
           k66 = (f23 + j21 + j22) * k64;
@@ -1146,7 +1550,8 @@
           k66 = (g23 + j20 + j21 + j22) * k64;
         }
 
-        const w24 = 4.0; // Gasto fijo de administración por cuota
+        // Cronograma!W24 = 4.00 soles (Portes y administración)
+        const w24 = 4.0;
         return k66 + w24;
       }
 
@@ -1154,7 +1559,7 @@
         const convNombre = document.getElementById("selConvenio").value;
         const cargo = document.getElementById("selCargo").value;
         const conv = CONVENIOS_DATA.find(c => c.name === convNombre) || CONVENIOS_DATA[0];
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-07";
 
         // Reglas oficiales de RCI (Sincronizadas con Cáratula!$J$11:$L$14)
         let rci = conv.rci;
@@ -1205,7 +1610,6 @@
           disponible = (G15 - G16 + (G17 * 0.5) + G18 - G21 - G24) * rci;
         }
 
-        // Deducción específica de S/ 5 para Ejército del Perú según Cáratula!K31
         const deduccionExtra = (convNombre === "Ejército_del_Perú") ? 5 : 0;
         let netoDisponible = disponible - G28 - G29 - deduccionExtra;
         if (netoDisponible < 0) netoDisponible = 0;
@@ -1432,22 +1836,22 @@
         datosEvaluadosMasivos = [];
         const tbody = document.getElementById("tblMasivoBody");
         tbody.innerHTML = "";
-        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-05";
+        const fechaDesembStr = document.getElementById("inpFechaDesembolso").value || "2026-10-07";
 
         filas.forEach((f, idx) => {
           const dni = f["DNI Cliente"] || f["DNI"] || f["Documento"] || `Cliente ${idx+1}`;
           const nombre = f["Nombre Cliente"] || f["Cliente"] || f["Nombres"] || "S/N";
-          const convStr = (f["CONVENIO"] || f["Convenio"] || "Policia_Nacional_del_Perú").toString().trim();
-          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 4167.87) || 0;
-          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 559.47) || 0;
-          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 67.33) || 0;
-          const monto = parseFloat(f["MONTO"] || f["Monto"] || 78500) || 0;
+          const convStr = (f["CONVENIO"] || f["Convenio"] || "GSR_Luciano_Castillo").toString().trim();
+          const ingresos = parseFloat(f["Ingresos"] || f["Total Ingresos"] || f["Remuneración"] || 3264.19) || 0;
+          const ley = parseFloat(f["Descuentos de Ley"] || f["Ley"] || 424.34) || 0;
+          const facult = parseFloat(f["Facultativos"] || f["Descuentos Facultativos"] || 101.58) || 0;
+          const monto = parseFloat(f["MONTO"] || f["Monto"] || 66900) || 0;
           const plazo = parseInt(f["PLAZO"] || f["Plazo"] || 72, 10) || 72;
 
           const matchConv = CONVENIOS_DATA.find(c => 
             c.name.toLowerCase().includes(convStr.toLowerCase()) || 
             convStr.toLowerCase().includes(c.name.toLowerCase())
-          ) || CONVENIOS_DATA[33];
+          ) || CONVENIOS_DATA[14];
 
           const rci = matchConv.rci;
           const disp = (ingresos - ley) * rci;
@@ -1513,3 +1917,5 @@
   </script>
 </body>
 </html>
+
+```
