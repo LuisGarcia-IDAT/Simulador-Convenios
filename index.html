@@ -221,7 +221,7 @@
     <!-- Cintillo Superior Oficial BCP -->
     <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-pink-700 text-white text-[11px] font-semibold py-1.5 px-4 text-center tracking-wide flex justify-center items-center gap-2 shadow-inner">
       <span>✨ Alianza Oficial Convenios Públicos | Camargo Group</span>
-      <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">Campaña Activa 01.10.2026</span>
+      <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]">Campaña Activa 09.10.2026</span>
     </div>
 
     <!-- Header Principal -->
@@ -579,7 +579,7 @@
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
         <span class="font-semibold text-slate-700 dark:text-slate-300">Sistema Seguro de Simulación Financiera</span>
-        <span class="text-slate-400 dark:text-slate-500">• v3.00 Oficial (07.10.2026)</span>
+        <span class="text-slate-400 dark:text-slate-500">• v3.01 Oficial (09.10.2026)</span>
       </div>
 
       <div class="bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200/80 dark:border-slate-700 text-center sm:text-right">
@@ -729,104 +729,873 @@
         }
       }
 
-      // 3. MATRIZ OFICIAL DE CONVENIOS (Directamente de la hoja 'Base' del Excel)
+      // 3. MATRIZ OFICIAL DE CONVENIOS (Actualizada de Desprotegido_Nuevo_simulador.xlsx)
       const CONVENIOS_DATA = Object.freeze([
-        { name: "AGRORURAL", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.12 },
-        { name: "ANA", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.109 },
-        { name: "CHAVIMOCHIC", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "DIRIS_Lima_Centro", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 50, tea: 0.1099 },
-        { name: "DIRIS_Lima_Este", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.108 },
-        { name: "DIRIS_Lima_Norte", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 50, tea: 0.1089 },
-        { name: "DIRESA_Cajamarca", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.103 },
-        { name: "DIRESA_Loreto", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.108 },
-        { name: "Ejército_del_Perú", pgBase: 2, pfBase: 3, rci: 0.47, corte: 30, venc: 15, reserva: 0, tea: 0.109 },
-        { name: "EPSEL", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.115 },
-        { name: "Fuerza_Aerea_del_Perú", pgBase: 2, pfBase: 3, rci: 0.50, corte: 30, venc: 17, reserva: 35, tea: 0.111 },
-        { name: "GERESA_La_Libertad", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.108 },
-        { name: "Gobierno_Regional_Loreto", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "Gobierno_Regional_Piura", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 100, tea: 0.115 },
-        { name: "GSR_Luciano_Castillo", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.11 },
-        { name: "Hospital_Cajamarca", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.105 },
-        { name: "Hospital_Chulucanas", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "Hospital_de_apoyo_Iquitos", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "Hospital_de_la_Amistad", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.118 },
-        { name: "Hospital_Goyeneche", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 18, reserva: 100, tea: 0.108 },
-        { name: "Hospital_Regional_Lambayeque", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.108 },
-        { name: "Hospital_Regional_Loreto", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.1089 },
-        { name: "Hospital_San_Bartolome", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.12 },
-        { name: "Hospital_Sullana", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 15, reserva: 0, tea: 0.108 },
-        { name: "Hospital_Trujillo", pgBase: 1, pfBase: 2, rci: 0.50, corte: 20, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "INSN", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.12 },
-        { name: "Marina_de_Guerra", pgBase: 2, pfBase: 3, rci: 0.50, corte: 4, venc: 15, reserva: 100, tea: 0.106 },
-        { name: "Ministerio_Defensa", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.13 },
-        { name: "Ministerio_Justicia", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 15, reserva: 0, tea: 0.1089 },
-        { name: "Ministerio_Vivienda", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.115 },
-        { name: "Mun_Cerro_Colorado", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 17, reserva: 0, tea: 0.1149 },
-        { name: "Municipalidad_Piura", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.117 },
-        { name: "ONPE", pgBase: 1, pfBase: 2, rci: 0.50, corte: 30, venc: 17, reserva: 0, tea: 0.13 },
-        { name: "Policia_Nacional_del_Perú", pgBase: 2, pfBase: 3, rci: 0.45, corte: 4, venc: 15, reserva: 0, tea: 0.1085 },
-        { name: "PRONABEC", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.15 },
-        { name: "PRONACEJ", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.115 },
-        { name: "Red_Salud_APLAO", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.108 },
-        { name: "RED_Salud_Arequipa_Caylloma", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 17, reserva: 0, tea: 0.105 },
-        { name: "Red_Salud_Pacífico_Norte", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105 },
-        { name: "Red_Salud_Pacífico_Sur", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105 },
-        { name: "RENIEC", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 10, reserva: 0, tea: 0.105 },
-        { name: "SENASA", pgBase: 1, pfBase: 2, rci: 0.47, corte: 25, venc: 17, reserva: 0, tea: 0.112 },
-        { name: "U_San_Juan_Bautista", pgBase: 1, pfBase: 2, rci: 0.30, corte: 25, venc: 17, reserva: 0, tea: 0.117 },
-        { name: "UE403_Morropon", pgBase: 1, pfBase: 2, rci: 0.50, corte: 23, venc: 17, reserva: 0, tea: 0.109 },
-        { name: "UNAP", pgBase: 1, pfBase: 2, rci: 0.50, corte: 25, venc: 15, reserva: 0, tea: 0.11 },
-        { name: "UTES_N6", pgBase: 1, pfBase: 2, rci: 0.50, corte: 24, venc: 15, reserva: 0, tea: 0.105 }
+        {
+          "name": "AGRORURAL",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.12
+        },
+        {
+          "name": "ANA",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.109
+        },
+        {
+          "name": "CHAVIMOCHIC",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "DIRIS_Lima_Centro",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 50,
+          "tea": 0.1099
+        },
+        {
+          "name": "DIRIS_Lima_Este",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "DIRIS_Lima_Norte",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 50,
+          "tea": 0.1089
+        },
+        {
+          "name": "DIRESA_Cajamarca",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.103
+        },
+        {
+          "name": "DIRESA_Loreto",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "Ejército_del_Perú",
+          "pgBase": 2,
+          "pfBase": 3,
+          "rci": 0.47,
+          "corte": 30,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.109
+        },
+        {
+          "name": "EPSEL",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.115
+        },
+        {
+          "name": "Fuerza_Aerea_del_Perú",
+          "pgBase": 2,
+          "pfBase": 3,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 17,
+          "reserva": 35,
+          "tea": 0.111
+        },
+        {
+          "name": "GERESA_La_Libertad",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "Gobierno_Regional_Loreto",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "Gobierno_Regional_Piura",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 100,
+          "tea": 0.115
+        },
+        {
+          "name": "GSR_Luciano_Castillo",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "Hospital_Cajamarca",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.105
+        },
+        {
+          "name": "Hospital_Chulucanas",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "Hospital_de_apoyo_Iquitos",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "Hospital_de_la_Amistad",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.118
+        },
+        {
+          "name": "Hospital_E_G_Barron",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.104
+        },
+        {
+          "name": "Hospital_Goyeneche",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 18,
+          "reserva": 100,
+          "tea": 0.108
+        },
+        {
+          "name": "Hospital_JAMO",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "Hospital_la_Caleta",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.104
+        },
+        {
+          "name": "Hospital_Regional_Lambayeque",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "Hospital_Regional_Loreto",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.1089
+        },
+        {
+          "name": "Hospital_San_Bartolome",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.12
+        },
+        {
+          "name": "Hospital_Sullana",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "Hospital_Trujillo",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 20,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "INSN",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.12
+        },
+        {
+          "name": "Marina_de_Guerra",
+          "pgBase": 2,
+          "pfBase": 3,
+          "rci": 0.5,
+          "corte": 4,
+          "venc": 15,
+          "reserva": 100,
+          "tea": 0.106
+        },
+        {
+          "name": "Ministerio_Defensa",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.13
+        },
+        {
+          "name": "Ministerio_Justicia",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.1089
+        },
+        {
+          "name": "Ministerio_Vivienda",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.115
+        },
+        {
+          "name": "Ministerio_Publico",
+          "pgBase": 2,
+          "pfBase": 3,
+          "rci": 0.5,
+          "corte": 4,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.107
+        },
+        {
+          "name": "Mun_Cerro_Colorado",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.1149
+        },
+        {
+          "name": "Municipalidad_Piura",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.117
+        },
+        {
+          "name": "ONPE",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 30,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.13
+        },
+        {
+          "name": "Policia_Nacional_del_Perú",
+          "pgBase": 2,
+          "pfBase": 3,
+          "rci": 0.45,
+          "corte": 4,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.1085
+        },
+        {
+          "name": "PRONABEC",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.15
+        },
+        {
+          "name": "PRONACEJ",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.115
+        },
+        {
+          "name": "REDIS_Chepen",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.104
+        },
+        {
+          "name": "Red_Salud_APLAO",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "RED_Salud_Arequipa_Caylloma",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.105
+        },
+        {
+          "name": "Red_Salud_Pacífico_Norte",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.105
+        },
+        {
+          "name": "Red_Salud_Pacífico_Sur",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.105
+        },
+        {
+          "name": "RENIEC",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 10,
+          "reserva": 0,
+          "tea": 0.105
+        },
+        {
+          "name": "SENASA",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.47,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.112
+        },
+        {
+          "name": "U_San_Juan_Bautista",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.3,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.117
+        },
+        {
+          "name": "UE403_Morropon",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 23,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.109
+        },
+        {
+          "name": "UESA_413_Ascope",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.104
+        },
+        {
+          "name": "UESA_406_Sanchez_Carrion",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.104
+        },
+        {
+          "name": "UE_Salud_Cajamarca",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 17,
+          "reserva": 0,
+          "tea": 0.108
+        },
+        {
+          "name": "UNAP",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 25,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.11
+        },
+        {
+          "name": "UTES_N6",
+          "pgBase": 1,
+          "pfBase": 2,
+          "rci": 0.5,
+          "corte": 24,
+          "venc": 15,
+          "reserva": 0,
+          "tea": 0.105
+        }
       ]);
 
-      // Catálogo exhaustivo de Cargos extraído de la hoja 'Cargos'
       const CARGOS_POR_CONVENIO = Object.freeze({
-        "AGRORURAL": ["Nombrado", "CAS Indeterminado"],
-        "ANA": ["Nombrado", "CAS Indeterminado"],
-        "CHAVIMOCHIC": ["Nombrado"],
-        "DIRIS_Lima_Centro": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
-        "DIRIS_Lima_Este": ["CAS Indeterminado", "Asistencial", "Administrativo"],
-        "DIRIS_Lima_Norte": ["CAS Indeterminado", "NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo"],
-        "DIRESA_Cajamarca": ["Nombrados", "Indeterminados", "CAS Indeterminado"],
-        "DIRESA_Loreto": ["Nombrado", "Indeterminado", "Tesoro Público", "CAS Indeterminado"],
-        "Ejército_del_Perú": ["General de División", "General de Brigada", "Coronel", "Teniente Coronel", "Mayor", "Capitán", "Teniente", "Sub Teniente", "Técnico Jefe Superior", "Técnico Jefe", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", "Suboficial Primera", "Suboficial Segunda", "Suboficial Tercera", "Personal Administrativo"],
-        "EPSEL": ["Ind_Administrativo", "Ind_Obrero", "Ind_Funcionario"],
-        "Fuerza_Aerea_del_Perú": ["Teniente General", "Mayor General", "Coronel", "Comandante", "Capitan", "Teniente", "Alferez", "Técnico Supervisor", "Técnico Inspector", "Técnico de Primera", "Técnico de Segunda", "Técnico de Tercera", "Suboficial de Primera", "Suboficial de Segunda", "Suboficial de Tercera", "Personal Administrativo"],
-        "GERESA_La_Libertad": ["Nombrado", "CAS Indeterminado"],
-        "Gobierno_Regional_Loreto": ["Nombrados", "CAS Indeterminado"],
-        "Gobierno_Regional_Piura": ["Nombrado", "Administrativo", "Obrero Permanente", "Contrato por Servicios Personales", "CAS Indeterminado"],
-        "GSR_Luciano_Castillo": ["CAS Indeterminado", "Nombrado"],
-        "Hospital_Cajamarca": ["Nombrado", "CAS Indeterminado"],
-        "Hospital_Chulucanas": ["CAS Indeterminado", "Nombrados"],
-        "Hospital_de_apoyo_Iquitos": ["NPS Asistencial", "PS Asistencial", "NPS Administrativo", "PS Administrativo", "NPS CAS Asistencial", "PS CAS Asistencial", "NPS CAS Administrativo", "PS CAS Administrativo"],
-        "Hospital_de_la_Amistad": ["CAS Indeterminado", "Nombrado"],
-        "Hospital_Goyeneche": ["Asistencial", "Administrativo", "CAS Indeterminado"],
-        "Hospital_Regional_Lambayeque": ["Nombrados", "Administrativos", "CAS Indeterminado"],
-        "Hospital_Regional_Loreto": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Hospital_San_Bartolome": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"],
-        "Hospital_Sullana": ["CAS Indeterminados", "Nombrados", "Indeterminados"],
-        "Hospital_Trujillo": ["Nombrado", "CAS Indeterminado"],
-        "INSN": ["CAS Indeterminado", "Nombrados"],
-        "Marina_de_Guerra": ["Vicealmirante", "Contralmirante", "Capitán de Navío", "Capitán de Fragata", "Capitán de Corbeta", "Teniente Primero", "Teniente Segundo", "Alferez de Fragata", "Técnico Superior Primero", "Técnico Superior Segundo", "Técnico Primero", "Técnico Segundo", "Técnico Tercero", "Oficial de Mar Primero", "Oficial de Mar Segundo", "Oficial de Mar Tercero", "Administrativos"],
-        "Ministerio_Defensa": ["Nombrado", "CAS Indeterminado"],
-        "Ministerio_Justicia": ["CAS Indeterminado", "Nombrado"],
-        "Ministerio_Vivienda": ["Nombrado", "CAS Indeterminado"],
-        "Mun_Cerro_Colorado": ["Nombrado", "CAS Indeterminado"],
-        "Municipalidad_Piura": ["CAS Indeterminado", "Nombrado"],
-        "ONPE": ["CAP Nombrado", "CAP Indeterminado", "CAS Indeterminado"],
-        "Policia_Nacional_del_Perú": ["Teniente General", "General", "Coronel", "Comandante", "Mayor", "Capitán", "Teniente", "Alferez", "Sub Oficial Superior", "Sub Oficial Brigadier", "Sub Oficial Técnico de Primera", "Sub Oficial Técnico de Segunda", "Sub Oficial Técnico de Tercera", "Sub Oficial de Primera", "Sub Oficial de Segunda", "Sub Oficial de Tercera", "Sub Oficial de Tercera menor a 55 años", "Personal Administrativo"],
-        "PRONABEC": ["CAS Indeterminado"],
-        "PRONACEJ": ["Nombrados", "CAS Indeterminado"],
-        "Red_Salud_APLAO": ["Nombrado Asistencial Médico", "Nombrado Profesional de Salud", "Nombrado Técnico Asistencial", "Administrativos"],
-        "RED_Salud_Arequipa_Caylloma": ["Nombrado Médico", "Nombrado Profesional Salud", "Nombrado Técnico asistencial", "Nombrado Administrativo", "Cas Indeterminado Médico", "Cas Indeterminado Profesional Salud", "Cas Indeterminado Técnico asistencial", "Cas Indeterminado Administrativo"],
-        "Red_Salud_Pacífico_Norte": ["Nombrado", "CAS Indeterminado"],
-        "Red_Salud_Pacífico_Sur": ["Nombrado", "CAS Indeterminado"],
-        "RENIEC": ["CAS Indeterminado", "DS. Nro 001-98-TR"],
-        "SENASA": ["Nombrado", "CAS Indeterminado", "CAS Regular"],
-        "U_San_Juan_Bautista": ["Indeterminado"],
-        "UE403_Morropon": ["CAS Indeterminado", "Nombrado"],
-        "UNAP": ["Nombrado", "Indeterminado", "CAS Indeterminado"],
-        "UTES_N6": ["Nombrado Asistencial", "Nombrado Administrativo", "CAS Indeterminado"]
+        "Ejército_del_Perú": [
+          "General de División",
+          "General de Brigada",
+          "Coronel",
+          "Teniente Coronel",
+          "Mayor",
+          "Capitán",
+          "Teniente",
+          "Sub Teniente",
+          "Técnico Jefe Superior",
+          "Técnico Jefe",
+          "Técnico de Primera",
+          "Técnico de Segunda",
+          "Técnico de Tercera",
+          "Suboficial Primera",
+          "Suboficial Segunda",
+          "Suboficial Tercera",
+          "Personal Administrativo"
+        ],
+        "Policia_Nacional_del_Perú": [
+          "Teniente General",
+          "General",
+          "Coronel",
+          "Comandante",
+          "Mayor",
+          "Capitán",
+          "Teniente",
+          "Alferez",
+          "Sub Oficial Superior",
+          "Sub Oficial Brigadier",
+          "Sub Oficial Técnico de Primera",
+          "Sub Oficial Técnico de Segunda",
+          "Sub Oficial Técnico de Tercera",
+          "Sub Oficial de Primera",
+          "Sub Oficial de Segunda",
+          "Sub Oficial de Tercera",
+          "Personal Administrativo"
+        ],
+        "Marina_de_Guerra": [
+          "Vicealmirante",
+          "Contralmirante",
+          "Capitán de Navío",
+          "Capitán de Fragata",
+          "Capitán de Corbeta",
+          "Teniente Primero",
+          "Teniente Segundo",
+          "Alferez de Fragata",
+          "Técnico Superior Primero",
+          "Técnico Superior Segundo",
+          "Técnico Primero",
+          "Técnico Segundo",
+          "Técnico Tercero",
+          "Oficial de Mar Primero",
+          "Oficial de Mar Segundo",
+          "Oficial de Mar Tercero",
+          "Administrativos"
+        ],
+        "RENIEC": [
+          "CAS Indeterminado",
+          "DS. Nro 001-98-TR"
+        ],
+        "DIRIS_Lima_Norte": [
+          "NPS Asistencial",
+          "PS Asistencial",
+          "NPS Administrativo",
+          "PS Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Hospital_de_apoyo_Iquitos": [
+          "NPS Asistencial",
+          "PS Asistencial",
+          "NPS Administrativo",
+          "PS Administrativo",
+          "NPS CAS Asistencial",
+          "PS CAS Asistencial",
+          "NPS CAS Administrativo",
+          "PS CAS Administrativo"
+        ],
+        "ESSALUD": [
+          "Asistencial",
+          "Administrativo"
+        ],
+        "SENASA": [
+          "Nombrado",
+          "CAS Indeterminado",
+          "CAS Regular"
+        ],
+        "ONPE": [
+          "CAP Nombrado",
+          "CAP Indeterminado",
+          "CAS Indeterminado"
+        ],
+        "U_San_Juan_Bautista": [
+          "Indeterminado"
+        ],
+        "DIRIS_Lima_Centro": [
+          "NPS Asistencial",
+          "PS Asistencial",
+          "NPS Administrativo",
+          "PS Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Ministerio_Defensa": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "UE403_Morropon": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Fuerza_Aerea_del_Perú": [
+          "Teniente General",
+          "Mayor General",
+          "Coronel",
+          "Comandante",
+          "Mayor General",
+          "Capitan",
+          "Teniente",
+          "Alferez",
+          "Técnico Supervisor",
+          "Técnico Inspector",
+          "Técnico de Primera",
+          "Técnico de Segunda",
+          "Técnico de Tercera",
+          "Suboficial de Primera",
+          "Suboficial de Segunda",
+          "Suboficial de Tercera",
+          "Personal Administrativo"
+        ],
+        "EPSEL": [
+          "Ind_Administrativo",
+          "Ind_Obrero",
+          "Ind_Funcionario"
+        ],
+        "UNAP": [
+          "Nombrado",
+          "Indeterminado",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Regional_Loreto": [
+          "Nombrado Asistencial",
+          "Nombrado Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Red_Salud_APLAO": [
+          "Nombrado Asistencial Médico",
+          "Nombrado Profesional de Salud",
+          "Nombrado Técnico Asistencial",
+          "Administrativos",
+          "CAS_Indeterminado"
+        ],
+        "UTES_N6": [
+          "Nombrado Asistencial",
+          "Nombrado Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Gobierno_Regional_Loreto": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "DIRIS_Lima_Este": [
+          "Asistencial",
+          "Asistencial",
+          "Administrativo",
+          "Administrativo",
+          "CAS Indeterminado"
+        ],
+        "PRONABEC": [
+          "CAS Indeterminado"
+        ],
+        "AGRORURAL": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "CHAVIMOCHIC": [
+          "Nombrado"
+        ],
+        "GERESA_La_Libertad": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Hospital_San_Bartolome": [
+          "Nombrado Asistencial",
+          "Nombrado Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Goyeneche": [
+          "Asistencial",
+          "Asistencial",
+          "Administrativo",
+          "Administrativo",
+          "CAS Indeterminado"
+        ],
+        "Ministerio_Vivienda": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "GSR_Luciano_Castillo": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Red_Salud_Pacífico_Norte": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Red_Salud_Pacífico_Sur": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Ministerio_Justicia": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Mun_Cerro_Colorado": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Hospital_de_la_Amistad": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Cajamarca": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "ANA": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Trujillo": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Municipalidad_Piura": [
+          "Nombrado",
+          "CAS Indeterminado"
+        ],
+        "Gobierno_Regional_Piura": [
+          "Nombrado",
+          "Administrativo",
+          "Obrero Permanente",
+          "Contrato por Servicios Personales",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Regional_Lambayeque": [
+          "Nombrados",
+          "Administrativos",
+          "CAS Indeterminado"
+        ],
+        "DIRESA_Cajamarca": [
+          "Nombrados",
+          "Indeterminados",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Chulucanas": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "PRONACEJ": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "Hospital_Sullana": [
+          "Nombrados",
+          "Indeterminados",
+          "CAS Indeterminados"
+        ],
+        "INSN": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "DIRESA_Loreto": [
+          "Nombrado",
+          "Indeterminado",
+          "Tesoro Público",
+          "CAS Indeterminado"
+        ],
+        "RED_Salud_Arequipa_Caylloma": [
+          "Nombrado Médico",
+          "Nombrado Profesional Salud",
+          "Nombrado Técnico asistencial",
+          "Nombrado Administrativo",
+          "Cas Indeterminado Médico",
+          "Cas Indeterminado Profesional Salud",
+          "Cas Indeterminado Técnico asistencial",
+          "Cas Indeterminado Administrativo"
+        ],
+        "Hospital_JAMO": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "Hospital_la_Caleta": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "UESA_413_Ascope": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "UESA_406_Sanchez_Carrion": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "Hospital_E_G_Barron": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "REDIS_Chepen": [
+          "Nombrados",
+          "CAS Indeterminado"
+        ],
+        "Ministerio_Publico": [
+          "Nombrados",
+          "Nombrados provisionales",
+          "Plazo Indeterminado",
+          "CAS Indeterminado"
+        ],
+        "UE_Salud_Cajamarca": [
+          "Nombrados",
+          "Plazo Indeterminado",
+          "CAS Indeterminado"
+        ]
       });
 
       const TIPOS_DEUDA = Object.freeze([
